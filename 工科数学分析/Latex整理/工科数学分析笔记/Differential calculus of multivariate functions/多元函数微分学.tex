@@ -1,0 +1,492 @@
+\section{多元函数微分学及其应用}
+\subsection{n维欧氏空间中的点集}
+\subsubsection{定义与概念}
+\begin{definition}[点列极限]
+	若对$\forall \epsilon>0,\exists N\in \textbf{N}_+,$使得$ \forall k>N, $恒有$ ||\bm{x}_k - \bm{a}||<\epsilon $，则称点列的极限存在，记为
+	\begin{equation}\label{key}
+		\lim\limits_{k\to \infty}\bm{x}_k=\bm{a}
+	\end{equation}
+\end{definition}
+\begin{definition}
+	欧氏空间的点与点集：
+	\begin{enumerate}
+		\item 聚点：有非自身的点列趋近于它的点
+		\item 导集$ A' $：聚点的集合
+		\item 闭包$ \bar{A} $:点集与导集之并
+		\item 孤立点：在点集里但不在导集里
+		\item 闭集：自身包含导集的点集
+		\item 开球、邻域:$ U(\bm{a},\delta)=\{\bm{x}\in \mathbf{R} |\quad ||\bm{x}-\bm{a}||<\delta \} $
+		\item 闭球：开球与其边界之并
+	\end{enumerate}
+\end{definition}
+\begin{definition}
+	\begin{enumerate}
+		\item 内点与内部$ int A (A^\circ) $:存在小邻域含于$ A $
+		\item 外部$ ext A $:存在小邻域与$ A $相离
+		\item 边界$ \partial A $:对任意小邻域，既有属于$ A $的部分，又有不属于$ A $的部分
+		\item 开集：只有内点的点集
+		\item 紧集：有界闭集
+		\item 连通集：任意两点之间可以用有限条线段相连
+		\item 区域：连通的开集
+	\end{enumerate}
+	
+\end{definition}
+\subsubsection{定理}
+\begin{theorem}[点列收敛$ \iff $各分量收敛]
+	\begin{equation}\label{key}
+		\lim\limits_{k\to \infty}\bm{x}_k=\bm{a} 
+		\iff
+		\forall i=1,2,...n,\text{都有}\lim\limits_{k\to \infty}x_{k,i}=a_i
+	\end{equation}
+\end{theorem}
+\begin{theorem}[收敛的必要条件]
+	极限唯一；数列有界；保持线性（内积和求极限可交换）
+\end{theorem}
+\begin{theorem}
+	有界点列必有收敛子列
+\end{theorem}
+\begin{theorem}[Cauchy收敛原理]
+	点列收敛$ \iff \forall \epsilon >0 \exists N\in \mathbf{N}_+$,使得$ \forall k>N $及$ p\in \mathbf{N}_+ $恒有$ ||\bm{x}_{k+p}-\bm{x}_k||<\epsilon $
+\end{theorem}
+\begin{theorem}
+	是聚点$ \iff $任意去心邻域有点
+\end{theorem}
+\begin{theorem}
+	\begin{enumerate}
+		\item 空集与全空间既开又闭
+		\item 开集之并为开集，闭集之交为闭集
+		\item 有限个开集的交为开集，有限个闭集的并为闭集
+	\end{enumerate}
+\end{theorem}
+
+\subsection{多元函数的极限与连续性}
+\subsubsection{定义与概念}
+\begin{definition}
+	n元数量值函数：$A\subseteq \mathbf{R}^n \to \mathbf{R},  w=f(\bm{x}) $\\
+	n元向量值函数：$ A\subseteq \mathbf{R}^n \to \mathbf{R}^m(m\geqq 2),  \bm{w}=\bm{f}(\bm{x})  $
+	\begin{equation}\label{key}
+		\bm{y}=\bm{f}(\bm{x})=[y_1,y_2,...y_m]^T=\begin{bmatrix}
+			y_1(x_1,x_2,...x_n)\\
+			y_2(x_1,x_2,...x_n)\\
+			\vdots\\
+			y_m(x_1,x_2,...x_n)
+		\end{bmatrix}  
+	\end{equation}
+\end{definition}
+\begin{definition}[n重极限]
+	设$ \bm{x}_0 $是一个聚点，若存在常数$ a $使得
+	\begin{equation}\label{key}
+		\forall \epsilon>0,\exists \delta>0,\text{当}\bm{x}\in \mathring{U}(\bm{x},\delta) \cap A\text{时,恒有}|f(\bm{x})-a|<\epsilon
+	\end{equation}
+则称当$ \bm{x}\to \bm{x}_0 $时有极限，记做\begin{equation}\label{key}
+	\lim\limits_{\bm{x}\to \bm{x}_0}f(\bm{x})=a
+\end{equation}
+\end{definition}
+\begin{definition}
+	若$\lim\limits_{\bm{x}\to \bm{x}_0}f(\bm{x})=f(\bm{x}_0)$，则称该函数在该点连续
+\end{definition}
+\begin{remark}
+	该函数连续等价于个分量函数连续
+\end{remark}
+\subsubsection{定理}
+\begin{theorem}[有界闭区域上连续函数的性质]
+	有界；可取到最值；介值定理；连续则一致连续
+\end{theorem}
+\begin{application}
+	\begin{enumerate}
+		\item 用定义与概念证明二重极限
+		\item 利用极限的唯一性证明二元函数不收敛
+	\end{enumerate}
+\end{application}
+
+\subsection{多元数量值函数的导数与微分}
+\subsubsection{定义与概念}
+\begin{definition}[偏导函数]
+	\begin{equation}\label{key}
+		\dfrac{\partial f}{\partial x}=\lim\limits_{\Delta x \to 0}\dfrac{f(x+\Delta x,,y)-f(x,y)}{\Delta x}
+	\end{equation}
+\begin{definition}[全微分]
+	\begin{align}\label{key}
+		f(x_0+\Delta x,,y_0)-f(x_0,y_0)=\Delta z= a_1\Delta x+a_2\Delta y+o(\rho),\rho = ||\Delta \bm{x}||\\
+		dz=a_1dx+a_2dy
+	\end{align}
+\end{definition}
+\begin{definition}[方向导数]
+	\begin{equation}\label{key}
+		\left.\dfrac{\partial f }{\partial \bm{l}}\right |_{\bm{x}_0}=\lim\limits_{t \to 0}\dfrac{f(\bm{x}_0+t\bm{e}_l)-f(\bm{x}_0)}{t}
+	\end{equation}
+\end{definition}
+\begin{remark}
+	几何意义是沿着该方向的切线的斜率
+\end{remark}
+\end{definition}
+\begin{definition}[梯度]
+	若一个向量，其方向为该点方向导数取最大值的方向，其模是该点方向导数的最大值，则称该向量为这一点的梯度。
+\end{definition}
+\begin{definition}[高阶偏导数]
+\begin{equation}\label{key}
+		f_{yx}=\dfrac{\partial^2 f}{\partial y \partial x}=\dfrac{\partial (\dfrac{\partial f}{\partial y})}{\partial x}
+\end{equation}
+\end{definition}
+\begin{remark}
+	一般情况下，求导的先后次序有影响。写在前面的先求导。
+\end{remark}
+\begin{definition}[高阶全微分]
+	$ d^nu=(\dfrac{\partial }{\partial x}dx+\dfrac{\partial }{\partial y}dy)^n f $
+\end{definition}
+\subsubsection{定理}
+\begin{theorem}[梯度运算法则]
+	1.保持线性\\
+	2.同求导一样，有乘除运算法则和复合函数求导法则
+\end{theorem}
+\begin{theorem}[可微的必要条件]
+	函数连续且两个偏导数均存在。则$ dz=f_xdx+f_ydy $
+\end{theorem}
+\begin{theorem}[可微的充分条件]
+	两个偏导数均连续
+\end{theorem}
+\begin{theorem}
+\begin{equation}\label{key}
+		\left.\dfrac{\partial f }{\partial \bm{l}}\right |_{\bm{x}_0}=f_x\cos \alpha+f_y\cos \beta,\bm{e}_l=(\cos \alpha,\cos \beta)
+\end{equation}
+\end{theorem}
+\begin{theorem}
+	$\nabla f=(f_x,f_y)$,即梯度就是偏导数构成的向量。
+\end{theorem}
+\begin{theorem}
+	高阶偏导连续时，求导次序不影响
+\end{theorem}
+\begin{theorem}[多元函数求导的链式法则]
+	设$ u=u(x,y),v=v(x,y),z=f(u,v) $,则有
+	\begin{align}\label{key}
+		\dfrac{\partial z}{\partial x}=\dfrac{\partial z}{\partial u}\dfrac{\partial u}{\partial x}+\dfrac{\partial z}{\partial v}\dfrac{\partial v}{\partial x}\\
+		\dfrac{\partial z}{\partial y}=\dfrac{\partial z}{\partial u}\dfrac{\partial u}{\partial y}+\dfrac{\partial z}{\partial v}\dfrac{\partial v}{\partial y}
+	\end{align}
+\end{theorem}
+\begin{theorem}[一阶全微分形式不变性]
+	$ z=f(u,v) $无论$ u,v $是自变量还是中间变量，都满足$ dz=f_1du+f_2dv $
+\end{theorem}
+\begin{theorem}
+	若一个曲线由方程$ F(x,y,z)=0 $给出。某一点满足：
+	\begin{enumerate}
+		\item 该点满足方程
+		\item 在该点的邻域有连续偏导数
+		\item 有至少一个偏导数不为零（这里设$ F_z\neq 0 $）
+	\end{enumerate}
+则该方程可唯一地确定一个具有连续导数的隐函数，且有
+\begin{align}\label{key}
+	\dfrac{dz}{dx}=-\dfrac{F_x}{F_z}\\
+	\dfrac{dz}{dy}=-\dfrac{F_y}{F_z}
+\end{align}
+\end{theorem}
+\begin{application}
+	\begin{enumerate}
+		\item 求高阶微分与偏导数
+		\item 求隐函数的微分与偏导数
+	\end{enumerate}
+\end{application}
+
+\subsection{多元函数的Taylor公式和极值}
+\subsubsection{定义与概念}
+\begin{definition}[Hesse矩阵]
+	\begin{equation}\label{key}
+		\mathbf{H}_f(\bm{x}_0+\theta \Delta \bm{x})=
+		\begin{bmatrix}
+			f_{x_1x_1}(\bm{x})&f_{x_1x_2}(\bm{x})&\cdots&f_{x_1x_n}(\bm{x})\\
+			f_{x_2x_1}(\bm{x})&f_{x_2x_2}(\bm{x})&\cdots&f_{x_2x_n}(\bm{x})\\
+			\vdots&\vdots& &\vdots\\
+			f_{x_nx_1}(\bm{x})&f_{x_nx_2}(\bm{x})&\cdots&f_{x_nx_n}(\bm{x})
+			
+		\end{bmatrix}_{\bm{x}_0+\theta \Delta \bm{x}}
+	\end{equation}
+\end{definition}
+\begin{definition}[矩阵形式的泰勒公式]
+	\begin{equation}\label{key}
+		f(\bm{x}_0+ \Delta \bm{x})=f(\bm{x}_0)+<\nabla f(\bm{x},\Delta \bm{x})>+\dfrac{1}{2!}(\Delta \bm{x})^T\bm{H}_f(\bm{x}_0+\theta \Delta \bm{x})\Delta \bm{x}
+	\end{equation}
+\end{definition}
+\begin{definition}[一般形式的二元泰勒公式]
+	\begin{align}\label{key}
+		f(\bm{x}_0+ \Delta \bm{x})=f(\bm{x}_0)+f_{x_1}\Delta x_1+f_{x_2}\Delta x_2+R_1
+		\intertext{其中}
+		R_1=\dfrac{1}{2!}(f_{xx}\Delta x^2+2f_{xy}\Delta x\Delta y+f_{yy}\Delta y^2)|_{(\bm{x}_0+\theta \Delta \bm{x},\bm{y}_0+\theta \Delta \bm{y})}
+	\end{align}
+\end{definition}
+\subsubsection{定理}
+\begin{theorem}[极值的必要条件]
+	这一点处可微且梯度为0（各一阶偏导全为零）
+\end{theorem}
+\begin{theorem}[极值的充分条件]
+	Hesse矩阵正定则取极小值，Hesse矩阵负定则取极大值
+\end{theorem}
+\begin{theorem}[条件极值与Lagrange乘数法]
+	设目标函数$ w=f(x_1,x_2,...,x_n) $,约束条件$ \varphi_i(x_1,x_2,...,x_n)=0,i=1,2,...,m $,则可设$ L=L(x_1,x_2,...,x_n,\lambda_1,...\lambda_m)=f+\lambda_1\varphi_1+...+\lambda_m\varphi_m $,解方程组
+	\begin{equation}\label{key}
+		\begin{cases}
+			L_{x_p}=0,p=1,2,...,n\\
+			\varphi_q=L_{\lambda_q}=0,q=1,2,...,m
+		\end{cases}
+	\end{equation}
+解出来的点就是$ L $的驻点。
+\end{theorem}
+\begin{application}
+	\begin{enumerate}
+	\item 求二元函数的二阶Taylor展开式，中间尽快代入具体值化简。
+	\item 求二元$ C^{(2)} $函数极值\\
+	1.求所有驻点
+	2.求Hesse矩阵正定性。若$ A>0,AC-B^2>0 $则正定，取极小值；若$ A<0,AC-B^2>0 $则负定，取极大值；若$ AC-B^2<0 $则不定，不是极值；若$ AC-B^2=0 $则不知道，一般返回原始式子直接看。
+\end{enumerate}
+\end{application}
+
+\subsection{多元向量值函数的导数与微分}
+\subsubsection{定义与概念}
+\begin{definition}[一元向量值函数的可导]
+	\begin{equation}\label{key}
+		D\bm{f}(x_0)=\bm{f}'(x_0)=\left .\dfrac{d\bm{f}}{d x}\right |_{x=x_0}=\lim\limits_{\Delta x \to 0}\dfrac{\bm{f}(x_0+\Delta x)-\bm{f}(x_0)}{\Delta x}
+	\end{equation}
+\end{definition}
+\begin{remark}
+	充要条件是各个分量函数可导
+\end{remark}
+
+\begin{definition}[一元向量值函数的微分]
+	\begin{equation}\label{key}
+		\bm{f}(x_0+\Delta x)-\bm{f}(x_0)=\bm{a}\Delta x+\bm{o}(\rho)，\rho=||\Delta x||
+	\end{equation}
+\end{definition}
+\begin{definition}
+	\begin{equation}\label{key}
+		d\bm{f}(\bm{x})=
+		\begin{bmatrix}
+			df_1(\bm{x})\\
+			\vdots\\
+			df_m(\bm{x})
+		\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1}&\dfrac{\partial f_1}{\partial x_2}\\
+		\vdots&\vdots\\
+		\dfrac{\partial f_m}{\partial x_1}&\dfrac{\partial f_m}{\partial x_2}\\
+	\end{bmatrix}
+\cdot
+\begin{bmatrix}
+	dx_1\\
+	dx_2
+\end{bmatrix}
+	\end{equation}
+定义与概念由各偏导数组成的矩阵$ A $为该二元向量值函数的导数，称为Jacobi矩阵，简记为$ d\bm{f}(\bm{x}_0)=D\bm{f}(x_0)d\bm{x} $\\
+若记成梯度形式则有$ D\bm{f}(\bm{x}_0)=[\nabla f_1,\nabla f_2,...\nabla f_m]^T $推广至多元向量值函数
+\begin{equation}\label{key}
+	D\bm{f}(x_0)=
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n}\\
+		\vdots&\vdots&\vdots \\
+		\dfrac{\partial f_m}{\partial x_1}&\cdots&\dfrac{\partial f_m}{\partial x_n}\\
+	\end{bmatrix}
+\cdot
+\begin{bmatrix}
+	dx_1\\
+	\vdots\\
+	dx_n
+\end{bmatrix}
+\end{equation}
+当$ n=m $时，记$ |D\bm{f}(\bm{x_0})|=\bm{J}_{f}(\bm{x_0})=\left .\dfrac{\partial (f_1,f_2,...f_n)}{\partial (x_1,x_2,...x_m)}\right |_{\bm{x}_0} $
+\end{definition}
+\begin{definition}[向量值函数的偏导数]
+	\begin{align}\label{key}
+		\dfrac{\partial \bm{f}(\bm{x})}{\partial x_i}=\lim\limits_{\Delta x_i \to 0}\dfrac{\bm{f}(\bm{x}_0+\Delta x_i\bm{e}_i)-\bm{f}(\bm{x}_0)}{\Delta x_i}=(\dfrac{\partial \bm{f_1(\bm{x}_0)}}{\partial x_i},...,\dfrac{\partial \bm{f_m(\bm{x}_0)}}{\partial x_i})
+		\intertext{其中}
+		\bm{e}_i=(0,0,...,0,1,0,...0)^T\text{（仅在第i维不为0）}
+	\end{align}
+\end{definition}
+
+\subsubsection{定理}
+\begin{theorem}
+	\begin{equation}\label{key}
+		d\bm{f}(x_0)=\bm{a}\Delta x=\bm{f}'(x_0)\Delta x
+	\end{equation}
+\end{theorem}
+\begin{theorem}[微分运算法则]
+	1.若$ \bm{f},\bm{g} $都可微，则$ \bm{f}+\bm{g} $可微，且其导数为
+	\begin{equation}\label{key}
+		D(\bm{f}+\bm{g})(\bm{x})=D\bm{f}(\bm{x})+D\bm{g}(\bm{x})
+	\end{equation}
+2.$< \bm{f},\bm{g} >$可微，且其导数为
+\begin{equation}\label{key}
+	D<\bm{f},\bm{g}>(\bm{x})=(\bm{f}(\bm{x}))^TD\bm{g}(\bm{x})+(\bm{g}(\bm{x}))^TD\bm{f}(\bm{x})
+\end{equation}
+3.$ u\bm{f} $可微且其导数为
+\begin{equation}\label{key}
+	D(u\bm{f})(\bm{x})=uD\bm{f}(\bm{x})+\bm{f}(\bm{x})Du(\bm{x})
+\end{equation}
+4.若$ \bm{f},\bm{g} $都是从一维空间映射到三维空间，则其向量积也可微，且其导数为
+\begin{equation}\label{key}
+	D(\bm{f}\times \bm{g})(x)=D\bm{f}(x)\times \bm{g}(x)+\bm{f}(x)\times D\bm{g}(x)
+\end{equation}
+\end{theorem}
+\begin{remark}
+	证明过程用到了梯度运算法则
+\end{remark}
+\begin{theorem}[向量值复合函数的链式法则]
+\begin{equation}\label{key}
+		D\bm{f}[\bm{g}(\bm{x})]=D\bm{f}(\bm{u})|_{\bm{u}=\bm{g}(\bm{x})}\cdot D\bm{g}(\bm{x})
+\end{equation}
+\end{theorem}
+\begin{theorem}
+	设有方程组
+	\begin{equation}\label{key}
+		\begin{cases}
+			F_1(x,y,u,v)=0\\
+			F_2(x,y,u,v)=0
+		\end{cases}
+	\end{equation}
+若两个函数满足
+\begin{enumerate}
+	\item 均是一阶连续
+	\item 某点同时在两个曲线上
+	\item Jacobi行列式
+	\begin{equation}\label{key}
+		\bm{J}=\left .\dfrac{\partial (F_1,F_2)}{\partial u,v}\right |_{(x_0,y_0,u_0,v_0)}=
+		\begin{vmatrix}
+			\dfrac{\partial F_1}{\partial u}&	\dfrac{\partial F_1}{\partial v}\\
+			\\
+				\dfrac{\partial F_2}{\partial u}&	\dfrac{\partial F_2}{\partial v}\\
+		\end{vmatrix}_{(x_0,y_0,u_0,v_0)}
+	\neq 0
+	\end{equation}
+\end{enumerate}
+则在点$ (x_0,y_0,u_0,v_0) $的某邻域内确定了一个有连续偏导数的二元函数
+\begin{equation}\label{key}
+	u=u(x,y),v=v(x,y)
+\end{equation}
+且其偏导数为
+\begin{equation}\label{key}
+	\begin{cases}
+		\left .\dfrac{\partial u}{\partial x}\right |_{(x_0,y_0,u_0,v_0)}=-\dfrac{1}{J}\dfrac{\partial (F_1,F_2)}{\partial (x,v)}\\
+		\left .\dfrac{\partial v}{\partial x}\right |_{(x_0,y_0,u_0,v_0)}=-\dfrac{1}{J}\dfrac{\partial (F_1,F_2)}{\partial (u,x)}\\
+		\left .\dfrac{\partial u}{\partial y}\right |_{(x_0,y_0,u_0,v_0)}=-\dfrac{1}{J}\dfrac{\partial (F_1,F_2)}{\partial (y,v)}\\
+		\left .\dfrac{\partial v}{\partial y}\right |_{(x_0,y_0,u_0,v_0)}=-\dfrac{1}{J}\dfrac{\partial (F_1,F_2)}{\partial (u,y)}\\
+	\end{cases}
+\end{equation}
+\end{theorem}
+
+\subsection{多元函数微分学在几何上的应用}
+\subsubsection{曲线的切平面与法线}
+曲线的参数方程可以普遍地写成
+\begin{equation}\label{key}
+	\bm{r}=\bm{r}(t)=(x(t),y(t),z(t))
+\end{equation}
+其切向量为$ \dot{\bm{r}}=(\dot{x},\dot{y},\dot{z}) $\\
+切线的向量式方程为$ \bm{\rho}=\bm{r}(t_0)+t\dot{\bm{r}}(t_0) $\\
+切线的对称式方程为
+\begin{equation}\label{key}
+	\dfrac{x-x(t_0)}{\dot{x}(t_0)}=\dfrac{y-y(t_0)}{\dot{y}(t_0)}=\dfrac{z-z(t_0)}{\dot{z}(t_0)}
+\end{equation}
+切线的自然式方程为（适用于以$ y=y(x),z=z(x) $形式给出的曲线）
+\begin{equation}\label{key}
+	\dfrac{x-x_0}{1}=\dfrac{y-y(x_0)}{\dot{y}(x_0)}=\dfrac{z-z(x_0)}{\dot{z}(x_0)}
+\end{equation}
+法平面的向量式
+\begin{equation}\label{key}
+	 \dot{\bm{r}}\cdot [\bm{\rho}-\bm{r}(t_0)]=0
+\end{equation}
+法平面的参数式
+\begin{equation}\label{key}
+	\dot{x}(t_0)[x-x(t_0)]=\dot{y}(t_0)[y-y(t_0)]=\dot{z}(t_0)[z-z(t_0)]
+\end{equation}
+法平面的自然式
+\begin{equation}\label{key}
+	x-x_0=\dot{y}(x_0)[y-y(x_0)]=\dot{z}(x_0)[z-z(x_0)]
+\end{equation}
+对于以一般式
+\begin{equation}\label{key}
+	\begin{cases}
+		F(x,y,z)=0\\
+		G(x,y,z)=0
+	\end{cases}
+\end{equation}
+给出的曲线，若满足隐函数存在定理，则可以先求出隐函数$ \dot{y}(x_0),\dot{z}(x_0) $，再代回自然式方程。
+\subsubsection{弧长}
+\noindentbf{定义与概念}
+$ s=\lim\limits_{d\to 0}\sum_{i=1}^{n}||\vec{P_{i-1}P_i}|| $
+弧微分$ ds=||\dot{\bm{r}(t)}||=\sqrt{[\dot{x}(t)]^2+[\dot{y}(t)]^2+[\dot{z}(t)]^2}dt $
+\noindentbf{计算公式}
+\begin{equation}\label{key}
+	s=\int_{\alpha}^{\beta}||\dot{\bm{r}}||dt=\int_{\alpha}^{\beta}\sqrt{[\dot{x}(t)]^2+[\dot{y}(t)]^2+[\dot{z}(t)]^2}dt
+\end{equation}
+特别地，对于平面曲线
+\begin{align}
+	&\text{参数式：}s=\int_{\alpha}^{\beta}\sqrt{[\dot{x}(t)]^2+[\dot{y}(t)]^2}dt\\
+	&\text{自然式：}s=\int_{a}^{b}\sqrt{[1+[y‘(x)]^2}dx\\
+	&\text{极坐标式：}s=\int_{\alpha}^{\beta}\sqrt{[\rho(\theta)]^2+[\rho'(\theta)]^2}d\theta
+\end{align}
+若以弧长$ s $为为参数，则称为自然参数，有如下关系
+\begin{align}
+	&(\dfrac{dx}{ds})^2+(\dfrac{dy}{ds})^2+(\dfrac{dz}{ds})^2=1\\
+	&\dfrac{dx}{ds}=\cos \alpha,\dfrac{dy}{ds}=\cos \beta,\dfrac{dz}{ds}=\cos \gamma,
+\end{align}
+
+\subsubsection{曲面的切平面与法线}
+若曲面$ S $以参数方程形式给出为
+\begin{equation}\label{key}
+	\bm{r}=\bm{r}(u,v)=(x(u,v),y(u,v),z(u,v))
+\end{equation}
+其偏导数为
+\begin{equation}\label{key}
+	\bm{r}_u(u_0,v_0)=\left .(\dfrac{\partial x}{\partial u},\dfrac{\partial y}{\partial u},\dfrac{\partial z}{\partial u})\right |_{(u_0,v_0)},	\bm{r}_v(u_0,v_0)=\left .(\dfrac{\partial x}{\partial v},\dfrac{\partial y}{\partial v},\dfrac{\partial z}{\partial v})\right |_{(u_0,v_0)}
+\end{equation}
+可取其法向量
+\begin{equation}\label{key}
+	\bm{r}_u(u_0,v_0) \times \bm{r}_v(u_0,v_0)=(\dfrac{\partial (y,z)}{\partial (u,v)},\dfrac{\partial (z,x)}{\partial (u,v)},\dfrac{\partial (x,y)}{\partial (u,v)})_{(u_0,v_0)},\text{记为}(A,B,C)
+\end{equation}
+故切平面方程为
+\begin{equation}\label{key}
+	A(x-x_0)+B(y-y_0)+C(z-z_0)=0
+\end{equation}
+法线方程为
+\begin{equation}\label{key}
+	\dfrac{x-x_0}{A}=\dfrac{y-y_0}{B}=\dfrac{z-z_0}{C}
+\end{equation}
+若曲面以一般式形式给出$ F(x,y,z)=0 $且有$ F_z \neq 0 $，则由隐函数存在定理得，可以把$ x,y $看作参数，
+\begin{equation}\label{key}
+	\bm{r}_x\times \bm{r}_y=(\dfrac{F_x}{F_z},\dfrac{F_y}{F_z},1)
+\end{equation}
+故切平面为
+\begin{equation}\label{key}
+	F_x(P_0)(x-x_0)+F_y(P_0)(y-y_0)+F_z(P_0)(z-z_0)=0
+\end{equation}
+法线方程为
+\begin{equation}\label{key}
+	\dfrac{x-x_0}{F_x(P_0)}=\dfrac{y-y_0}{F_y(P_0)}=\dfrac{z-z_0}{F_z(P_0)}
+\end{equation}
+
+若曲面以$ z=f(x,y) $形式给出，则切平面为
+\begin{equation}\label{key}
+z-z_0=f_x(x_0,y_0)(x-x_0)+f_y(x_0,y_0)(y-y_0)
+\end{equation}
+法线方程为
+\begin{equation}\label{key}
+	\dfrac{x-x_0}{f_x(x_0,y_0)}=\dfrac{y-y_0}{f_y(x_0,y_0)}=\dfrac{z-z_0}{-1}
+\end{equation}
+
+\subsubsection{空间曲线的曲率}
+\begin{definition}[曲率]
+	设空间光滑曲线以自然参数为参数，方程为$ \bm{r}=\bm{r}(s) $在变动$ \Delta s $的同时转过$ \Delta \theta $，则曲率为
+	$\kappa=\lim\limits_{\Delta x \to 0}\left |\dfrac{\Delta \theta}{\Delta s}\right |$
+\end{definition}
+\begin{definition}[曲率半径]
+	$ R=\dfrac{1}{\kappa} $
+\end{definition}
+
+\begin{theorem}[自然参数下的计算公式]
+	$\kappa(s)=||\bm{r}''(s)||$
+\end{theorem}
+\begin{theorem}[一般参数下的计算公式]
+	$\kappa(s)=\dfrac{||\dot{\bm{r}}(t) \times \ddot{\bm{r}}(t)||}{||\dot{\bm{r}}(t)||^3}$
+\end{theorem}
+\begin{theorem}[平面曲线参数式下的计算公式]
+	$\kappa(s)=\dfrac{\dot{x}\ddot{y}-\dot{y}\ddot{x}}{[(\dot{x})^2+(\dot{x})^2]^{\frac{3}{2}}}$
+\end{theorem}
+\begin{theorem}[平面曲线一般式下的计算公式]
+	$\kappa(s)=\dfrac{|y''|}{[1+(y')^2]^\frac{3}{2}}$
+\end{theorem}

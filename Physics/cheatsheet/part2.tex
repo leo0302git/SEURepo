@@ -1,0 +1,823 @@
+\section{相对论}
+本章假设坐标系S'相对于惯性系S以匀速$u$沿着彼此重合的x轴运动
+\subsection{相对论运动学}
+\subsubsection{相对论变换和时空观}
+\noindentbf{洛伦兹坐标变换}
+对于同一个物体P，在S系下测得的坐标为$(x,y,z,t)$，在S'系下测得为$(x',y',z',t')$，时空变换如下（快进到相对论总结\ref{回到相对论总结}）
+\begin{equation}\label{相对论洛伦兹变换}
+    \begin{cases}
+        x'=\dfrac{x-ut}{\sqrt{1-u^2/c^2}}\\
+        y'=y\\
+        z'=z\\
+        t'=\dfrac{t-\dfrac{u}{c^2}x}{\sqrt{1-u^2/c^2}}
+    \end{cases}
+\end{equation}
+常有简写
+\begin{equation}
+    \begin{cases}
+        \beta = \dfrac{u}{c}\\
+        \gamma = \dfrac{1}{\sqrt{1-u^2/c^2}}=\dfrac{1}{\sqrt{1-\beta^2}}
+    \end{cases}
+\end{equation}
+逆变换为（快进到相对论总结\ref{回到相对论总结}）
+\begin{equation}\label{洛伦兹时空逆变换}
+    \begin{cases}
+        x=\dfrac{x'+ut'}{\sqrt{1-u^2/c^2}}\\
+        y=y'\\
+        z=z'\\
+        t=\dfrac{t'+\dfrac{u}{c^2}x'}{\sqrt{1-u^2/c^2}}
+    \end{cases}
+\end{equation}
+上述式子仅适用于两个坐标系初态重合的情况，下面这个常用公式没有初态重合的限制
+\begin{equation}
+    \Delta x' = \dfrac{\Delta x - v\Delta t}{\sqrt{1-\dfrac{u^2}{c^2}}}
+\end{equation}
+\noindentbf{洛伦兹速度与加速度变换}（快进到相对论总结\ref{回到相对论总结}）
+\begin{equation}\label{洛伦兹速度变换与逆变换}
+    \begin{cases}
+        v_x'=\dfrac{v_x - u}{1-\dfrac{u}{c^2}v_x}\\
+        \\
+        v'_y=\dfrac{v_y}{1-\dfrac{u}{c^2}v_x}\sqrt{1-u^2/c^2}\\
+        \\
+        v'_z=\dfrac{v_z}{1-\dfrac{u}{c^2}v_x}\sqrt{1-u^2/c^2}\\
+        \\
+        a_x'=\dfrac{a_x(1-\dfrac{u^2}{c^2})^{1.5}}{(1-\dfrac{u}{c^2}v_x)^3}
+    \end{cases}
+\end{equation}
+逆变换
+\begin{equation}
+    \begin{cases}
+        v_x=\dfrac{v_x' + u}{1+\dfrac{u}{c^2}v_x'}\\
+        \\
+        v_y=\dfrac{v_y'}{1+\dfrac{u}{c^2}v_x'}\sqrt{1-u^2/c^2}\\
+        \\
+        v_z=\dfrac{v_z'}{1+\dfrac{u}{c^2}v_x'}\sqrt{1-u^2/c^2}
+    \end{cases}
+\end{equation}
+\subsubsection{“同时”是相对的}
+同一地点的两个事件，时序不会颠倒；不同地点的两个事件，时序可能颠倒。但含有逻辑关系的两个时间的时序不会颠倒。
+
+在S系中观测到的两事件的时空坐标为$(x_1,t),(x_2,t)$，在S系中是同时发生的。在S'系中，
+\begin{equation}
+    t_1'=\dfrac{t-\dfrac{u}{c^2}x_1}{\sqrt{1-u^2/c^2}},t_2'=\dfrac{t-\dfrac{u}{c^2}x_2}{\sqrt{1-u^2/c^2}}
+\end{equation}
+在S'系中观测到的时间间隔为
+\begin{equation}
+    t_2'-t_1'=\dfrac{u/c^2}{\sqrt{1-u^2/c^2}}(x_1-x_2)
+\end{equation}
+\subsubsection{尺缩效应}
+（快进到相对论总结\ref{回到相对论总结}）
+在S'系中静止放置一直杆，在该系中的固有长度为
+\begin{equation}
+    L_0=|x_2'-x_1'|
+\end{equation}
+在S系中，为了测量杆的长度，必须同时测量杆两端的坐标$x_1,x_2$，从而得到$L=|x_2-x_1|$，由于（
+\begin{equation}\label{尺缩效应}
+    x_1'=\dfrac{x_1-ut}{\sqrt{1-u^2/c^2}},x_2'=\dfrac{x_2-ut}{\sqrt{1-u^2/c^2}}
+\end{equation}
+
+相减得到$L=\sqrt{1-u^2/c^2} L_0<L_0$
+\subsubsection{钟慢效应}
+（快进到相对论总结\ref{回到相对论总结}）
+在S'系中测得一个时间间隔$\Delta t'=t_2'-t_1'$,
+\begin{equation}
+    t_1=\dfrac{t_1'+\dfrac{u}{c^2}x_0'}{\sqrt{1-u^2/c^2}},t_2=\dfrac{t_2'+\dfrac{u}{c^2}x_0'}{\sqrt{1-u^2/c^2}}
+\end{equation}
+所以S系中测得的时间间隔为
+\begin{equation}\label{钟慢效应}
+    \Delta t= \dfrac{\Delta t'}{\sqrt{1-u^2/c^2}}>\Delta t'
+\end{equation}
+\subsection{相对论动力学}
+高速运动的粒子质量会变大，应该将质量看成速度的函数，即$m(v)$，定义相对论性质量
+\begin{equation}
+    m(v)=\dfrac{m_0}{\sqrt{1-v^2/c^2}}
+\end{equation}
+$m_0$为静质量。动量也修正为$p=m(v)v$
+
+相对论质点动能公式：$E_k=m(v)c^2-m_0c^2=\Delta m c^2=m_0c^2(\dfrac{1}{\sqrt{1-v^2/c^2}}-1)$
+
+能量动量关系：
+\begin{equation}
+    E=\dfrac{m_0c^2}{\sqrt{1-v^2/c^2}},p=\dfrac{m_0v}{\sqrt{1-v^2/c^2}}
+\end{equation}
+得到
+\begin{equation}
+    E^2=p^2c^2+m_0^2c^4,v=\dfrac{c^2p}{E}
+\end{equation}
+对于没有静质量的粒子（如光子），上式化为$E=cp$
+
+\section{电磁相互作用} 
+\subsection{磁相互作用}
+\noindentbf{洛伦兹力} $\bm{F}=q\bm{v}\times \bm{B}$
+\noindentbf{带电粒子在磁场中的运动}一般速度与磁场方向有一个夹角，可以将速度分解为
+\begin{equation}
+    \begin{cases}
+        v_1=v\cos \theta\\
+        v_2=v\sin \theta
+    \end{cases}
+\end{equation}
+轨迹是螺旋线，螺距为$d=v_1T=\dfrac{2\pi m v_1}{qB}$
+
+\subsubsection{磁器件}
+\noindentbf{质谱仪}
+
+速度选择器：$qE=qvB,v=E/B$
+
+质谱分析仪：设粒子在底片上的落点与入口的距离为$x$，则有
+\begin{equation}
+    x=2R=\dfrac{2mv}{qB_0}=\dfrac{2mE}{qB_0B},m=\dfrac{qB_0Bx}{2E}
+\end{equation}
+\noindentbf{回旋加速器}
+
+交变电场的周期与粒子回旋周期相同：$T=\dfrac{2\pi m}{qB}$
+
+最大速度：$v_{max}=\dfrac{qBR}{m}$
+\subsubsection{霍尔效应}
+霍尔电压$U_{AA'}=K\dfrac{IB}{d}$，推导时用到了洛伦兹力和电流的微观表达式。霍尔系数$K=\dfrac{1}{nq}$（可能为负值），可用于测量载流子浓度$n$。
+\subsection{运动电荷的电磁场}
+写成矢量形式：
+\begin{equation}
+    \begin{cases}
+        \bm{E}=\dfrac{q}{4\pi \epsilon_0 r^3}\bm{r}\\
+        \bm{B}=\dfrac{\mu_0}{4\pi}\dfrac{q(\bm{v}\times \bm{r})}{r^3}
+    \end{cases}
+\end{equation}
+写成标量形式：
+\begin{equation}
+    \begin{cases}
+        \bm{E}=\dfrac{q}{4\pi \epsilon_0 r^2}\\
+        \bm{B}=\dfrac{\mu_0}{4\pi}\dfrac{qv\sin \theta}{r^2}
+    \end{cases}
+\end{equation}
+其中$\mu_0=4\pi \times 10^{-7}N\cdot A^{-2}$，称为真空磁导率。
+
+真空中运动电荷产生的电场与磁场之间有关系：$\bm{B}=\mu_0\epsilon_0(\bm{v}\times \bm{E})=\dfrac{1}{c^2}(\bm{v}\times \bm{E})$
+\subsection{磁场和电流}
+电流：$I=\lim_{\Delta t\to 0}\dfrac{\Delta q}{\Delta t}=\dfrac{dq}{dt}$
+
+电流密度：描述了电流在导体截面上的分布情况，$j=\dfrac{dI}{dS_0}$，其方向与该点电流方向一致。若设某点电流方向与该点面元夹角为$\theta$，则通过整个截面的电流可以写成
+\begin{equation}
+    I=\iint \bm{j}\cdot d\bm{S}=\iint j\cos \theta dS
+\end{equation}
+\noindentbf{电流的连续性方程}单位时间内流出S面的电量应该等于闭合曲面内电量的减少
+\begin{equation}
+    \oiint \bm{j}d\bm{S}=-\dfrac{dq}{dt}
+\end{equation}
+若闭合曲面内是连续分布的带电体，则
+\begin{equation}
+    \oiint \bm{j}d\bm{S}=-\dfrac{d}{dt}\iiint \rho_edV
+\end{equation}
+微分形式为
+\begin{equation}
+    \nabla\cdot \bm{j}=-\dfrac{\partial \rho_e}{\partial t}
+\end{equation}
+对于恒定电流，等式右边等于零（$\dfrac{dq}{dt}=0$）
+
+\noindentbf{欧姆定律的微分形式}$\bm{j}=\sigma \bm{E}$
+
+\noindentbf{焦耳定律的微分形式}$p=\dfrac{j^2}{\sigma}=\sigma E^2$其中$p$为电功率体密度。
+
+\noindentbf{电动势的推广}$\bm{j}=\sigma (\bm{K}+\bm{E})$，$\bm{K}$为作用在单位正电荷上的非静电力。
+
+{\color{Red}\noindentbf{毕奥-萨法尔定律（B-S law）}}:描述了电流元产生磁感应强度的表达式
+\begin{equation}
+    d\bm{B}=\dfrac{\mu_0}{4\pi}\dfrac{Id\bm{l}\times \bm{r}}{r^3}
+\end{equation}
+其中$\bm{r}$是电流元到场点的矢量（注意方向与叉乘顺序）
+
+\noindentbf{安培定律}$d\bm{F}=Id\bm{l}\times \bm{B}$,整个闭合回路受到的安培力就是环路积分
+\begin{equation}
+    F=\oint d\bm{F}=\oint Id\bm{l}\times \bm{B}
+\end{equation}
+\noindentbf{几个常用的实例}
+
+载流直导线的磁场：规定电流元方向与$\bm{r}$的夹角为$\theta$,则距直导线距离为$r_0$处的磁感应强度为
+\begin{equation}
+    B=\dfrac{\mu_0 I}{4\pi r_0}(\cos \theta_1 - \theta_2)
+\end{equation}
+$\theta_1, \theta_2$分别是电流起点和终点处对应的$\theta$值。推论：
+\begin{enumerate}
+    \item 对于无限长导线，$B=\dfrac{\mu_0 I}{2\pi r_0}$
+    \item 对于半无限长导线的一端，$B=\dfrac{\mu_0 I}{4\pi r_0}$，正好是无限长导线的一半
+\end{enumerate}
+
+载流圆线圈轴线上的磁场：设场点与线圈圆心距离为$r_0$，圆线圈半径为$R$，则有
+\begin{equation}
+    B=\dfrac{\mu_0}{2}\dfrac{R^2 I}{(R^2+r_0^2)^{1.5}}
+\end{equation}
+推论：
+\begin{enumerate}
+    \item 圆心处的磁场（$r_0=0$）：$B=\dfrac{\mu_0 I}{2R}$
+    \item 轴线上无限远处的磁场：$B=\dfrac{\mu_0 R^2 I}{2r_0^3}$
+\end{enumerate}
+定义线圈的磁矩：$\bm{m}=IS\bm{e}_n=I\pi R^2 \bm{e}_n $，则$\bm{B}=\dfrac{\mu_0}{4\pi}\dfrac{2\bm{m}}{r_0^3}$
+
+载流螺线管内部轴线上的磁场：把每一圈等效为一个载流圆线圈.设$n$为单位长度螺线管上的匝数。以轴线中点为坐标原点，设场点坐标为$x$，某一圈线圈的坐标为$l$（自带正负），设线圈顶部与场点连线和轴负方向的夹角为$\beta$.则$dl$长度螺线管对场点产生的磁感应强度为
+\begin{equation}
+    dB=\dfrac{\mu_0}{4\pi}\dfrac{2\pi R^2 I}{[R^2+(x-l)^2]^{1.5}}ndl
+\end{equation}
+总磁场即对$dl$积分
+\begin{equation}
+    B=\dfrac{\mu_0}{4\pi}\int_{-0.5l}^{0.5l}\dfrac{2\pi R^2 In}{[R^2+(x-l)^2]^{1.5}}dl
+\end{equation}
+做积分变量代换
+\begin{equation}
+    dl=R d\beta /\sin ^2 \beta,\sqrt{R^2+(x-l)^2}=R/\sin \beta
+\end{equation}
+得到
+\begin{equation}
+    B=\dfrac{\mu_0 n l}{2}(\cos \beta_1-\cos \beta_2),\cos \beta_1=\dfrac{x+L/2}{\sqrt{R^2+(x+L/2)^2}},\cos \beta_2=\dfrac{x-L/2}{\sqrt{R^2+(x-L/2)^2}}
+\end{equation}
+推论：
+\begin{enumerate}
+    \item 无限长螺线管：$B=\mu_0 nI$，与场点位置无关
+    \item 半无限长螺线管：$B=\dfrac{\mu_0 nI}{2}$，与场点位置无关
+\end{enumerate}
+
+两根平行无限长导线的相互作用：单位长度导线所受的力大小为
+\begin{equation}
+    f=\dfrac{\mu_0 I_1I_2}{2\pi d}
+\end{equation}
+
+磁场对平面载流线圈的作用：只有与磁场垂直的两根导线受到的力等大反向，构成转动合力矩
+\begin{equation}
+    M=Il_1l_2B\sin \theta=NISB\sin \theta
+\end{equation}
+写成矢量式，定义$\bm{S}=S\bm{e}_n$
+\begin{equation}
+    \bm{M}=NI\bm{S}\times \bm{B}
+\end{equation}
+定义线圈磁矩$\bm{m}=NI\bm{B}$(注意已经包含了匝数),则磁力矩为$\bm{M}=\bm{m}\times \bm{B}$.
+
+在此特定的系统中可以定义磁矩$\bm{m}$的“势能”$W=-\bm{m}\cdot \bm{B}$。磁力矩总是有让磁矩转到与外磁场同向的趋势，转动过程中磁力矩的功
+\begin{equation}
+    A=-\int M d\varphi=I\Delta \varPhi_m
+\end{equation}
+其中，$\varphi$是面元方向与磁感应强度方向的夹角。上式表明，磁力矩做功等于电流乘以包围面积内磁通量的增量，也等于磁力矩对夹角积分的负值。
+\section{恒定磁场与磁介质}
+\subsection{磁场的高斯定理和安培环路定理}
+定义磁通量:$\varPhi=\iint B\cos \theta dS=\iint \bm{B}d\bm{S}$，规定由闭合曲面穿出的磁通量为正，进入的磁通量为负
+
+磁场的高斯定理：对于恒定电流的磁场，通过任意闭合曲面的磁通量恒等于零，即$\oiint \bm{B}d\bm{S}=0$，写成微分形式为$\nabla \cdot \bm{B}=0$，表明磁场是一个无源场。
+
+矢势：由矢量分析得，如果一个矢量函数$\bm{B}$是另一个矢量函数$\bm{A}$的旋度，则矢量函数$\nabla \times \bm{A}$的散度处处为零，即$\nabla \cdot (\nabla \times \bm{A})=0$。因为磁场$\bm{B}$是一个无源场，所以可以定义一个矢量场$\bm{A}$，使得$\bm{A}$求旋度得到$\bm{B}$。即$\bm{B}=\nabla \times \bm{A}$，称$\bm{A}$为磁矢势，简称矢势。由于$\bm{A}$的取值不唯一，所以一般还要规定$\nabla \cdot \bm{A}=0$.
+
+{\color{Red}\noindentbf{安培环路定理}}在恒定磁场中，磁感应强度沿着任意闭合回路的线积分等于穿过该环路所有电路的代数和的$\mu_0$倍。当$\bm{B},I$满足右手螺旋时，I记为正。
+\begin{equation}
+    \label{安培环路定律}
+    \oint \bm{B}d\bm{l}=\mu_0 \sum I_i
+\end{equation}
+安培环路定理的微分形式
+\begin{equation}
+    \nabla \times \bm{B}=\mu_0 \bm{j},\nabla ^2 \bm{A}=-\mu_0 \bm{j}
+\end{equation}
+\subsubsection{常见的例子}
+\noindentbf{均匀载流无限长圆柱导体内外的磁场分布}设圆柱导体半径为R，电流为I，易得产生的磁感应强度大小只与场点到轴线的距离r有关。
+\begin{equation}
+    \begin{cases}
+        B=\dfrac{\mu_0 I}{2\pi R^2}r \quad (r<R)\\
+        B=\dfrac{\mu_0 I}{2\pi r} \quad (r>R)
+    \end{cases}
+\end{equation}
+可见，在圆柱体内部，B与r成正比；在圆柱体外部成反比，且可以把圆柱体看成集中在轴线处的导线处理。
+
+\noindentbf{载流螺绕环磁场分布}
+线绕的很紧密时，磁场几乎全部集中在螺绕环内，环外几乎没有磁场。在与环同轴，半径为r的环路上，有
+\begin{equation}
+    B=\dfrac{\mu_0 NI}{2\pi r}
+\end{equation}
+当环横截面半径很小，可以取$R=(R_1+R_2)/2$作为环的平均半径，用$n=N/2\pi R$作为单位长度上的线圈匝数，此时螺绕环就等效为无限长螺线管，其内部电流都是$B=\mu_0 n I$.
+\subsection{有磁介质时的高斯定理和安培环路定理}
+分子的固有磁矩：分子内所有电子的自旋磁矩和轨道磁矩的矢量和，用$\bm{m}_m$表示，每一个分子磁矩可以等效为一个圆电流，称为分子电流。（review：磁矩$\bm{m}=NI\bm{S}$，匝数$N$在这里等于1）
+
+顺磁性：在没有外磁场作用的情况下，大量分子的$\bm{m}_m$的矢量和$\sum \bm{m}_m$为零；加上外磁场后，所有的$\bm{m}_m$都有沿着外磁场方向排列的趋势，此时$\sum \bm{m}_m\ne 0$，撤去外磁场后又回归原状，这种磁性叫做顺磁性
+
+铁磁性：分子固有的磁矩不为零。
+
+磁化强度：用单位体积内，分子磁矩的矢量和，来表征物质宏观磁性或介质磁化的程度
+\begin{equation}
+    \bm{M}=\dfrac{\sum \bm{m}_m}{\Delta V}(A/m)
+\end{equation}
+$\bm{M}$的方向与外磁场基本一致，且外磁场越强，$\bm{M}$方向越与外磁场一致，其值也越大
+
+电子磁矩：尽管有些分子的固有磁矩为零，但每个分子中每个电子的运动都产生电子电流，可以等效为一个磁矩，记为$\bm{m}_e$.在外磁场的作用下，电子磁矩受到磁力矩的作用
+\begin{equation}
+    \bm{M}_B=\bm{m}_e\times \bm{B}_0
+\end{equation}
+这一磁力矩会让电子产生进动，进动相当于一个圆电流，该圆电流会产生一个附加磁矩$\Delta \bm{m}_e$,其方向始终与外磁场方向相反，称为抗磁性。抗磁质的磁化强度定义为
+\begin{equation}
+    \bm{M}=\dfrac{\sum \Delta \bm{m}_e}{\Delta V}(A/m)
+\end{equation}
+与顺磁质的定义不一样。抗磁质的$\bm{M}$方向与外磁场相反
+
+磁化电流：前面说过，分子或电子的磁矩都可以等效为一个圆电流。对于外磁场穿过的一个横截面，该面上会出现很多转向相同的，密排的圆电流，在内部，这些电流大小相等方向相反相互抵消，只在表面可以"首尾相接"，形成宏观的电流$I'$，称为磁化电流。对于顺磁质，$I'$与$I$方向相同，抗磁质则相反。 
+
+对于一个有厚度的导体，可以分解为沿外磁场方向上的一系列横截面。设沿轴线单位长度上的磁化电流为$A'$（即磁化电流线密度），则对于一段横截面积为S，长度为l的磁介质圆柱，其磁化强度大小
+\begin{equation}
+    \label{A'}
+    M=|\bm{M}|=\dfrac{|\sum \bm{m}_m|}{\Delta V}=\dfrac{\sum IS}{lS}=\dfrac{A' l S}{ls}=A'
+\end{equation}
+顺磁质的磁化强度与外磁场一致，抗磁质则相反。
+
+上式认为$\bm{m}_m$的方向都一样，把矢量加和变成代数加和，且均为正。但是有可能磁化强度$\bm{M}$与介质表面并不完全平行，可能与表面外法线向量$\bm{e}_n$夹角$\theta$，所以严格的定义应该是
+\begin{equation}
+    A'=M\sin \theta \quad \bm{A}'=\bm{M}\times \bm{e}_n
+\end{equation}
+（对于非均匀介质，可能在介质内部也存在未被抵消完的分子电流。）
+
+根据\ref{A'}，磁化强度的环路积分(路径见书p286)为（这里虽然只取了特殊的矩形环路，但对于任意形状的环路，应该可以导出同样的关系式）
+\begin{equation}
+    \int \bm{M}d\bm{l}=A'|ab|=\sum I'
+\end{equation}
+即磁化强度沿任意闭路的线积分等于穿过环路的任意曲面上，磁化电流的代数和（仍然是满足右手螺旋定则记为正）。
+
+\noindentbf{有磁介质时的高斯定理}有磁介质存在时，总磁场应该为传导电流所产生磁场与介质磁化电流产生的附加磁场的矢量和。即$\bm{B}=\bm{B}_0+\bm{B}'$，对于总磁场，B-S law仍然成立，故而仍然存在高斯定理。即对于总磁场，任意闭合曲面的总磁通量恒为零。
+
+\noindentbf{有磁介质时的安培环路定理}有磁介质存在时，传导电流会产生磁化电流，所以原式\ref{安培环路定律}中的$\sum I_i$应该理解为总电流的代数和，即
+\begin{equation}
+    \oint \bm{B}d\bm{l}=\mu_0\sum I_{0i}+\mu_0\sum I'_i
+\end{equation}
+但是外磁场和$I'$之间又有关系，为了避免等式两边相互依赖，代入$\int \bm{M}d\bm{l}=\sum I'$并移项得到
+\begin{equation}
+    \oint (\dfrac{\bm{B}}{\mu_0}-\bm{M})d\bm{l}=\sum I_{0i}
+\end{equation}
+定义磁场强度
+\begin{equation}
+    \bm{H}=\dfrac{\bm{B}}{\mu_0}-\bm{M}(A/m)
+\end{equation}
+作为辅助矢量，得到有磁介质时的安培环路定理
+\begin{equation}
+    \oint \bm{H}d\bm{l}=\sum I_{0i}
+\end{equation}
+微分形式为
+\begin{equation}
+    \nabla \times \bm{H}=\bm{j}_0
+\end{equation}
+真空和导体（统称为非磁介质）中，$\bm{M}=0$，所以有$\bm{B}=\mu_0\bm{H}$.
+\subsubsection{常见的例子}
+\noindentbf{充满磁介质的螺绕环}充满磁介质的螺绕环通入传导电流$I_0$,产生的磁场可以分解为两部分$B=B_0+\mu_0 M$，其中$B_0=\mu_0 n I_0$为空心螺绕环产生的磁场。
+
+\noindentbf{带有窄缝的永磁环}
+设其磁化强度为$\bm{M}$，则可以求环上和缝中的$\bm{B},\bm{H}$.
+
+环的内部不存在传导电流，只在表面有磁化电流。介质表面分布的磁化电流线密度为$\bm{A'}=\bm{M}\times \bm{e}_n$，每一个横截面累加起来，则可以将永磁环看成螺绕环，螺绕环有$B=\dfrac{\mu_0 N I}{2\pi r}$，所以永磁环的附加磁感应强度为$B'=\mu_0 A'=\mu_0 M$，缝隙处$M=0$，环上为$M$，根据定义可以解出缝隙处$B=\mu_0 M,H=M$,环上$B=\mu_0 M,H=0$
+\subsection{介质的磁化规律}
+实验表明，$\bm{M}=\chi_m\bm{H}$，比例常量叫做磁化率，对于顺磁质为正，抗磁质为负。对于顺磁质和抗磁质，其绝对值都远小于1
+\begin{equation}
+    \begin{cases}
+        \bm{B}=\mu_0(\bm{H}+\bm{M})=(1+\chi_m)\mu_0 \bm{H}=\mu_r \mu_0 \bm{H}=\mu \bm{H}\\
+        \mu_r = 1+ \chi_m\\
+        \mu = (1+\chi_m)\mu_0=\mu_r \mu_0
+    \end{cases}
+\end{equation}
+$\mu_r$称为相对磁导率，$\mu$称为磁导率。
+\newline
+\newline
+{\color{blue}{\LARGE{期中考试用到的公式总结}}}\\ \label{回到相对论总结}
+\noindentbf{相对论部分}\\
+洛伦兹时空变换\ref{相对论洛伦兹变换}\\
+洛伦兹时空变换的逆变换\ref{洛伦兹时空逆变换}\\
+洛伦兹速度变换与逆变换\ref{洛伦兹速度变换与逆变换}\\
+钟慢效应\ref{钟慢效应}\\
+尺缩效应（固有长度指的是静止物体两端的坐标之差）\ref{尺缩效应}\\
+相对论中能量与动量之间的关系
+\begin{equation}
+    E^2=p^2c^2+m_0^2c^4
+\end{equation}
+相对论中的动能定理
+\begin{equation}
+    E_k=(m-m_0)c^2=(\dfrac{1}{\sqrt{1-v^2/c^2}}-1)m_0c^2
+\end{equation}
+相对论中的动量定理
+\begin{equation}
+    m^2c^2=p^2+m_0^2c^2
+\end{equation}
+\noindentbf{电磁学部分}\\
+麦克斯韦方程组
+\begin{align}
+    \oint_S \bm{D}\cdot d\bm{S}&=\sum q\\
+    \oint_S \bm{B}\cdot d\bm{S}&=0\\
+    \oint \bm{H}\cdot d\bm{l}&=\sum I_0+\oint_S\dfrac{\partial \bm{D}}{\partial t}\cdot d\bm{S}\\
+    \oint_L\bm{E_k}\cdot d\bm{l}&=\oint_S- \dfrac{\partial \bm{B}}{\partial t}  \cdot d\bm{S}
+\end{align}
+对应的微分形式
+\begin{align}
+    \nabla \cdot \bm{D}&=\rho _e\\
+    \nabla \cdot \bm{B}&=0\\
+    \nabla \times \bm{H}&=j_0+\dfrac{\partial \bm{D}}{\partial t}\\
+    \nabla \times \bm{E_k}&=-\dfrac{\partial \bm{B}}{\partial t}
+\end{align}
+其对应的物理含义是
+\begin{enumerate}
+    \item 电位移的高斯定理：电厂有源场
+    \item 磁场的高斯定理：磁场是无源场
+    \item 电流的连续性方程：对于任何环路，全电流是连续的
+    \item 电磁感应定律：感生电场是非保守场
+\end{enumerate}
+电流的连续性方程
+\begin{equation}
+    \oint_S\bm{j}\cdot d\bm{S}=-\dfrac{d}{dt}\iiint _V\rho_e dV
+\end{equation}
+比奥萨法尔定律：恒定电流会产生稳定磁场
+\begin{equation}
+    \bm{B}=\dfrac{\mu_0}{4\pi}\dfrac{I \cdot \bm{l}\times \bm{r}}{r^3}
+\end{equation}
+运动电荷会产生磁场和电场
+\begin{align}
+    \bm{B}&=\dfrac{\mu_0}{4\pi}\dfrac{q \bm{v}\times \bm{r}}{r^3}\\
+    \bm{E}&=\dfrac{1}{4\pi \epsilon_0}\dfrac{q \cdot \bm{r}}{r^3}\\
+    \bm{B}&=\dfrac{\bm{v}\times \bm{E}}{c^2}
+\end{align}
+洛伦兹力公式
+\begin{equation}
+    F=q\cdot \bm{v}\times \bm{B}
+\end{equation}
+导体运动产生动生电动势
+\begin{equation}
+    \epsilon_k=\int \bm{v}\times \bm{B}\cdot d\bm{l}
+\end{equation}
+导体在磁场中运动受到的力
+\begin{equation}
+    d\bm{F}=Id\bm{l}\times \bm{B}
+\end{equation}
+电磁感应定律的定义式与计算式
+\begin{equation}
+    \epsilon_{all}=-\dfrac{d\psi }{dt}=-N\dfrac{d\varPhi }{dt}=-M\cdot \dfrac{dI}{dt}
+\end{equation}
+自感和互感的定义式
+\begin{equation}
+    M=L=-\dfrac{\psi }{I}
+\end{equation}
+螺线管自感计算式
+\begin{equation}
+    L=\dfrac{\mu_0\mu_rN^2S}{l}
+\end{equation}
+两个一长一短完全耦合螺线管的互感($l_1$为长螺线管的长度)
+\begin{equation}
+    M=\dfrac{\mu_0\mu_rN_1N_2S}{l_1}
+\end{equation}
+无限长导线周围磁场
+\begin{equation}
+    B=\dfrac{\mu_0I}{2\pi r}
+\end{equation}
+有限长导线周围磁场
+\begin{equation}
+    B=\dfrac{\mu_0I}{4\pi r}(\cos \theta_1-\cos \theta_2)
+\end{equation}
+圆电流轴线上的磁场（$x$为场点到圆环中心的距离）
+\begin{equation}
+    B=\dfrac{\mu_0 I R^2}{2(R^2+x^2)^{\frac{3}{2}}}
+\end{equation}
+长直螺线管内部的磁场($n$为单位长度的绕线匝数)
+\begin{equation}
+    B=\mu_0nI
+\end{equation}
+有限长螺线管
+\begin{equation}
+    B=\dfrac{\mu_0nI}{2}(\cos \theta_1-\cos \theta_2)
+\end{equation}
+螺绕环内部磁场（与螺线管一致）
+\begin{equation}
+    B=\mu_0nI
+\end{equation}
+霍尔效应
+\begin{equation}
+    U_H=\dfrac{K_HIB}{d}=\dfrac{IB}{nqd}
+\end{equation}
+磁化规律
+\begin{equation}
+    \bm{B}=\mu_0\bm{M}+\mu_0\bm{H}
+\end{equation}
+顺磁质的磁化规律(抗磁质的$\chi_m<0$)
+\begin{align}
+    \bm{M}&=\chi_e\bm{H}\\
+    \bm{B}&=\mu_0\mu_r\bm{H}
+\end{align}
+磁能密度与磁能
+\begin{align}
+    w_m&=\dfrac{B^2}{2\mu_0}=\dfrac{1}{2}\mu_0 H^2&=\dfrac{1}{2}BH\\
+    W_m=\dfrac{1}{2}LI^2
+\end{align}
+线圈的磁矩、磁力矩及其做功
+\begin{align}
+    \bm{m}&=NIS\bm{e_n}\\
+    \bm{M}&=\bm{m}\times \bm{B}\\
+    A&=-\int M d\varphi =I\Delta \varPhi_m
+\end{align}
+磁化强度($A'$是磁化电流线密度,$\bm{e_n}$是表面的外法向；顺磁质的磁化电流总与传导电流同向)
+\begin{align}
+    \bm{M}&=\dfrac{\sum \bm{m}_m}{\Delta V}\\
+    |\bm{M}|&=A'\\
+    \bm{A'}&=\bm{M}\times \bm{e_n}
+\end{align}
+剩余磁化强度、矫顽力、起始磁导率和最大磁导率看书上的磁滞回线。
+\section{光的干涉}
+\subsection{光学概论}
+光速$c=\dfrac{1}{\sqrt{\epsilon_0 \mu_0}}=3\times 10^{8}m/s$
+
+在介质中的光速$u=\dfrac{c}{\sqrt{\epsilon_0 \mu_0}}$
+
+折射率定义为$n=\frac{c}{u}=\sqrt{\epsilon_r \mu_r}\approx \sqrt{\epsilon_r}$当光穿过不同的介质时，其频率不变，传播速度与波长改变。一般说的波长都是指真空中的波长。根据$\lambda f=u$可知，从真空进入介质，波长变为真空中的$\frac{1}{n}$。
+
+电磁波可以看作是电矢量$\bm{E}$与磁矢量$\bm{H}$在空间中的传播，引起光效应的主要是前者，所以一般把光波看成是电矢量在空间中的传播。光强$I$定义为电磁波的平均能流密度，表示单位时间内通过与传播方向垂直的单位面积的光的能量在一个周期内的平均值，即单位面积上的光功率。观测手段看到的都是光强而不是光振动$\bm{E}$。在同一种介质中，光强的定义式为
+\begin{equation}
+    I=\Bar{S}=E_0^2=A^2
+\end{equation}
+即光强正比于振幅的平方。
+
+\noindentbf{光波的复振幅表述} 描述任一理想单色光场的波动表达式为
+\begin{equation}
+    E(\bm{r},t)=A(\bm{r})\cos [\omega t-\varphi(\bm{r})]
+\end{equation}
+写成复数形式为
+\begin{equation}
+    E(\bm{r},t)=A(\bm{r})e^{-i[\omega t-\varphi(\bm{r})]}=A(\bm{r})e^{i\varphi(\bm{r})}e^{-i\omega t}
+\end{equation}
+把不含时间的复数因子称为复振幅$\widetilde{E}(\bm{r})=A(\bm{r})e^{i\varphi(\bm{r})}$，其模量表示振幅的空间分布，其辐角表示相位的空间分布。复振幅包含了我们感兴趣的所有信息。利用复振幅表示光强
+\begin{equation}
+    I(\bm{r})=\widetilde{E}(\bm{r}) \cdot \widetilde{E}^* (\bm{r})
+\end{equation}
+后一项表示共轭。
+\subsection{光波的相干叠加}
+\noindentbf{光波的叠加原理}$\bm{E}(\bm{r},t)=\bm{E}_1(\bm{r},t)+\bm{E}_2(\bm{r},t)+ ...$。该式仅在光强不太强，介质为线性介质时成立。
+
+设有两列光波的光矢量为
+\begin{align}
+    \bm{E}_1(\bm{r}_1,t)=\bm{A}_1\cos (\omega_1 t -k_1 r_1 + \varphi _{01})\\
+    \bm{E}_2(\bm{r}_2,t)=\bm{A}_2\cos (\omega_2 t -k_2 r_2 + \varphi _{02})
+\end{align}
+假设它们传播到同一点时，传播方向的夹角为$\theta$，则以$\bm{E}_1$为基准可以将光强分为$I_{//},I_{\perp}$两个方向上分量的和。即
+\begin{align}
+    I_{\perp}&=A^2_2 \sin^2 \theta\\
+    I_{//}&=|E_1+E_2\cos \theta|^2=A_1^2+A_2^2\cos ^2 \theta +2A_1A_2\cos \theta \cos \delta\\
+    \delta &=-(\omega_1 -\omega _2)t+(K_2r_2-k-1r_1)-(\varphi_{02}-\varphi_{01})\\
+    I&=I_{//}+I_{\perp}=A_1^2+A_2^2+2A_1A_2\cos \theta \overline{\cos \delta}\\
+    &=I_1+I_2+2\sqrt{I_1I_2}\cos \theta \overline{\cos \delta}
+\end{align}
+其中，$\cos \delta,\overline{\cos \delta}$分别表示两个振动在t时刻的相位差及其平均值。第三项称为干涉项，可能会引起光强的重新分布。
+
+\noindentbf{相干条件}干涉项不为零时波的叠加称为相干叠加。光波的相干叠加引起光强在空间中的重新分布，这种现象叫做光的干涉现象。干涉现象出现的必要条件称为相干条件，下面分析$\cos \theta \overline{\cos \delta}$：
+\begin{enumerate}
+    \item $\cos \theta\neq 0$，即两个振动方向不能垂直
+    \item $\omega_1 = \omega_2$，否则$\cos \delta$就是与时间相关的周期余弦函数，在一个周期上积分就会变为零
+    \item 拥有固定的初相位差$\varphi_{02}-\varphi_{01}$，若随机变化，则$\cos \delta$在一个周期上积分为零
+\end{enumerate}
+{\color{red}{本章后的基本假设：两束光的频率和初相位都相等，即}}
+\begin{align}
+    \delta&=k_2r_2-k_1r_1=\dfrac{2 \pi }{\lambda_2}r_2-\dfrac{2 \pi }{\lambda_1}r_1\\
+    &=\dfrac{2 \pi }{\lambda}(n_2r_2-n_1r_1)=\dfrac{2 \pi}{\lambda}\Delta L
+\end{align}
+\noindentbf{光程与光程差}一束光从出发后经过几种不同的均匀介质到达终点，所需时间为
+\begin{equation}
+    t=\sum_i \dfrac{s_i}{u_i}=\dfrac{1}{c}\sum_i n_i s_i =\dfrac{L}{c}
+\end{equation}
+记$L=\sum_i n_i s_i$为光程。这样可以将光在不同介质中速度的变慢等效为路程的增加，从而可以统一用光速来计算。
+
+\noindentbf{物像等光程性}物点和像点之间各光线的光程都相等，用光学仪器观测并不会带来附加的光程差。
+
+\subsection{分波前干涉}
+\subsubsection{杨氏干涉实验}
+\noindentbf{惠更斯原理}波面或波前上每一面元都可以看成是发出球面子波的波源，而这些子波面的包络面就是下一时刻的波面或波前。
+
+杨氏干涉实验关注点
+\begin{enumerate}
+    \item 点光源、双孔干涉，形成带状条纹
+    \item 双孔间距远小于双孔屏与接受屏之间的距离，因此认为两列光的传播方向夹角为0。且双孔越近，条纹分的越开
+    \item 当点光源与双孔的距离一样时，两孔接收到的光初相位相同，频率当然也相同，相位差仅仅取决于光程差
+\end{enumerate}
+接受屏上相干叠加的光强分布为
+\begin{equation}
+    I=I_1+I_2+2\sqrt{I_1I_2}\cos (\dfrac{2\pi}{\Delta L})\approx 4I_0 \cos ^2 \dfrac{\pi \Delta L}{\lambda}
+\end{equation}
+光强极大和极小条件
+\begin{align}
+    \Delta L&=k\lambda\\
+    \Delta L&=(k+\frac{1}{2})\lambda,k\in Z
+\end{align}
+利用几何条件可以近似得到$\Delta L=r_2-r_1\approx \dfrac{d_1}{d_2}x$.所以亮纹中心和暗纹中心为
+\begin{align}
+    x=k\dfrac{d_2}{d_1}\lambda\\
+    x= x=(k+\frac{1}{2})\dfrac{d_2}{d_1}\lambda
+\end{align}
+k称为干涉级，中央亮纹对应零级条纹。
+
+严格来说，杨氏干涉条纹应该是一系列双曲面与接收屏的交线。
+
+但是可以近似为一系列等距的平行线。除了中央亮纹，其他条纹都有彩色。
+
+杨氏干涉为非定域干涉，在两列光波交叠区的任何地方，都能观测到干涉条纹。
+\subsubsection{菲涅尔双面镜和劳埃德镜}见书p397图。劳埃德镜可以验证半波损失，当镜子与接收屏挨得很近时，接触点位于暗纹中心。
+\subsection{分振幅干涉}
+当单色点光源发出的一束光投射到两种透明介质的分界面上时，一部分反射，一部分透射后再反射回来，两者产生的干涉叫做分振幅干涉。（因为分光改变光强而光强又与振幅有关）常见的分振幅干涉为薄膜干涉，是一种非定域干涉。
+
+\noindentbf{等倾条纹}对于平行平面薄膜，同一条入射光线的两条反射光线相互平行，无穷远处是其定域中心。
+
+\noindentbf{等厚条纹}对于厚度不均匀的薄膜，定域中心在表面附近，当薄膜的表面纳入定域深度之内就可以在表面观测到等厚条纹。
+
+\subsubsection{等倾干涉}
+设平行平面薄膜内外的折射率为$n_2,n_1$,$n_2>n_1$，薄膜厚度为$d$。则光程差为
+\begin{equation}
+    \Delta L=2n_2 d \cos \theta_r -\dfrac{\lambda}{2}
+\end{equation}
+最后一项来源于半波损失。因为相同倾角的入射光又相同的光程差，经过透镜聚焦后形成同一条干涉条纹，所以称这种干涉为等倾干涉。
+
+亮纹中心和暗纹中心
+\begin{align}
+    2n_2 d \cos \theta_r -\dfrac{\lambda}{2}&=k\lambda\\
+    2n_2 d \cos \theta_r -\dfrac{\lambda}{2}&=(k-\frac{1}{2})\lambda,k\in N
+\end{align}
+同心圆等倾条纹中，圆心的干涉级最高；中央疏边缘密；薄膜越厚条纹越密。
+\subsubsection{等厚干涉}
+由于膜很薄，所以对于一对相干光线来说，它们对应的薄膜厚度变化量极小，可以视薄膜厚度为恒定值，因此可以沿用上文的光程差计算公式$\Delta L=2n_2 d \cos \theta _r -\dfrac{\lambda}{2}$.
+
+当入射光为平行光时，光程差仅由薄膜厚度决定且为线性关系，所以干涉条纹与薄膜的等厚线一致，等厚干涉因此得名。
+
+一般采用正入射的方式测，此时$\theta_r=\theta_i=0,\Delta L=2n_2 d -\frac{\lambda}{2}$，相邻等厚条纹对应的厚度之差为$\Delta d=\dfrac{\lambda}{2n_2}$.
+\section{光的衍射}
+\subsection{光的衍射现象与惠更斯-菲涅尔定理}
+衍射的分类：
+\begin{enumerate}
+    \item 衍射屏与光源或接收屏间的距离为有限远时的衍射，称为菲涅尔衍射
+    \item 衍射屏与光源或接收屏间的距离为无限远时的衍射，或者说入射光和衍射光都是平行光的衍射，称为夫琅禾费衍射。我们一般讨论这种衍射。
+\end{enumerate}
+\noindentbf{惠更斯-菲涅尔定理}波前S上每个面元dS都可以看成是发出球面子波的新波源，空间任一点P的振动是所有这些子波在这一点处的相干叠加。用复振幅表述为
+\begin{align}
+    \widetilde{E}(P)&=\oiint _S d\widetilde{E}(P)\\
+    &=K\oiint _S widetilde{E}_0(Q) F(\theta_0 ,\theta)\dfrac{e^{ikr}}{r}dS\\
+    &=-\dfrac{i}{2\lambda}\oiint _S (\cos \theta_0 +\cos \theta)widetilde{E}_0(Q)\dfrac{e^{ikr}}{r}dS
+\end{align}
+第三行称为菲涅尔-基尔霍夫公式。$\theta_0,\theta$分别是点光源和场点与面元法向量之间的夹角。
+\subsection{单缝夫琅禾费衍射}
+设单缝的缝宽为$b$,上下边沿为$A,B$，场点为$P_\theta$，$\theta$为穿过透镜光心的光线与光轴的夹角，则光程差和相位差为
+\begin{align}
+    \Delta L &= b \sin \theta\\
+    \delta &= \dfrac{2 \pi }{\lambda} b \sin \theta 
+\end{align}
+用小矢量的分析方法+小矢量模长取极限的方法可以得到：若设$\alpha = \delta /2=\frac{\pi b}{\lambda}\sin \theta$，则$P_\theta$处振幅为
+\begin{equation}
+    A_\theta=A_0 \dfrac{\sin \alpha}{\alpha}
+\end{equation}
+其中$A_0$是中心点处的振幅。光强比值为
+\begin{equation}
+    I_\theta  = I_0(\dfrac{\sin \alpha }{\alpha})
+\end{equation}
+通常把相对光强$I_\theta/I_0$称为单缝衍射因子。因子的极大值在$\alpha = \tan \alpha $处取得，解出主极强位置为$\alpha=0$，次极强的位置为$\alpha=\pm 1.43\pi,\pm 2.46\pi,\dots$。不过主极强的光强占绝大部分。
+
+单缝衍射的暗斑中心位置由$\sin \alpha=0(\alpha\neq 0)$决定，即$\alpha=k\pi ,k=\pm 1,\pm 2,\dots$（注意k不取零）.定义相邻暗斑中心之间的角距离为其间亮斑的角宽度，即$\Delta \theta = \dfrac{\lambda}{b}$，但是中央亮纹的宽度是其两倍！从公式可以看出，缝宽越小，波长越长，衍射效应越明显，衍射斑分布越宽。
+\subsection{圆孔夫琅禾费衍射}
+圆孔夫琅禾费衍射的图样是中央圆形亮斑和外围的一些同心亮环与暗环。光强分布取决于衍射因子
+\begin{equation}
+    \dfrac{I_\theta}{I_0}=[\dfrac{2J_l(x)}{x}]^2
+\end{equation}
+其中$x=\dfrac{\pi D}{\lambda}\sin \theta$，D为圆孔直径，$J_l(x)$为一阶柱贝塞尔函数。查表可得，衍射因子的极小值出现在$x=1.22\pi,2.233\pi,3.238\pi,\dots$处。
+
+定义圆孔衍射图样的第一个暗环包围的中央亮斑为艾里斑，集中了衍射光的绝大部分能量。根据定义，将$x=1.22\pi$代入$x=\dfrac{\pi D}{\lambda}\sin \theta$并作近似$\sin \theta= \theta$,则艾里斑的角半径为
+\begin{equation}
+    \Delta \theta = 1.22\dfrac{\lambda}{D}
+\end{equation}
+若透镜焦距为$f$，则接收屏上的艾里斑半径为$r=\dfrac{1.22\lambda f}{D}$。根据公式，要成像清晰就要减小艾里斑大小，则必须加大光学仪器的孔径。
+\subsubsection{瑞利判据} 规定：当一个艾里斑的中心正好落在另一个艾里斑的边缘（即一级暗环）上时，认为这两个艾里斑刚刚能够被分辨。该判据并不绝对，也只适用于两束光光强相等的情况。对于望远镜，满足瑞利判据时两个艾里斑的中心的角距离$\delta \theta_{min}$为每个艾里斑的半角宽度，即
+\begin{equation}
+    \delta \theta_{min}=\Delta \theta = 1.22 \dfrac{\lambda }{D}
+\end{equation}
+而分辨率定义为$\frac{1}{\delta \theta_{min}}$.
+
+对于显微镜，定义显微镜的最小分辨距离为
+\begin{align}
+    \delta y_{min}&=\Delta \theta_{min}\cdot L\\
+    &=0.61\dfrac{\lambda}{n \sin \theta}
+\end{align}
+其中，$n$是被观察物所在介质的折射率，$\theta$是显微镜物镜半径对物点的张角。
+\subsection{光栅}
+因为上下移动单缝的位置不改变其夫琅禾费衍射的图样，所以光栅的衍射图样其实就是多个单缝衍射图样的叠加，与此同时，各狭缝对应的波前满足相干条件，所以还有多缝干涉效果。
+
+光栅常量定义为相邻狭缝中对应点之间的距离。相邻狭缝对应点沿$\theta$角方向的衍射光线之间的光程差和相位差为
+\begin{align}
+    \Delta L'&=d \sin \theta\\
+    \delta '= \dfrac{2 \pi }{\lambda}\sin \theta
+\end{align}
+每条狭缝对应的光振动有相同的振幅$A_\theta=A_0\sin \alpha \alpha$，其中$\alpha=\delta /2 = \frac{\pi b}{\lambda} \sin \theta$同样可以用小矢量的方法分析，但是此时小矢量的模长不能取无穷小。可以解得合振幅为
+\begin{equation}
+    A_\theta = A_0 \dfrac{\sin \alpha}{\alpha}\dfrac{\sin N\beta}{\sin \beta}
+\end{equation}
+总光强为
+\begin{equation}
+    I_\theta = I_0(\dfrac{\sin \alpha}{\alpha})^2(\dfrac{\sin N\beta}{\sin \beta})^2
+\end{equation}
+两个平方项分别称为单缝衍射因子和多缝干涉因子。其中$\alpha=\delta /2 = \frac{\pi b}{\lambda} \sin \theta,\beta =  \frac{\pi d}{\lambda}$.可以将总光强看成是单缝衍射因子对多缝干涉因子的调制。
+\subsubsection{光栅衍射图样的特点}
+\noindentbf{光栅方程}主极强亮纹的位置取决于$$d\sin \theta=k \lambda,k\in Z$$
+这时有$\beta = k \pi$，在零处取无穷小得到多缝干涉因子为$N^2$。所以主极强的光强是单缝在该方向上光强的$N^2$倍。
+\noindentbf{主极强的半角宽度}一般我们用暗纹定义亮纹的宽度。而暗纹的位置取决于
+\begin{equation}
+    d \sin \theta = \dfrac{m}{N}\lambda , m\neq 0,\pm N ,\pm 2N,\dots
+\end{equation}
+即让多缝干涉因子的分母不等于0而分子等于0，形成相消干涉。对于两条相邻的主极强亮纹，N不变，所以$m=1,2,\dots,N-1$，相邻主极强之间有$N-1$条暗纹，因为在相邻两暗纹之间有一个次极强，所以相邻主极强之间有$N-2$条次极强，一般次极强很弱，观测不到。
+由上式可以得到主极强的半角宽度
+\begin{equation}
+    \Delta \theta = \dfrac{\lambda}{N d \cos \theta_k}
+\end{equation}
+缝数越多，主极强半角宽度越小，主极强亮纹越细。
+
+\noindentbf{缺级现象}如果某一级主极强刚好让单缝衍射因子为零，则这个主极强会被消除。
+
+例如，假设光栅的构造使得光栅常数与缝宽的比例为常数$\frac{d}{b}=i$，根据$\alpha=\delta /2 = \frac{\pi b}{\lambda} \sin \theta,\beta =  \frac{\pi d}{\lambda}$，得$i\alpha=\beta$。当$\alpha_0=k \pi ,\sin \alpha_0=0$时，必有$\beta_0=ik \pi ,\sin N \beta_0=\sin \beta=0$，即本该出现主极强的位置光强却为0.一般而言，缺级发生在k级主极强处，
+\begin{equation}
+    k=\dfrac{d}{b}j=ij,j=\pm 1,\pm 2,\dots
+\end{equation}
+$j$表示单缝衍射暗纹的级数。
+\subsubsection{光栅色散}
+根据光栅方程，当光栅常数一定时，衍射角与波长正相关，所以光栅也可能造成色散。将波长看作衍射角的函数，对光栅方程$d\sin \theta=k \lambda$求微分，得到角色散本领
+\begin{equation}
+    D=\dfrac{\delta \theta}{\delta \lambda}|_k=\dfrac{k}{d \cos \theta_k}
+\end{equation}
+它表示同一级光谱中单位波长间隔的两条谱线散开的角度大小。公式表明，光栅常量越小，光谱级数越高，谱线分得越开。但是，角色散本领只能反映主极强中心分离的程度，不能说明两条谱线是否能分辨。
+
+\noindentbf{色分辨本领}根据瑞利判据，波长为$\lambda$和$\lambda+\delta \lambda$的第k级谱线能分辨清楚的极限是：$\lambda$对应的主极强外侧第一根暗线正好与$\lambda+\delta \lambda$的主极强中心重合。即$\delta \lambda$对应的衍射角之差$\delta \theta$等于第k级主极强的半角宽度$\Delta \theta$.定义光栅的色分辨本领R为恰能分辨的两条谱线的平均波长与它们波长差的比值
+\begin{equation}
+    R=\dfrac{\lambda}{\delta \lambda}=D\dfrac{\lambda}{\Delta \theta}=\dfrac{k}{d \cos \theta_k}Nd\cos \theta_k =kN
+\end{equation}
+即光栅的色分辨本领与光栅狭缝总数与光谱级数成正比，与光栅常量无关
+\subsection{X射线在晶体上的衍射}
+\noindentbf{布拉格条件} 设对于某一晶面系，晶面间距为$d$，入射光线的掠射角为$\theta$，则相邻反射线之间的光程差及干涉极大条件为
+\begin{equation}
+    \Delta L = 2d \sin \theta =k \lambda ,k=1,2,3,\dots
+\end{equation}
+\section{光的偏振}
+\subsection{自然光与偏振光}
+横波区别于纵波的最明显标志是偏振性。自然界存在5种类型的光：自然光、部分偏振光、线偏振光、圆偏振光和椭圆偏振光。在与光的传播方向垂直的平面（纸面）上，平面偏振光的光矢量用一条直线表示。对于任一线偏振光，任取两个相互垂直的方向，可以将光强为$I_0$的线偏振光矢量的振幅$A_0$分解为$A_x,A_y$，每一个横截面累加起来，则可以将永磁环看成螺绕环，螺绕环有\begin{equation}
+    I_x=A_x^2,I_y=A_y^2,I_0=I_x+I_y,A_x=A_0 \cos \theta
+\end{equation}
+由此可以得到马吕斯定律
+\begin{equation}
+    I_x=I_0 \cos ^2 \theta
+\end{equation}
+对于自然光，由于其包含无数个没有固定相位关系且沿各个方向振动的线偏振光，所以在$x,y$方向上只能作非相干叠加，即
+\begin{equation}
+    I_x=\sum_i A_{ix}^2 , I_y=\sum_i A_{iy}^2 , I_0=2I_x=2I_y
+\end{equation}
+这就是说，自然光通过理想偏振片后光强变为原来的一半。
+\subsection{偏振光的产生和检偏}
+利用具有二向色性的材料可以制成偏振片，偏振片能透过的振动方向称为透振方向。偏振片既是起偏器又是检偏器。设线偏振光与偏振片透振方向的夹角为$\theta$，则马吕斯定律可以表述经过偏振片后的光强：
+\begin{equation}
+    I=I_0\cos ^2 \theta
+\end{equation}
+偏振度P：定义为部分偏振光的总强度中完全偏振光所占的百分比，有$P=\dfrac{I_{max}-I_{min}}{I_{max}+I_{min}}$。自然光偏振度为0，线偏振光为1.
+\subsubsection{光在反射和折射时的偏振}
+自然光照射到介质分界面时，折射光和反射光都是部分偏振光。若设垂直于入射面的偏振分量幅值为$E_s$，平行于入射面的分量幅值为$E_p$，则一般而言反射光有$E_s>E_p$,透射光有$E_s<E_p$。
+
+\noindentbf{布儒斯特定律}若光从折射率$n_1$的介质中射向折射率$n_2$的介质，当入射角$\theta_i$等于某一定值$\theta_b$时，反射光成为振动方向垂直于入射面的线偏振光，折射光称为具有最大偏振度的部分偏振光。定值$\theta_b$称为布儒斯特角，满足$\tan \theta =\dfrac{n_2}{n_1}$。利用这一定律可以获得比较纯净的线偏振光，因此布儒斯特角也叫起偏角。此时还有一个特殊结果：折射光线与反射光线垂直。
+\subsubsection{晶体的双折射现象}
+在各向异性的晶体中，一束入射光可能会分成两束，这种现象称为双折射。将晶体内符合折射定律的光叫做寻常光o光，另一个叫非常光e光。两者都是线偏振光，振动方向相互垂直。定义一些概念
+\begin{enumerate}
+    \item 光轴：光线在晶体内沿着某个方向入射时不发生双折射，o光和e光不分开，这个方向叫做光轴。
+    \item 单轴晶体与双轴晶体：只有一个光轴的晶体称为单轴晶体，比如方解石和石英。双轴晶体有两个光轴，比如云母、硫磺。
+    \item 晶体主截面：当光线在晶体某个界面入射时，此界面的法线与晶体的光轴所构成的平面称为晶体主截面。
+    \item 晶体主平面：晶体中某条光线与晶体光轴所构成的平面。实验表明o光的振动方向与晶体主平面垂直，p光与晶体主平面平行。
+    \item 正晶体：e光主折射率大于o光折射率的晶体，e光传播慢于o光。
+    \item 波片：波片是从单轴晶体上切割下来的薄片，其表面与晶体的光轴平行。$1/4$波片可以产生$\pi /2$相位差
+    \item o光和e光的光程差$\Delta L=(n_o-n_e)d$，相位差$\delta = \varphi_o -\varphi_e = \frac{2 \pi}{\lambda} (n_o -n_e)d$    
+\end{enumerate}
+注：当入射光在晶体主截面内的时候，主平面和主截面重合，这是最常见的情形。
+
+用惠更斯原理，o光传播具有各向同性，所以在晶体中的波面是球面；p光具有各向异性，在平行于光轴方向上与o光速度相同，在垂直于光轴方向上，速度相差最大，此方向上对应的折射率为e光的主折射率。{\color{red}{惠更斯作图法一定要掌握！}}
+\subsubsection{椭圆偏振光和圆偏振光的获得与检验}
+产生原理：同一方向上传播的两列频率相同的线偏振光，如果它们的振动方向互相垂直，并具有固定的相位差，则格局相位差取值的不同，合成的光矢量末端的轨迹可以是直线、椭圆或圆。规定迎着光线看时，若光矢量顺时针旋转，称为右旋偏振光，逆时针旋转时称为左旋偏振光。下面是几种合成情况
+\begin{enumerate}
+    \item $\delta = k \pi$:线偏振光。当为$2 \pi$的整数倍时，为正斜率
+    \item $\delta = 0.5 \pi$:正椭圆，当两个分量幅值相等时为圆。
+    \item 其他情况:斜椭圆
+\end{enumerate}
+椭圆偏振光和圆偏振光的获得：正入射到波片中的线偏振光，只要振动方向不与波片的光轴平行或垂直，就会被分解为o光和e光，穿过波片时就会附加相位差，一般来说就获得了椭圆偏振光。若该波片为1/4波片，且光轴与振动面的夹角为45度时，可以获得圆偏振光。
+
+椭圆偏振光和圆偏振光的检验：假定入射光有5种可能：自然光、部分偏振光、线偏振光、圆偏振光、椭圆偏振光。
+\begin{enumerate}
+    \item 通过旋转偏振片1观察，看有无消光现象。如果有，说明为线偏振光。
+    \item 观察更仔细些，如果发现透过偏振片的光强不随旋转角的变化而变化，则说明是圆偏振光或自然光。
+    \item 为了鉴别圆偏振光和自然光，撤去偏振片1，使该光通过1/4波片，再通过偏振片2观察，若变成线偏振光，则为圆偏振光，否则为自然光。
+    \item 为了鉴别椭圆偏振光和部分偏振光，同样撤去偏振片1，使该光通过1/4波片，但要旋转波片使得波片的光轴与椭圆主轴平行，再通过偏振片2观察，若变成线偏振光，则为椭圆偏振光，否则为部分偏振光。
+\end{enumerate}
+\subsection{偏振光的干涉 色偏振}
+设一束光依次经过偏振片1，波片，偏振片2，照到屏幕上。波片光轴与偏振片1的透振方向夹角为$\alpha$，与偏振片2的夹角围殴$\beta$。在波片中，o光和e光的振幅分别为$E_e=E_1\cos \alpha ,E_o=E_1 \sin \alpha$。经过偏振片2后变为$E_{e2}=E_1\cos \alpha \cos \beta ,E_{o2}=E_1 \sin \alpha \sin \beta$，且$E_{e2}E_{o2}$同向或反向。合成光强为$I_2=E_2^2=E_{e2}^2+E_{o2}^2+2E_{e2}E_{o2}\cos \delta$,其中$\delta = \delta_1+ \delta _2 \delta _3$，分别是：到达装置前的、波片产生的和偏振片2 产生的相位差。一般假定$\delta = \frac{2\pi}{\lambda}(n_e-n_o)d+0$或$\pi$.
+
+当两个偏振片的透振方向垂直时，设屏幕上接收到的光强为$I_{2\perp}$，有$\delta _3 = \pi$，此时
+\begin{align}
+    E_{e2}&=E_{o2}=\dfrac{1}{2}E_1\sin 2\alpha\\
+    I_{2\perp}&=I_1 \sin^2 2\alpha \sin ^2 [\frac{\pi d }{\lambda}(n_o-n_e)]
+\end{align}
+当$\alpha=k\dfrac{\pi}{2}$时，$\sin 2\alpha=0,I_{2\perp}=0$，出现消光现象。\\
+当$\alpha=(2k+1)\dfrac{\pi}{4}$时，$|\sin 2\alpha|=1,$$I_{2\perp}=0$达到极大值。\\
+如果波片厚度不均匀，还会看到类似于等厚干涉的图样，在$\alpha$一定的情况下，\\
+当$(n_o-n_e)d=k\lambda$时，$I_{2\perp}=0$\\
+当$(n_o-n_e)d=(2k+1)\dfrac{\lambda}{2}$时，$I_{2\perp}$达到极大值。
+并且，光强与波长有光，在白光的照射下会有色彩的变化，称为色偏振。
+
+当两个偏振片的透振方向平行时，设屏幕上接收到的光强为$I_{2//}$，有$\beta = \alpha,\delta _3 = 0$。利用这一定律可以获得比较纯净的线偏振光，因此布儒斯特角也叫起偏角。此时还有一个特殊结果：折射光线与反射光线垂直。
+\begin{align}
+    E_{e2}&=E_1 \cos^2 \alpha, E_{o2}=E_1 \sin^2 \alpha\\
+    I_{2//}&=I_1(1-\sin ^2 2\alpha \sin ^2 [\frac{\pi d }{\lambda}(n_o-n_e)])
+\end{align}
+\subsection{旋光}
+某些物质具有能使线偏振光的振动面发生旋转的性质，称为旋光性。旋光晶体使振动面旋转的角度$\varphi$与晶体厚度$d$成正比，即$\varphi = \alpha d$，其中比例系数称为该晶体的旋光率。旋光率与波长有光，所以用白光光源时会发生旋光色散。对于溶液，旋转角还与溶液的质量浓度$\rho_s$有关，即$\varphi = \alpha' \rho_s d$，$\alpha'$称为比旋光率。
+
+磁致旋光：又称法拉第旋转。对于给定的磁性介质，光的振动面转角$\varphi$与样品长度$l$和外加磁场强度$B$成正比，即$\varphi = V l B$，$V$是比例系数，称为费尔德常量，一般很小。磁致旋光与自然旋光相比，左旋与右旋和光的传播方向有关，一来一回会转过$2\varphi$，而自然旋光一来一回会使振动面回到原来的位置。

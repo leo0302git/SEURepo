@@ -1,0 +1,185 @@
+\section{无穷级数}
+\subsection{正项级数}
+\subsection{常数项级数}
+\textbf{定义}\quad 设级数的前$n$项和为部分和
+\begin{equation}\label{key}
+	S_n=\sum_{k=1}^{n}a_k
+\end{equation}
+若部分和收敛则级数收敛。
+性质
+\begin{enumerate}
+	\item 收敛级数保持线性
+	\item 改变、增删有限项不改变级数敛散性。
+	\item 级数收敛的必要条件是无穷远项无穷小。
+	\item 收敛级数满足结合律。
+\end{enumerate}
+\subsubsection{正项级数审敛准则}
+\begin{enumerate}
+	\item 正项级数收敛的充要条件是部分和数列有上界。
+	\item (比较准则1) 假设在足够远处有$ a_n\leq b_n $,若$\sum\limits_{n=1}^{\infty }b_n$收敛则$\sum\limits_{n=1}^{\infty }a_n$收敛；若$\sum\limits_{n=1}^{\infty }a_n$发散则$\sum\limits_{n=1}^{\infty }b_n$发散。
+	\item (比较准则2) 对于正项级数而言，设
+	\begin{equation}\label{key}
+		\lim\limits_{n\to \infty}\dfrac{a_n}{b_n}=\lambda
+	\end{equation}
+	若$\lambda>0$，则两个级数同敛散；
+	
+	若$\lambda=0$，且$\sum\limits_{n=1}^{\infty }b_n$收敛，则$\sum\limits_{n=1}^{\infty }a_n$收敛；
+	
+	若$\lambda=+\infty$，且$\sum\limits_{n=1}^{\infty }a_n$发散，则$\sum\limits_{n=1}^{\infty }b_n$发散；
+	
+	\item 积分判别法 对于正项级数$\sum\limits_{n=1}^{\infty }a_n$，若存在一个单调减的非负连续函数，使$ f(n)=a_n $，则级数与无穷积分$ \int_{1}^{+\infty}f(x)\dif x $同敛散。
+	\item 检比法 对于正项级数$\sum\limits_{n=1}^{\infty }a_n$设
+	\begin{equation}\label{key}
+		\lim_{n \rightarrow \infty} \dfrac{a_{n+1}}{a_n}=\lambda
+	\end{equation}
+	若$\lambda<1$,则收敛；
+	若$\lambda>1$,则发散；
+	若$\lambda=1$,则未知；
+	\item 检根法 对于正项级数$\sum\limits_{n=1}^{\infty }a_n$设
+	\begin{equation}\label{key}
+		\lim_{n \rightarrow \infty}\sqrt[n]{a_n}=\lambda
+	\end{equation}
+	若$\lambda<1$,则收敛；
+	若$\lambda>1$,则发散；
+	若$\lambda=1$,则未知；
+\end{enumerate}
+\textbf{注意，上述判别法都是充分条件，如果其中一个方法不能判断其敛散性，则须换用其他方法。}
+
+\subsubsection{变号级数审敛准则}
+特殊地，称$ \sum_{n=1}^{\infty}(-1)^{n-1}a_n $为交错级数，有Leibniz法则：若级数通项单减到零($ a_n $都是正的，交错靠-1实现)则交错级数收敛。且部分和$S_n$与和式的绝对误差不超过$a_{n+1}$
+\begin{equation}\label{key}
+	|S-S_n|\leq a_{n+1}
+\end{equation}
+\textbf{定义}\quad 绝对收敛：$ \sum_{n=1}^{\infty}|a_n| $收敛。
+
+\textbf{绝对收敛准则}\quad 若级数绝对收敛，则级数收敛。
+
+\textbf{可重排性}\quad 若级数绝对收敛，则级数任意重排后仍然绝对收敛，且和不变。
+
+
+\subsection{函数项级数}
+称$ \sum_{n=1}^{\infty}u_n(x) $为函数项级数，使其收敛的$x_0$称为\textbf{收敛点}，收敛点构成的集合称为\textbf{收敛域}。
+
+\noindent \textbf{函数项级数的一致收敛性} \quad
+若存在一个函数$S$满足
+\begin{equation}\label{key}
+	\forall \epsilon>0, \exists N(\epsilon)\in N_+,s.t. when \quad n>N(\epsilon),\forall x \in D, always \quad |S_N(x)-S(x)|<\epsilon
+\end{equation}
+则称级数一致收敛于$ S $
+\noindent \textbf{柯西一致收敛原理} \quad
+函数项级数在$D$上一致收敛的充要条件是
+\begin{equation}\label{key}
+	\forall \epsilon>0, \exists N(\epsilon)\in N_+,\text{使得}\forall n,p \in N_+,\text{当}n>N(\epsilon)\text{时},\forall x \in D,\text{恒有}|S_{n+p}(x)-S_n(x)|=|\sum_{k=n+1}^{n+p}u_k(x)|<\epsilon
+\end{equation}
+\noindent \textbf{M判别法} \quad
+如果存在一个收敛的正项级数$ \sum_{n=1}^{\infty}M_n $，且恒有$ |n_n(x)\leq M_n| $则函数项级数在$D$上一致收敛。
+
+和函数的性质
+\begin{enumerate}
+	\item （和函数的连续性）若$ u_n \in C(I) $且在区间$ I $上一致收敛于$ S $，则和函数$ S $也连续。
+	\item (和函数的可积性) 若级数一致收敛，则和函数的积分等于各项函数积分再求和。
+	\item (和函数的可导性) 若各项函数一阶连续，级数处处收敛，且各项导数的级数一致收敛，则和函数的求导等于各项函数求导再求和。
+\end{enumerate}
+\subsection{幂级数}
+形如
+\begin{equation}\label{key}
+	\sum_{n=0}^{\infty}a_nx^n\text{或}	\sum_{n=0}^{\infty}a_n(x-x_0)^n
+\end{equation}
+的函数项级数称为幂级数。
+
+\noindent \textbf{Abel定理} \quad
+对于幂级数，收敛区间是关于原点对称的一段区间。称收敛区间为$ [-R,R] $，收敛域可能还要加上端点。
+
+\subsubsection{收敛半径的求法}
+\begin{align}
+	R=\lim_{n \rightarrow \infty}\dfrac{1}{\sqrt[n]{|a_n|}}\\
+	R=\lim_{n \rightarrow \infty}|\dfrac{a_n}{a_{n+1}}|
+\end{align}
+\textbf{注意，这里与检根法和检比法恰好相反}
+\subsubsection{幂级数的性质}
+\begin{enumerate}
+	\item （内闭一致收敛性）在收敛区间内任取一个闭区间，在其上一致收敛。
+	\item 和函数连续且可导且可积。
+\end{enumerate}
+\subsubsection{函数展开为幂级数}
+常见的Maclaurin展开式要熟记
+\begin{enumerate}
+	\item \begin{equation}\label{key}
+		e^x=1+x+\dfrac{x^2}{2!}+...+\dfrac{x^n}{n!}+...
+	\end{equation}
+	\item \begin{equation}\label{key}
+		\sin x=x- \dfrac{x^3}{3!}+\dfrac{x^5}{5!}-...+(-1)^k\dfrac{x^{2k+1}}{(2k+1)!}+...
+	\end{equation}
+	\item \begin{equation}\label{key}
+		\cos x= 1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-...+(-1)^k\dfrac{x^{2k}}{(2k)!}+...
+	\end{equation}
+	\item \begin{equation}\label{key}
+		\ln (1+x)= x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-...+(-1)^{n-1}\dfrac{x^n}{n}+... x \in (-1,1]
+	\end{equation}
+	\item \begin{equation}\label{key}
+		(1+x)^\alpha=1+\alpha x + \dfrac{\alpha(\alpha -1)}{2!}x^2+...+\dfrac{\alpha(\alpha -1)...(\alpha-n+1)}{n!}x^n+...,x \in (-1,1)
+	\end{equation}
+	\item \begin{equation}\label{key}
+		\dfrac{1}{1-x}=1+x+x^2+...+x^n+...,x\in (-1,1)
+	\end{equation}
+\end{enumerate}
+
+\subsection{Fourier级数}
+\noindentbf{三角函数系}
+任意两个不同频率的函数的乘积在一个周期上的积分总为零。三角函数系是正交函数系。
+\noindentbf{Fourier展开式}
+\begin{equation}\label{key}
+	f(x)=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}(a_n \cos nx+b_n\sin nx)
+\end{equation}
+其中各项系数为
+\begin{align}
+	a_k=\dfrac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos kx
+	\dif x,k=0,1,2,...\\
+	b_k=\dfrac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin kx
+	\dif x,k=1,2,...
+\end{align}
+\subsubsection{周期函数的Fourier展开}
+\noindentbf{Dirichlet定理}
+设函数在$ [-\pi,\pi] $上分段单调，且只有有限个第一类间断点，则该函数的Fourier展开式收敛，且其和函数为
+\begin{equation}\label{key}
+	S(x)=
+	\begin{cases}
+		f(x),x\text{是连续点}\\
+		\dfrac{f(x-0)+f(x+0)}{2},x\text{是间断点}\\
+		\dfrac{f(-\pi+0)+f(\pi-0)}{2},x=\pm \pi
+	\end{cases}
+\end{equation}
+\noindentbf{Fourier正弦级数} 奇函数的展开式只含正弦项，称为Fourier正弦级数。
+
+\noindentbf{Fourier余弦级数} 奇函数的展开式只含正弦项，称为Fourier余弦级数。
+\subsubsection{定义在[0,l]上函数的Fourier展开}
+做代换$ t=\dfrac{\pi}{l} x$并做延拓，则有
+\begin{equation}\label{key}
+	g(t)=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}(a_n \cos nt+b_n\sin nt)=f(x)
+\end{equation}
+其中的Fourier系数为
+\begin{align}\label{key}
+	a_n=\dfrac{1}{\pi}\int_{-\pi}^{\pi}f(\dfrac{l}{\pi}t)\cos nt\dif t,n=0,1,2,...\\
+	b_n=\dfrac{1}{\pi}\int_{-\pi}^{\pi}f(\dfrac{l}{\pi}t)\sin nt\dif t,n=1,2,...
+\end{align}
+再将变量换回$x$便得到$ f $在$ [-l,l] $上的展开式
+\begin{equation}\label{key}
+	f(x)=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}(a_n\cos \dfrac{n\pi x}{l}+b_n \sin \dfrac{n\pi x}{l})
+\end{equation}
+其中的系数为
+\begin{align}\label{key}
+	a_n=\dfrac{1}{l}\int_{-l}^{l}f(x)\cos \dfrac{n\pi x}{l}\dif x,n=0,1,2,...\\
+	b_n=\dfrac{1}{l}\int_{-l}^{l}f(x)\sin \dfrac{n\pi x}{l}\dif x,n=1,2,...
+\end{align}
+\noindentbf{偶延拓}
+将$ f $从$ [0,l] $上的函数延拓为$ [-l,l] $上的偶函数，可使得$ f $最终展开为余弦级数。
+
+\noindentbf{奇延拓}
+将$ f $从$ [0,l] $上的函数延拓为$ [-l,l] $上的奇函数，可使得$ f $最终展开为正弦级数。
+
+\subsubsection{Fourier级数的复数形式}
+\begin{align}\label{key}
+	&f(x)=\sum_{n=-\infty}^{+\infty}C_n e^{in\omega x}
+	\intertext{其中}
+	&C_n=\dfrac{1}{2l}\int_{-l}^{l}f(x)e^{-in\omega x}\dif x,n=0,\pm 1,\pm 2,...
+\end{align}

@@ -1,0 +1,58 @@
+%这是一个格式文件，在主文件的documentclss下用input就好（要加后缀名！）
+%1.设置了水印，页眉页脚
+%2.常用的宏包
+%3.常用的自定义命令
+%不能在pdf文件在其他软件打开的时候再编译，新加的内容分不会出现（写入出现问题）
+%用\eqref{}可以自动带括号
+%\newcommand\myeqref[1]{式\eqref{#1}}出来的格式是“式（。。。）”
+%用\limits_{(\sigma)}修饰积分号，可以将默认的写在角标处修改为写在正下方，而巨算符默认在正下方（用\nolimits修改）。
+%在gather内不能用item
+%可以在enumerate环境下写equation环境
+%偏导\partial
+%上标提示符^会把后面的全部视为要上标，导致出现Missin{}之类的错误。
+%File ended while scanning use of \align.错误显示为编译不错但pdf不更新。多半是某个花括号没打。
+%破案了，分章节编译就是不要有中文路径!()子文件名称可以中文但路径不要中文，于是只能将子文件放在与主文件同一目录下（如果不想改变已有的文件夹名称的话）也可以这样写：\include{./CHAPTER_1_FOLDER/多元函数积分学}
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{fancyhdr} % 加载fancyhdr宏包，用于设置页眉和页脚
+\pagestyle{fancy} % 设置页面样式
+\fancyhf{} % 清除默认的页眉和页脚的内容
+\fancyfoot[C]{\thepage} 
+\fancyhead[L]{Copyright Reserved by Leo}
+
+\usepackage{draftwatermark}
+\usepackage{xcolor}
+\SetWatermarkScale{6} % 水印放大倍数
+\SetWatermarkText{Leo} % 水印内容
+\SetWatermarkColor{gray} % 水印颜色，RGB模式
+\SetWatermarkAngle{45} % 水印旋转角度
+\SetWatermarkFontSize{1cm} % 水印字体大小
+\SetWatermarkLightness{0.9}
+
+\usepackage{amsmath}%引用宏包要放在documentclass后面，否则报错
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{esint}
+%\usepackage{subfiles}%用于分章节管理引用，使各章节引用来源于各自的文件，编号相互独立
+\usepackage{amsthm}
+\title{\Huge 工科数学分析下-Cheatsheet}
+\author{Leo}
+\date{\today}
+
+\newcommand\myeqref[1]{式\eqref{#1}}
+\newcommand{\drho}{\dif \rho}
+\newcommand{\dsig}{\dif \sigma}
+\newcommand{\dthe}{\dif \theta}
+\newcommand\dif{\mathrm{d}}
+
+\newcommand{\noindentbf}[1]{\noindent \textbf{#1} \quad}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理与结论}[section]
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义与概念}
+\theoremstyle{remark}
+\newtheorem*{remark}{注}
+\theoremstyle{plain}
+\newtheorem*{application}{应用}

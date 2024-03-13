@@ -1,0 +1,1140 @@
+\documentclass{ctexart}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{cite}
+\newcommand*{\noindbfquad}[1]{{\noindent \bf{#1} \qquad}}
+\newcommand*{\noindbfline}[1]{{\noindent \bf{#1} \newline}}
+% \lstset{
+% 	language=Matlab, % 设置语言
+% 	basicstyle=\ttfamily, % 设置字体族
+% 	breaklines=true, % 自动换行
+% 	keywordstyle=\bfseries\color{NavyBlue}, % 设置关键字为粗体，颜色为 NavyBlue
+% 	morekeywords={}, % 设置更多的关键字，用逗号分隔
+% 	emph={self}, % 指定强调词，如果有多个，用逗号隔开
+% 	emphstyle=\bfseries\color{Rhodamine}, % 强调词样式设置
+% 	commentstyle=\itshape\color{black!50!white}, % 设置注释样式，斜体，浅灰色
+% 	stringstyle=\bfseries\color{PineGreen!90!black}, % 设置字符串样式
+% 	columns=flexible,
+% %	numbers=left, % 显示行号在左边
+% %	numbersep=2em, % 设置行号的具体位置
+% %	numberstyle=\footnotesize, % 缩小行号
+% 	%frame=single, % 边框
+% 	%framesep=1em % 设置代码与边框的距离
+% }
+
+\usepackage{fancyhdr} % 加载fancyhdr宏包，用于设置页眉和页脚
+\pagestyle{fancy} % 设置页面样式
+\fancyhf{} % 清除默认的页眉和页脚的内容
+\fancyfoot[C]{\thepage} 
+\renewcommand{\headrulewidth}{0pt} % 将页眉的横线宽度设置为0pt
+
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{amsmath}%引用宏包要放在documentclass后面，否则报错
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{esint}
+\usepackage{booktabs}
+%\usepackage{subfiles}%用于分章节管理引用，使各章节引用来源于各自的文件，编号相互独立
+\usepackage{amsthm}
+\title{Analog Electronics Cheatsheet}
+\author{Leo}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{二极管}
+\subsection{半导体物理基础知识}
+\begin{enumerate}
+    \item 本征半导体：硅和锗的单晶
+    \item 本征激发：本征半导体温度升高或收到光照时，价电子挣脱共价键的束缚，产生自由电子和空穴的现象。\underline{半导体有两种载流子}
+\end{enumerate}
+热平衡载流子浓度:本征激发与复合达到平衡时的载流子浓度（自由电子或空穴浓度）
+\begin{equation}
+    n_i=AT^{1.5}e^{\dfrac{-E_{g0}}{2kT}}
+\end{equation}
+升温或光照，$n_i$上升，导电能力上升
+
+杂质半导体：掺杂越多，多子越多，少子越少
+
+N型半导体：掺入5价元素（又叫施主杂志），多出电子；
+
+P型半导体：掺入3价元素（又叫受主杂质），多出空穴
+
+热平衡条件：设热平衡时自由电子和空穴的浓度为$n_0,p_0$，该温度下的本征载流子浓度为$n_i$，则有
+\begin{equation}
+    n_0p_0=n_i^2
+\end{equation}
+电中性条件：
+\begin{equation}
+    \begin{cases}
+        n_0=N_d+p_0\\
+        p_0=N_a+n_0
+    \end{cases}
+\end{equation}
+一般掺杂后，多子浓度近似等于掺杂浓度，即
+\begin{equation}
+    \begin{cases}
+        n_0=N_d\\
+        p_0=N_a
+    \end{cases}
+\end{equation}
+{\color{Red}注意：仅当掺杂浓度远大于$n_i$时可以这样近似，算出来若两个值相差不到一个数量级，则必须联立电中性和热平衡条件求解$n_0,p_0$}.
+
+升温，少子显著增大，可能恢复为本征半导体。先掺杂5价元素，再掺杂5价元素，可以反转杂质半导体类型。
+
+漂移电流：少子漂移，电流密度为
+\begin{equation}
+    J_pt=qp\mu_pE
+\end{equation}
+\begin{equation}
+    J_nt=-(-q)n\mu_nE
+\end{equation}
+总漂移电流密度为
+\begin{equation}
+    J_a=q(p\mu_p+n\mu_n)E
+\end{equation}
+p,n是空穴和自由电子浓度，E为外加电场强度，$\mu$为迁移率。温度越高，掺杂浓度越大，迁移率越小（因为热运动和杂质阻碍定向的载流子运动）
+
+半导体材料的电导率与电阻为
+\begin{equation}
+    \sigma=\dfrac{1}{\rho}=\dfrac{J_t}{E}=q(p\mu_p+n\mu_n)(S/cm)
+\end{equation}
+\begin{equation}
+    R=\rho \dfrac{l}{S}=\dfrac{l}{\sigma S}
+\end{equation}
+
+扩散电流：多子扩散，为浓度差导致的定向运动
+\subsection{PN结}
+阻挡层的内建电位差$V_B$为物理量
+\begin{equation}
+    V_B=V_T\ln \dfrac{N_aN_d}{n_i^2}
+\end{equation}
+$V_T$称为热点压，室温（300K）下为26mV。\\
+对该公式的理解：掺杂浓度越大，离子数越大，电位差越大；本征平衡浓度越大，本征空穴和电子越多，越挤压空间电荷区，电位差越小。升温时后者比前者影响大，所以升温使得电位差减小
+
+阻挡层宽度与对应侧的掺杂浓度成反比。
+
+PN结正偏：P区接正极，外电场与内建电场相反，削弱内建电场；主要是扩散电流。外加电压越大，多子扩散越剧烈，电流越大
+
+PN结正偏：P区接负极，外电场与内建电场相同，加强内建电场；主要是少子漂移电流。由于少子总量很少，很容易就全部漂移到另一侧，所以反向很容易出现饱和电流$I_S$，这一个值几乎与反向电压无关.{\color{Red}$I_S$与温度成正相关，因为升温使得少子变多；$I_S$还与PN结面积成正比。注意：温度每上升10°C，$I_S$增大一倍}
+
+PN结的伏安特性
+\begin{equation}
+    I=I_S(e^{\dfrac{V}{V_T}}-1)\approx I_S e^{\dfrac{V}{V_T}}
+\end{equation}
+\begin{equation}
+    V=V_T\ln \dfrac{I}{I_S}=2.3V_T\lg \dfrac{I}{I_S}
+\end{equation}
+V每增加60mV，I按10的幂次方迅速增大。当温度升高，$I_S$增大，V增大，相当于曲线左移，$V_{(on)}$减小。
+
+PN结的击穿特性：反接PN结用来制作稳压二极管
+\begin{enumerate}
+    \item 雪崩击穿：发生在低掺杂PN结，阻挡层宽，掺杂越少，击穿电压越高
+    \item 齐纳击穿：发生在高掺杂PN结，价电子直接被拉出来，击穿电压较低，且与掺杂浓度成负相关
+\end{enumerate}
+
+PN结的温度特性
+\begin{enumerate}
+    \item 温度每升高10°C，$I_S$增加一倍
+    \item 温度每升高1°C，$V_{on}$减小2.5mV
+    \item 温度越高，越难发生雪崩击穿，越容易发生齐纳击穿
+\end{enumerate}
+
+PN结的电容特性
+\begin{enumerate}
+    \item 势垒电容：阻挡层类似平板电容器，并联在PN结上
+    \item 扩散电容：正偏时多子扩散到对面变成少子，所以两侧的空穴和自由电子数都增大，相当于并联一个电容
+    \item 总电容$C_j=C_T+C_D$
+\end{enumerate}
+正偏时扩散电容远大于势垒电容，反偏时扩散电容几乎为零，势垒电容本身较小。
+\subsection{二极管电路分析方法}
+\subsubsection{二极管模型}
+大信号电路模型：等效为一个电阻，一个理想二极管和一个反向的电压源（大小为$V_D(on)$）.
+
+小信号电路模型：等效为增量结电阻$r_j$和串联电阻$r_S$
+\begin{equation}
+    r_j=\dfrac{V_T}{I_Q}
+\end{equation}
+通过直流分析得到$I_Q$，进而才可以得到小信号模型的参数。串联电阻一般题目给出。{\color{Red}注意：小信号模型算出来后，得到的一般是一个正弦量，不要只写成它的幅度！另外，最好检验一下小信号电压的幅度值$|\Delta V|<5.2mV$}
+\subsection{二极管的应用}
+稳压电路电阻参数的设计：稳压管的稳压是有限度的，必须将其上的电流控制在一定区间。
+\begin{equation}
+    \begin{cases}
+        \dfrac{V_{Imax}-V_Z}{R_{min}}-I_{Lmin}\leq I_{Zmax}\\
+        \dfrac{V_{Imin}-V_Z}{R_{max}}-I_{Lmax}\geq I_{Zmin}
+    \end{cases}
+\end{equation}
+图见p30图1-4-3
+
+双向限幅电路：两个对接的稳压二极管或两个反向的二极管
+
+钳位电路：利用了二极管导通后两端电压不变的性质，一周期后相当于为交流量加上一个偏置，可以将电容看作一个值为$V_m-V_D(on)$的电压源，电压源正极与二极管负极相接（负峰钳位）或电压源负极与二极管正极相接（正峰钳位）
+
+二极管与门：共阴极连接，出最低的
+
+二极管或门：共阳极连接，出最高的（别忘了减去开启电压）
+\section{晶体三极管}
+\subsection{工作原理}
+发射结正偏，集电结反偏{\color{Red}看书p57原理图！}节点方程：
+\begin{equation}
+    I_E=I_C+I_B
+\end{equation}
+共基极电流传输系数，描述了$I_E$转化为$I_{Cn1}$（$I_C$中受控部分）的能力
+\begin{equation}
+    \alpha=\dfrac{I_{Cn1}}{I_E}=\dfrac{I_{En}}{I_E}\cdot \dfrac{I_{Cn1}}{I_{En}}=\eta_E\eta_B 
+\end{equation}
+
+\subsubsection{共基极电流传输方程}
+*共哪一极，则传输方程就应该写成剩下两极的关系式。下面一式是恒成立的电流关系：
+\begin{equation}
+    I_C=\alpha I_E+I_{CBO}
+\end{equation}
+所以共基极电流传输方程应该写成$I_C,I_E$之间的关系：
+\begin{equation}
+    I_C=\dfrac{\alpha}{1-\alpha}I_B+\dfrac{1}{1-\alpha}I_{CBO}
+\end{equation}
+引入$\beta = \dfrac{\alpha}{1-\alpha}=\dfrac{I_C}{I_B}$称为共发射极电流放大系数，表示$I_B$对$I_C$的控制（或放大）能力，再引入穿透电流$I_{CEO}=(1+\beta)I_{CBO}$,则有
+\begin{equation}
+    I_C=\beta I_B+I_{CEO}\approx\beta I_B
+\end{equation}
+\subsubsection{共发射极电流传输方程}
+\begin{equation}
+    I_C=\alpha I_E+I_{CBO}\approx \alpha I_E
+\end{equation}
+\subsubsection{共集电极电流传输方程}
+\begin{equation}
+    I_E\approx(1+\beta)I_B
+\end{equation}
+\subsection{晶体三极管模型}
+埃博斯-莫尔模型：
+
+放大模式下，$I_C\approx\alpha I_{EBS}e^{\dfrac{V_{BE}}{V_T}}=I_S e^{\dfrac{V_{BE}}{V_T}}$，描述了发射结电压与输出电流的关系。
+ 
+在饱和模式下，$I_B$迅速增大，$I_C,I_E$迅速减小，不再满足简单倍数关系。
+
+共射等效电路模型：
+\subsubsection{放大模式}
+大信号：\\
+两个相对独立电路，左边是二极管等效大信号模型（反向电压源），右边是受控电流源。B、C极电流流入模型，E极流出。
+\begin{equation}
+    I_B\approx\dfrac{I_S}{\beta}e^{\dfrac{V_{BE}}{V_T}}
+\end{equation}
+{\color{Red}易忘：参数的温敏变化特性.助记：只有开启电压是负相关}
+\begin{enumerate}
+    \item $\dfrac{\Delta \beta}{\beta T}=0.005~0.01/°C$
+    \item $\dfrac{\Delta V_{BE(on)}}{\Delta T}=-(2~2.5)mV/°C$
+    \item $I_{CBO}(T_2)=I_{CBO}(T_1)\cdot 2^{\dfrac{T_2-T_1}{10}}$
+\end{enumerate}
+小信号模型：\\
+考虑基极串联电阻$r_{bb'}$，和晶体三极管的输入电阻$r_{b'e}$
+\begin{equation}
+    r_{b'e}=\dfrac{V_T}{I_{BQ}}=(1+\beta)r_e=(1+\beta)\dfrac{V_T}{I_{EQ}}
+\end{equation}
+左边总电阻为$r_{be}=r_{bb'}+r_{b'e}$.\\
+右边为压控电流源$g_mv_{b'e}$，跨导$g_m$有
+\begin{equation}
+    g_m=\dfrac{I_{CQ}}{V_T}=38.5I_{CQ}=\dfrac{\beta}{r_{b'e}}
+\end{equation}
+\subsubsection{饱和模式与截止模式}
+两个结均正偏，但集电结的导通电压低于发射结（因为集电结掺杂相对低）
+\begin{equation}
+\begin{cases}
+        V_{BE(sat)}=0.7V\\
+        V_{BC(sat)}=0.4V
+\end{cases}
+\end{equation}
+饱和模式的电路模型等效为两个同向反接的电压源，截止模式相当于两个断路。
+
+若考虑基区宽度调制效应，则右边还要引入一个并联电阻$r_{ce}=\dfrac{|V_A|}{I_{CQ}}$
+
+若在高频情景下，还要考虑发射结的扩散电容（较大）$C_{b'e}$和集电结的势垒电容$C_{b'c}$（接法看下标便知）（一般由题目给出数值）
+
+晶体三极管的特性曲线
+\begin{enumerate}
+    \item 输入特性曲线($v_{CE}$为常数)$i_B=f(v_{BE})$：相当于二极管伏安特性曲线，$v_{CE}$越大，$i_B$越右移（Early effect，一般不计）
+    \item 输出特性曲线($i_{B}$为常数)$i_C=f(v_{CE})$(分成四个区，比较复杂，看书)
+\end{enumerate}
+晶体三极管的频率参数
+\begin{equation}
+    \beta(j\omega)\approx\dfrac{\beta}{1+j\omega/\omega_\beta}
+\end{equation}
+\begin{equation}
+    \omega_\beta=\dfrac{1}{r_{b'e}(C_{b'e}+C_{b'c})}\approx\dfrac{1}{r_{b'e}C_{b'e}}
+\end{equation}
+取模得到$\beta(j\omega)$幅度
+\begin{equation}
+    \beta(\omega)=\dfrac{\beta}{\sqrt{1+(\omega/\omega_\beta)^2}}
+\end{equation}
+表明在高频时，放大系数会下降。当$\omega>>\omega_\beta$时，
+\begin{equation}
+    \beta(\omega)=\beta\omega_\beta/\omega
+\end{equation}
+当$\beta(\omega)$下降到1时对应的频率称为特征角频率，记为
+\begin{equation}
+    \omega_T=\dfrac{1}{r_eC_{b'e}}=\beta\omega_\beta
+\end{equation}
+\subsection{晶体三极管电路的分析方法}
+常见分析：发射极接电阻的分压式偏置电路，具有热稳性。见p78例题2-3-3.步骤：
+\begin{enumerate}
+    \item 用戴维宁等效求出B极等效电压与电阻
+    \item 假设工作在放大模式，用折算法求$I_B$
+    \item 用放大模式下的倍数关系求$I_C,I_E$
+    \item $V_{CE}=V_{CC}-I_C(R_C+R_E)$（$I_C\approx I_E$），检验是否满足放大模式的假设
+\end{enumerate}
+将$R_E$折算到B极：
+\begin{equation}
+    I_B=\dfrac{V_{BB}-V_{BE(on)}}{R_B+(1+\beta)R_E}
+\end{equation}
+{\color{Red}老是会忘记减掉开启电压！！！}
+
+分压偏置电路的设计：在其他条件均满足，还缺条件时，可以加上条件：$V_{EQ}=0.2V_{CC}$，并让上偏压电阻的电流是基极的5-10倍（一般取10）
+
+{\color{Red}注意：PNP型管的三个电流都要反向，即E极电流流入三极管，其他两极流出，在算电压的时候注意}
+\subsection{晶体三极管电路的应用原理}
+放大器的直流通路与交流通路。{\color{Red}交流分析的时候，$V_{CC}$相当于和地短接。}
+
+放大器的偏置电路，静态工作点要选好，若$I_B$太大，则$R_C$上的压降太大，导致$v_{CE}$太小，趋近于让集电结正偏，达到饱和区，会出现饱和失真，波形负顶被削。反之正峰被削，称为截止失真。
+
+跨导线性环(TL环)：用于实现平方根和平方运算
+\begin{equation}
+    \prod_{CW}i_{ck}=\lambda\prod_{CCW}i_{ck}
+\end{equation}
+\begin{equation}
+    \lambda=\dfrac{\prod_{CW}S_k}{\prod_{CCW}S_k}
+\end{equation}
+一般可以忽略所有的基极电流，让串联的输入电流(比如$i_X$)直接等于集电极电流（或发射极电流）。不能忽略基极电流时，三极管间$i_E$之间的跨导线性关系式仍然成立，但可能不能直接写$i_X=i_E$,而要写$i_X=i_E+i_B$
+
+\section{场效应管}
+\subsection{场效应管原理}
+以增强型N沟道为例
+\begin{enumerate}
+    \item 截止区：$v_{GS}<V_{GS(th)}$
+    \item 非饱和区（线性电阻区）：两个极都导通，$v_{GS}>V_{GS(th)},0<v_{DS}<v_{GS}-V_{GS(th)}$
+    \item 饱和区（放大区）：漏极截止，源极导通，$v_{GS}>V_{GS(th)},v_{DS}>v_{GS}-V_{GS(th)}$
+\end{enumerate}
+
+{\color{Red}区分六种场效应管}
+\begin{enumerate}
+    \item 增强型与耗尽型：耗尽型型在栅源电压为零时有电流，而增强型没有
+    \item N沟道还是P沟道：从电路符号来看，总是从P指向N的。从伏安特性来看，由于N沟道以电子作为载流子，所以栅极越正，载流子浓度越大，越导电，所以电流随栅源电压增大而增大
+    \item 结型场效应管JFET：只能在栅源之间加反偏，所以伏安曲线中有效的线对应的$v_{GS}$都要么全正要么全负，以0为界。（增强型虽然也是要么全正要么全负，但是不以0为界）
+\end{enumerate}
+\subsection{EMOS特性}
+\subsubsection{伏安特性}
+转移特性曲线族：
+\begin{equation}
+    i_D=f(v_{GS})|_{v_{DS}=const}
+\end{equation}
+输出特性曲线族：
+\begin{equation}
+    i_D=f(v_{DS})|_{v_{GS}=const}
+\end{equation}
+可以划分为4个区
+\begin{enumerate}
+    \item 非饱和区：$v_{GS}>V_{GS(th)},v_{DS}<v_{GS}-V_{GS(th)}$
+    \item 饱和区：$v_{GS}>V_{GS(th)},v_{DS}>v_{GS}-V_{GS(th)}$
+    \item 截止区：$v_{GS}<V_{GS(th)}$
+    \item 击穿区：$v_{DS}$大到足以使漏区与衬底之间的PN结反向雪崩击穿时，$i_D$迅速增大，进入击穿区；或者当沟道较短的时候，还会发生类似穿通击穿，夹断点移到源区；或者当栅源电压过大，使得绝缘层被击穿
+\end{enumerate}
+\subsubsection{衬底效应}
+对于N沟道管，B极接最低电位，但S极不一定接到B极或最低电位，这时有可能产生$V_S>V_B$，即$v_{BS}<0$。相当于反型层与衬底之间的PN结加反偏，空间电荷区变大，P衬底中负离子数变多，但是$v_{GS}>0$不变，所以绝缘层上正离电荷数不变，由电荷守恒，有N沟道中的电子数变少，所以导电能力下降。。$v_{BS}$越负，沟道导电能力越差，同$v_{GS}$下$i_D$越小，相当于$V_{GS(th)}$越大。
+\subsection{耗尽型场效应管}
+\subsubsection{哪些符号变了}
+\begin{enumerate}
+    \item $v_{GS(th)}$：与沟道类型有关。N沟道要加负的$v_{GS}$才能排斥载流子，所以开启电压是负的（而增强型开启电压是正的）；反之P沟道的开启电压是正的（而增强型开启电压是负的）。
+    \item $v_{DS}$：与载流子极性有关。只需要记住载流子从源极流向漏极即可。比如N沟道电子载流，$v_{DS}>0$
+    \item $i_D$：在电路图中的$i_D$方向就是沟道中的电流方向，同样要看载流子极性，一般还会认为栅极电流约等于零
+    \item 饱和区、非饱和区的判断式：从定义出发：非饱和区就是栅源和栅漏都导通。先看栅源。对N沟道，栅源导通的条件是$v_{GS}>v_{GS(th)}$($v_{GS(th)}$带正负)；再看栅漏。要使$v_{GD}=v_{GS}-v_{DS}>v_{GS(th)}$
+\end{enumerate}
+{\color{Red}饱和区、非饱和区的判断比较绕，最好结合题目具体分析}
+
+\subsection{场效应管等效电路}
+\subsubsection{大信号模型}
+非饱和区
+\begin{equation}
+    i_D=\dfrac{\mu_n C_{ox} W}{2l}[2(v_{GS}-V_{GS(th)})v_{DS}-v_{DS}^2]
+\end{equation}
+当$v_{DS}$很小时，可以忽略其二次方项，简化为
+\begin{equation}
+    i_D=\dfrac{\mu_n C_{ox} W}{l}(v_{GS}-V_{GS(th)})v_{DS}
+\end{equation}
+{\color{Red}上式算完记得检验$v_{DS}$是否很小}
+
+饱和区
+\begin{equation}
+    i_D=\dfrac{\mu_n C_{ox} W}{2l}(v_{GS}-V_{GS(th)})^2
+\end{equation}
+计及沟道调制效应
+\begin{equation}
+    i_D=\dfrac{\mu_n C_{ox} W}{2l}(v_{GS}-V_{GS(th)})^2(1-\dfrac{v_{DS}}{V_A})=\dfrac{\mu_n C_{ox} W}{2l}(v_{GS}-V_{GS(th)})^2(1+\lambda{v_{DS}})
+\end{equation}
+{\color{Red}算完记得检验是否工作在所假设的区}
+\subsubsection{小信号模型}
+饱和区小信号模型等效于一个压控电流源$g_mv_{gs}$和电阻$r_{ds}$的并联，或者压控电流源$\mu v_{gs}$和电阻$r_{ds}$的串联.参数计算如下
+\begin{equation}
+    g_m=2\sqrt{\dfrac{\mu C_{ox} W}{2l}I_{DQ}(1+\lambda V_{DSQ})}=\dfrac{\mu C_{ox} W}{l}(v_{GS}-V_{GS(th)})(1+\lambda V_{DSQ})
+\end{equation}
+一般可忽略$(1+\lambda V_{DSQ})$项。
+\begin{equation}
+    g_{ds}=\dfrac{\lambda I_{DQ}}{1+\lambda V_{DSQ}}\approx\lambda I_{DQ}
+\end{equation}
+\begin{equation}
+    \mu = g_m r_{ds}
+\end{equation}
+若计及衬底效应，还要在$g_mv_{gs}$旁并联一个压控电流源$g_{mb}v_{bs}$，电流方向一样，$g_{mb}$为一工程量近似为
+\begin{equation}
+    g_{mb}=\eta g_m,\eta = 0.1~0.2\text{教材例题取0.1}
+\end{equation}
+
+非饱和区，MOS管等效于一个电阻$r_{ds}=\dfrac{1}{g_{ds}}$
+\begin{equation}
+    g_{ds}=\dfrac{\mu C_{ox} W}{l}(V_{GSQ}-V_{GS(th)})
+\end{equation}
+\subsection{JFET}
+\subsubsection{工作原理}
+正常工作时，PN结必须反偏，所以$v_{GS}=0$是极限状态。沟道在不加栅源电压，即$v_{GS}=0$时电流最大，所以其电路符号类似于耗尽型，是一条实线。箭头仍然从P指向N。
+N沟道：$V_G<V_S<V_D$,$v_{GS}<0,v_{DS}>0$，$v_{GS}$越负，PN结反偏越厉害，沟道越窄，电流越小；$v_{DS}$越大，$V_D$越大，$V_{DG}$越大，漏区反偏越厉害，沟道越窄。漏区夹断前，沟道电阻近似不变，为线性电阻区（非饱和区）；夹断后，$i_D$基本不变；再大，漏区PN结击穿
+\subsubsection{伏安特性}
+非饱和区
+\begin{equation}
+    i_D=I_{DSS}\left[ -2(1-\dfrac{v_{GS}}{V_{GS(off)}})\dfrac{v_{DS}}{V_{GS(off)}}-(\dfrac{v_{DS}}{V_{GS(off)}}) \right]
+\end{equation}
+$I_{DSS}$是$v_{GS}=0,v_{GD}=V_{GS(off)}$的漏极电流。当$v_{DS}$很小时，可以忽略其二次方项，JFET可以看成阻值受$v_{GS}$控制的线性电阻器
+\begin{equation}
+    R_{on}=\dfrac{V_{GS(off)}^2}{2I_{DSS}}\dfrac{1}{v_{GS}-V_{GS(off)}}
+\end{equation}
+饱和区:可以等效为一个压控电压源，压控函数为
+\begin{equation}
+    i_D=I_{DSS}(1-\dfrac{v_{GS}}{V_{GS(off)}})^2(1-\dfrac{v_{DS}}{V_A})
+\end{equation}
+小信号模型相同，参数为
+\begin{equation}
+    g_m=g_{m0}(1-\dfrac{V_{GSQ}}{V_{GS(off)}})\approx g_{m0}\sqrt{\dfrac{I_{DQ}}{I_{DSS}}}
+\end{equation}
+\begin{equation}
+    g_{m0}=-\dfrac{2I_{DSS}}{V_{GS(off)}}
+\end{equation}
+\begin{equation}
+    g_{ds}\approx \dfrac{I_{DQ}}{|V_A|}
+\end{equation}
+\subsection{场效应管应用原理}
+\subsubsection{有源电阻}
+可以串联构成分压器，通过调节宽长比来调节分压比例。都在饱和区时，利用饱和区伏安函数、$i_{D1}=i_{D2}$、$V_1+V_2=V_{DD}$来列方程求解
+\subsubsection{MOS开关与逻辑门电路}
+MOS开关一般是CMOS开关，即一个ENMOS和一个EPMOS并联。
+
+非门：PMOS源极与衬底接高电压，栅极低压时导通，高电平NMOS源极与衬底接地，栅极高压时导通。与非门与或非门原理类似
+
+锁存器
+\section{放大器基础}
+\subsection{放大器基本概念}
+求功率的一般表达式：$P=\dfrac{1}{2\pi}\int _0^2\pi v\cdot i d(\omega t)$
+
+晶体三极管输入功率：$P_I=V_{BB}I_{BQ}+\frac{1}{2}V_{sm}I_{bm}$，可见直流源和交流源的能量消耗在三极管的发射结上。
+
+集电极电压提供的功率：$P_D=V_{CC}I_{CQ}$
+
+负载上的功率：$P_L=I_{CQ}^2R_L+\frac{1}{2}I_{cm}^2R_L$
+
+加到三极管上的功率：$P_C=V_{CC}I_{CQ}-I_{CQ}^2R_L-\frac{1}{2}I_{cm}^2R_L$
+\begin{equation}
+    P_D=P_L+P_C
+\end{equation}
+直流偏置$V_{CC}$不仅保证三极管工作在放大去，也提供能量，三极管只起到能量转换器的作用。
+\subsection{放大器的性能指标}
+四端口网络的方向定义，电压$v_i,v_o$都是上正下负，电流$i_i,i_o$都是从上方流入网络。四个量都是紧贴网络的，不带上激励源或者负载。
+
+{\noindbfquad{输入电阻}}
+\begin{equation}
+    R_i=\dfrac{v_i}{i_i}
+\end{equation}
+对于电压信号源，输入电阻$R_i$越大，放大器输入端口得到的实际电压信号越大；对于电流信号源来说，输入电阻越小，放大器输入端口得到的实际电流信号越大。$R_i$是紧贴网络的。
+
+\noindbfline{输出电阻}
+{\color{red}{定义为：移开输出负载，在输出端加上电压$v$，除以因此产生的电流$i$，即$R_o=v/i$.注意，此时独立信号源置零但保留内阻。}}也可以定义为放大器输出端的开路电压$v_{ot}$与短路电流$i_{on}$比值的相反数。
+
+\noindbfline{增益}
+增益又称放大倍数，定义为输出量对输入量的比值
+\begin{align}
+    A_v=\dfrac{v_o}{v_i}\\
+    A_i=\dfrac{i_o}{i_i}\\
+    A_g=\dfrac{i_o}{v_i}\\
+    A_r=\dfrac{v_o}{i_i}
+\end{align}
+由于$v_i=i_iR_i$,{\color{red}{$v_o=-i_oR_L$}}，所以有如下的常用转换公式：
+\begin{equation}
+    A_v=-A_i\dfrac{R_L}{R_i}
+\end{equation}
+负载开路增益:为了表明负载$R_L$对增益的影响，往往引入负载开路或短路时的增益。开路电压增益定义为
+\begin{equation}
+    A_{vt}=\dfrac{v_{ot}}{v_i}=A_v(R\rightarrow \infty)
+\end{equation}
+当负载不是无穷大时，可以写出电压增益与负载增益之间的关系式
+\begin{equation}
+    A_v=\dfrac{A_{vt}R_L}{R_o+R_L}
+\end{equation}
+类似地，定义负载短路时的电流增益
+\begin{equation}
+    A_{in}=\dfrac{i_{on}}{i_i}=A_i(R_L\rightarrow 0)
+\end{equation}
+$A_i$与$A_{in}$之间的关系式为
+\begin{equation}
+    A_i=A_{in}\dfrac{R_o}{R_o+R_L}
+\end{equation}
+源增益：定义为输出值对源的比值
+\begin{align}
+    A_{vs}=\dfrac{v_o}{v_s}=A_v\dfrac{R_i}{R_s+R_i}\\
+    A_{is}=\dfrac{i_o}{i_s}=A_i\dfrac{R_s}{R_s+R_i}
+\end{align}
+{\color{red}{在讨论电压比值时，总是默认激励源的电阻是与理想电压源串联的，在讨论电流时，总是默认并联的}}
+\noindbfquad{频率响应}在一般情况下，增益应该是与频率有关的，应该定义为关于频率的复函数\
+\begin{equation}
+    A(j\omega)A(\omega)e^{j\varphi A(\omega)}
+\end{equation}
+一般还会将频率用对数坐标表示，增益幅度用分贝数表示
+\begin{equation}
+    A(\omega)|_{dB}=20\lg A(\omega)
+\end{equation}
+规定增益从中频区增益$A_I$下降到0.707倍或3dB所对应的频率为上限频率和下限频率，通频带表示为$BW_{0.7}=f_H-f_L$
+\subsection{基本放大器}
+\subsubsection{场效应管基本放大器}
+基本分析原则：
+\begin{enumerate}
+    \item 标注好g,s,d三极。
+    \item g和d，s之间断路
+    \item d,s之间有从d到s的压控电流源$g_mv_{gs}$和$r_{ds}$
+    \item 当栅极和源极之间没有相连时，要考虑衬底效应，在d到s之间再加一个$g_{mb}v_{bs}$，其中$g_{mb}=\eta g_m$
+    \item 常用的近似：$r_{ds}$很大（因为相当于一个反偏的二极管），所以有$g_mr_{ds} \gg 1,r_{ds}\gg R_L'$
+    \item 分析平面的选取：$R_i$是除了激励源及其内阻以外往网络看的电阻；$R_o$是除了负载$R_L$之外往网络看的电阻；$R_o'$有时是仅考虑场效应管的内阻，有时候还要与偏置电阻$R_D$或$R_S$并联；$R_L'$有时是$R_L//R_D$，有时是$R_L//R_D//r_{ds}$
+\end{enumerate}
+下面汇总了一些基本的性能指标和端口特性
+
+\noindbfline{共源放大器}
+\begin{align}
+    R_i&\rightarrow \infty\\
+    R_o'&=r_{ds}\\
+    R_o&=r_{ds}//R_D\\
+    A_i&\rightarrow infty\\
+    A_v&=-g_m(R_o//R_L)
+\end{align}
+共源放大器是反向（电压）放大器
+
+\noindbfline{共栅放大器}
+\begin{align}
+    R_i&=\dfrac{r_{ds}+R_L'}{1+g_mr_{ds}}\\
+    R_o'&=R_s+(1+g_mR_s)r_{ds}\\
+    R_o&=R_o'//R_D\\
+    A_i&=-\dfrac{R_D}{R_D+R_L}\\
+    A_v&=(1+g_mr_{ds})\dfrac{R_L'}{r_{ds}+R_L'}
+\end{align}
+
+\noindbfline{共漏放大器}
+\begin{align}
+    R_i&\rightarrow \infty\\
+    R_o'&=r_{ds}//\dfrac{1}{g_m}\\
+    R_o&=R_o'//R_S\\
+    A_i&\rightarrow \infty\\
+    A_v&=\dfrac{g_mR_L'}{1+g_mR_L'},R_L'=R_L//R_D//r_{ds}
+\end{align}
+小结：三种基本组态放大器的性能指标比较(记共源为CS，共栅为CG，共漏为CD)
+\begin{enumerate}
+    \item $R_i:\infty=CS=CD>CG$
+    \item $A_i:\infty=CS=CD>1>CG$
+    \item $R_o':CG\geq CS >CD$，等号在不考虑信号源内阻时取得。
+    \item $A_v:CG>|CS|>1>CD$
+\end{enumerate}
+\subsubsection{三极管基本放大器}
+基本分析原则
+\begin{enumerate}
+    \item 标注好b,e,c三极
+    \item be之间接$r_{b'e}$
+    \item ce之间有从c到e的电流源$g_mv_{be}$(N沟道)，或者直接用电流的倍数关系，再将电流增益换算成电压增益
+    \item 熟练运用折算法求be之间的电阻（不要忘记加上$r_{b'e}$）
+\end{enumerate}
+\noindbfline{共射放大器}
+\begin{align}
+    R_i&=r_{bb'}+r_{b'e}+(1+\beta)R_E \quad \text{(考虑$R_E$但不考虑$r_{ce}$)}\\
+    R_o'&=r_{ce}\\
+    R_o&=r_{ce}//R_C\\
+    A_i&=\beta \dfrac{R_o}{R_o+R_L}=g_mr_{b'e}\dfrac{R_o}{R_o+R_L}\\
+    A_v&=-\dfrac{\beta R_L'}{r_{bb'}+r_{b'e}}=-g_m(r_{ce}//R_C//R_L) \quad \text{(最后一个等式不考虑$r_{bb'}$)}
+\end{align}
+如果要考虑$r_{ce}$，则输出电阻要复杂的多，基本思想是把与$R_E$右边的整体等效为$R_e$
+\begin{align}
+    R_o'=(1+\dfrac{\beta R_E}{R_S+r_{be}+R_E})r_{ce}+\dfrac{(R_S+r_{be})R_E}{R_S+r_{be}+R_E}
+\end{align}
+\noindbfline{共基放大器}
+\begin{align}
+    R_i&=\dfrac{r_{bb'}+r_{b'e}}{1+\beta}\\
+    R_o'&=R_S//r_{be}+r_{ce}[1+g_m(R_S//r_{be})]\\
+    R_o&=R_o'//R_C\\
+    A_i&=-\alpha \dfrac{R_C}{R_C+R_L}\\
+    A_v&=\beta \dfrac{R_L'}{r_{bb'}+r_{b'e}}
+\end{align}
+\noindbfline{共集放大器}
+\begin{align}
+    R_i&=r_{bb'}+r_{b'e}+(1+\beta)(R_E//R_L')\\
+    R_o'&=\dfrac{r_{bb'}+r_{b'e}+R_S}{1+\beta}\\
+    R_o&=R_o'//R_E\\
+    A_i&=-\dfrac{(1+\beta)R_E}{R_E+R_L'}\\
+    A_v&=\dfrac{(1+\beta)(R_E//R_L')}{r_{bb'}+r_{b'e}+(1+\beta)R_E'}
+\end{align}
+小结：三种双极型基本组态放大器的性能指标比较(记共源为CS，共栅为CG，共漏为CD)
+\begin{enumerate}
+    \item $R_i:CE>CC>CB$
+    \item $A_i:CE\approx CC >1>CB$
+    \item $R_o':CB>CE>CC$，等号在不考虑信号源内阻时取得。
+    \item $A_v:CE\approx CB >1 >CC$
+\end{enumerate}
+\subsubsection{集成MOS放大器}
+\noindbfline{E/E MOS 和E/D MOS放大器}
+必须考虑负载管的衬底效应。基本分析方法还是将两个管子的三个极都标出来，然后再依次考察$r_{ds},g_mv_{gs},g_{mb}v_{bs}$，最后再分析电流源的退化情况。
+\noindbfline{CMOS放大器}
+不用考虑衬底效应，可以直接通过调整宽长比和直流电流来设置增益值
+\begin{align}
+    r_{ds}=1/(\lambda I_{DQ})\\
+    g_m=\sqrt{2\mu_n C_{ox} WI_{DQ}/l}\\
+    A_v=-\dfrac{1}{\sqrt{I_{DQ}}}(\dfrac{1}{\lambda_1+\lambda_2})\sqrt{\dfrac{2\mu_n C_{ox} W_1}{l_1}} \quad \text{$T_1$做放大管}
+\end{align}
+\noindbfline{推挽CMOS放大器}
+两个管子互为负载管，同为放大管。这个结构在输入电压很大或很小的情况下为反相器。
+\begin{equation}
+    A_v=-\dfrac{g_{m1}+g_{m2}}{g_{ds1}+g_{ds2}}
+\end{equation}
+\noindbfline{集成共栅/共漏放大器}
+共栅放大器若考虑衬底效应则
+\begin{align}
+    R_i=\dfrac{r_{ds1}+r_{ds2}}{1+(g_{m1}+g_{m2})r_{ds1}}\\
+    A_v=\dfrac{(1+(g_{m1}+g_{m2})r_{ds1})r_{ds2}}{r_{ds1}+r_{ds2}}\approx (g_{m1}+g_{m2})(r_{ds1}//r_{ds2})
+\end{align}
+共漏放大器为
+\begin{equation}
+    A_v=\dfrac{g_{m1}}{g_{m1}+g_{mb1}+1/r_{ds1}+1/r_{ds2}}\approx \dfrac{g_{m1}}{g_{m1}+g_{mb1}}=\dfrac{1}{1+\eta}
+\end{equation}
+小结：三种基本组态放大器的主要指标计算公式
+\begin{center}
+    \begin{table}[H]
+        \renewcommand\arraystretch{1.8}
+        \begin{tabular}{c|ccc}
+            \hline 
+            ~ & 共射 & 共基 & 共集 \\ \hline
+            $R_i$ & $r_{be}+R_E \dfrac{(1+\beta)r_{ce}+R_L'}{R_E+R_L'+r_{ce}}$& $\dfrac{r_{bb'}+r_{b'e}}{1+\beta}$ & $r_{be}+(1+\beta)R_L'$ \\  
+            $R_o'$ & $(R_s+r_{be})//R_E +r_{ce}(1+\dfrac{\beta R_E}{R_E+R_s+r_{be}})$ & $(r_{be}//R_s)+[1+g_m(r_{be}//R_s)]r_{ce}$ &  $\dfrac{r_{be}+R_s}{1+\beta}$ \\ 
+            $A_{ic}$ & $\beta$ & $-\alpha$ & $-(1+\beta)$ \\ 
+            $A_v$ & $-\beta\dfrac{R_L'}{r_{be}+(1+\beta)R_E}=-g_m(r_{ce}//R_C//R_L)$ &$ g_mR_L'$& $\dfrac{(1+\beta)R_L'}{r_{be}+(1+\beta )R_L'}$ \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+注意：这里的$R_s$的下标为小写，表示电流源内阻。若不考虑$r_{ce}$，则共射的输入电阻可以简化为$r_{be}+(1+\beta)R_E$；若发射极不接$R_E$，则还可以进一步简化。
+\begin{center}
+    \begin{table}[H]
+        \renewcommand\arraystretch{1.8}
+        \begin{tabular}{cccc}
+        \hline 
+           ~ & 共源 & 共栅 & 共漏 \\ \hline
+           $R_i$ & $\infty$ & $\dfrac{r_{ds}+R_L'}{1+g_mr_{ds}}$ & $\infty$ \\
+           $R_o'$ & $R_S+(1+g_mR_S)r_{ds}$ &$R_S+(1+g_mR_S)r_{ds}$& $ r_{ds}//\dfrac{1}{g_m}$ \\
+           $A_{ic}$ &$ \infty $ &$ -1$ & $\infty$\\
+           $A_v$ & $\dfrac{-g_mR_L'}{1+g_mR_S+\frac{R_L'}{r_{ds}}}$ &$g_m(r_{ds}//R_D//R_L)$ &$\dfrac{g_mR_L'}{1+g_mR_L'}=\dfrac{g_m(R_S//R_L)}{1+g_m(R_S//R_L)}$ \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+注意：这里的$R_S$指的是源极接的电阻。发现共发共源共基共栅的$A_v$都可以统一为$g_mR_L'$，但是要注意$R_L'$的含义各不相同，有些只定义为$R_C//R_L$，有些定义为$r_{ds}//R_C//R_L$。另外还需牢记$R_S+(1+g_mR_S)r_{ds}$这种形状的式子，其对应的电路结构在很多场景下都会出现。
+
+
+
+\subsection{差分放大器}
+差模信号：如果作用在差分放大器两端的输入信号数值相同，极性相反，即$v_{i1}=-v_{i2}$。则称它们为一对差模输入信号，表示为
+\begin{equation}
+    v_{id1}=-v_{id2}=v_{id}/2,v_{id1}-v_{id2}=v_{id}
+\end{equation}
+共模信号：如果作用在差分放大器两输入端的输入信号数值相等，极性相同，即$v_{i1}=v_{i2}$。则称它们为一对共模输入信号，表示为$v_{ic1}=v_{ic2}=v_{ic}$
+{\color{red}{差分放大器等效电路是差模还是共模，取决于输入的激励是差模还是共模，而不是输出}}
+任何一对输入信号都可以分解为一对差模信号和一对共模信号
+\begin{align}
+    v_{i1}=v_{ic}+\dfrac{v_{id}}{2}\\
+    v_{i2}=v_{ic}-\dfrac{v_{id}}{2}\\
+    v_{ic}=\dfrac{v_{i1}+v_{i2}}{2}\\
+    v_{id}=v_{i1}-v_{i2}
+\end{align}
+输出信号也有类似的定义
+\begin{align}
+    v_{oc}=\dfrac{v_{o1}+v_{o2}}{2}\\
+    v_{od}=v_{o1}-v_{o2}
+\end{align}
+\subsubsection{差模等效电路及其性能指标}
+考虑共源极的MOS差分放大器。源极的偏置电阻$R_{SS}$对于差模信号而言是短路的，对于共模信号是翻倍的。
+
+定义双端增益:
+\begin{equation}
+    A_{vd}=\dfrac{v_{od}}{v_{id}}=-g_mR_D
+\end{equation}
+定义单端增益：
+\begin{align}
+    A_{vd1}=\dfrac{v_{od}/2}{v_{id}}=\dfrac{1}{2}A_{vd}=-\dfrac{1}{2}g_mR_D\\
+    A_{vd2}=\dfrac{-v_{od}/2}{v_{id}}=-\dfrac{1}{2}A_{vd}=\dfrac{1}{2}g_mR_D
+\end{align}
+{\color{red}{注意：计算单端增益时，输出差模电压取了一半，但是输入的差模信号没变，所以值为双端的一半}}
+定义差模输入电阻为从两个输入端看进去的视在电阻：
+\begin{equation}
+    R_{id}=\dfrac{v_{id}}{i_{id}}
+\end{equation}
+定义差模输出单端电阻为放大器任一输出端到地的电阻，双端输出电阻为从$v_{od}$两端看向放大器的电阻，为两放大器单端电阻之和。
+{\color{blue}{如果电路两边完全对称，则可以采用半电路分析法：把差模输入看作只加在一半电路上，计算出来的增益就是全电路的差模增益。计算输出与输入电阻时，单端加倍即为双端的结果。}}
+
+{\color{red}{注意区分镜像电流源做负载的差分放大器（双转单）和普通电阻做负载的差分放大器，前者并非对称电路单边增益就是总的增益，$V_{od}$已经失去意义且必须要从电流源的输出点引出$V_o$；后者电路对称，单端增益是双端的一半。计算差模输出电阻时，前者就是输出侧单边电路的输出电阻，后者要从双端口看进去。看书后习题4-55和4-72}}
+\subsubsection{共模等效电路及其性能指标}
+*教材认为输出共模信号始终为零，但这是建立在$v_{oc}=v_{oc1}-v_{oc2}$这一定义上的。但共模应该定义为两者的平均值，而平均值不为零。根据教材的定义，我们不讨论双端的共模增益，题目问的共模增益，就只需要当成单边增益算就行了
+\begin{equation}
+    A_{vc}=A_{vc1}=A_{vc2}=\dfrac{-g_mR_D}{1+2g_mR_{SS}}\approx\dfrac{-R_D}{2R_{SS}}
+\end{equation}
+
+\subsubsection{共模抑制比}
+定义为差模电压增益对共模电压增益比值的绝对值
+\begin{equation}
+    K_{CMR}=\left |\dfrac{A_{vd}/2}{A_{vc}}\right |\approx g_mR_{SS}
+\end{equation}
+一般用分贝数表示
+\begin{equation}
+    K_{CMR}(dB)=20\lg K_{CMR}
+\end{equation}
+在实际应用中，两边的输入一般不会完全对称，也就是说差模信号中有共模成分，反之亦然。理想情况($A_{vd1}=A_{vd2},A_{vc1}=A_{vc2}$)下，单端输出转双端输出时，仅有差模成分而共模成分相互抵消.实际情况下，定义
+\begin{align}
+    A_{(d-d)}=\dfrac{A_{vd1}+A_{vd2}}{2}\\
+    A_{(c-d)}=A_{vc1}-A_{vc2}\\
+    K_{CMR}=\left |\dfrac{A_{(d-d)}}{A_{(c-d)}}\right |
+\end{align}
+这样的定义使用范围更加广泛。
+\subsubsection{失调与温漂}
+\subsection{电流源电路及其应用}
+镜像电流源的基本思想是：用一个管子的$V_{GS}$或$V_{BE}$做另一个管子的偏置，这样在两个管子的工艺相同时，输出的电流就成镜像关系。
+\subsubsection{镜像电流源电路}
+$V_{CC}$产生$V_{BE1}$，继而产生$V_{BE2}$，是$I_0$导致了$I_R$。
+基本关系
+\begin{align}
+    I_R&=i_{C1}+i_{B1}+i_{B2}\\
+    I_0&=\dfrac{I_R}{1+2/\beta}\approx I_R(1-\dfrac{2}{\beta})
+\end{align}
+若计及基区宽度调制效应，则修正为
+\begin{align}
+    I_0=(1-\dfrac{2}{\beta})(\dfrac{V_A-V_{CEQ2}}{V_A-V_{BE(on)}})I_R
+\end{align}
+为了减小$\beta$的影响，可以在$I_R$处接上一个双极性管，进一步减少$I_R$的分流。
+\begin{align}
+    I_0&=\dfrac{\beta^2+\beta}{\beta^2+\beta+2}I_R\\
+    I_R&=\dfrac{V_{CC}-2V_{BE(on)}}{R}
+\end{align}
+为了让电流可以成比例映射，我们构建了比例式镜像电流源。对于晶体三极管，为了方便计算，我们认为比例式镜像电流源的$v_{be}$仍然是相等的，这时有比例关系
+\begin{equation}
+    I_0=\dfrac{I_RR_1}{R_2}
+\end{equation}
+算完注意检查近似条件：集电极电流之比不超过十倍。
+
+对于MOS管，自带比例关系：在同种工艺下，认为电流与宽长比成正比。对于MOS管构成的电流源还有一个晶体管不具有的功能：作动态电流镜和开关电流电路。利用了MOS管基极断路后$v_{gs}$不变，电流可保持的性质。
+\subsubsection{级联型电流源电路}
+利用了MOS的$r_{ds}$很大的特性，级联型电流源的输出电阻近似为上级镜像电流源输出管的本征电压增益乘以下级的输出电阻，其值远大于基本镜像电流源的输出电阻，更接近于恒流源。
+\subsubsection{威尔逊电流镜}
+这是一种利用反馈改进性能的电流源。之前的电流源处理的都是$\beta,V_A,R_o$带来的误差，但是并没有处理$I_0$本身不稳定带来的$I_R$漂移。但是威尔逊电镜可以抑制$I_0$本身不稳定带来的影响。
+\subsubsection{有源负载差分放大器}
+一般采用电流源负载的CMOS放大器结构。可以利用镜像电流源输出端的半电路计算增益和输出电阻，若左进右出则差模电压增益为正。共模增益始终为零
+\subsection{多级放大器}
+多级放大器的基本问题有：
+\begin{enumerate}
+    \item 耦合方式：换能器与放大器之间的连接、级与级之间的连接、最后一级放大器与输出负载之间的连接。
+    \item 放大器的组态：只有共射或组合放大器才能既提供足够大的电压增益又提供足够的的电流增益。共射在多级放大器中提供增益的主体。
+    \item 静态工作点问题
+\end{enumerate}
+其中，级与级之间的连接有阻容耦合、变压器耦合和直接耦合三种方式，直接耦合要考虑级间电平配置，防止任何一级的放大器工作在近饱和区。
+\subsection{放大器的频率响应}
+\subsubsection{复频域分析方法}
+小信号放大器属于线性时不变系统，可以通过拉普拉斯变换写出系统的传递函数
+\begin{equation}
+    A(s)=\dfrac{Y(s)}{X(s)}=\dfrac{b_m s^m+b_{m-1}s^{s-1}+\cdots +b_0}{a_n s^n+a_{n-1}s^{n-1}+\cdots +a_0}
+\end{equation}
+进行因式分解，得到
+\begin{equation}
+    A(s)=A_0 \dfrac{(s-z_1)(s-z_2)\cdots (s-z_m)}{(s-p_1)(s-p_2)\cdots (s-p_n)}
+\end{equation}
+式中$A_0$称为标尺因子，$z_1,\cdots z_m$称为零点，$p_1,\cdots p_n$称为极点（复变函数中的概念）。系统中的极点数目等于电路中独立电抗元件数，有限值零点的数目等于极点数目减去无穷远处零点数目。无穷远处零点可以对各个独立元件分别看当频率趋于无穷时电路的输出是否为零，以此确定零点。
+
+一般题目给出传递函数。当系统为实数极零点，系统的频率特性仅由常数因子和若干一阶极零点因子组成（高等代数：有理数域内任何多项式都可以分解为一些二次多项式和一次多项式之间的乘积，实数域内任何多项式都可以分解为多个一次多项式的乘积）。
+假设传递函数有一个极点因子
+\begin{equation}
+    \dfrac{1}{s+\omega_p}=\dfrac{1}{\omega_p}\cdot \dfrac{1}{1+\frac{s}{\omega_p}}
+\end{equation}
+即把极点因子表示成了标尺因子乘以标准形式标尺因子与其他项的标尺因子相乘，这里不予考虑。则$\dfrac{1}{1+\frac{s}{\omega_p}}=\dfrac{1\angle 0^\circ}{\sqrt{1+(\omega / \omega_p)^2}\angle \arctan (\omega / \omega_p)}$的幅频和相频特性可以表示为
+\begin{align}
+    A(\omega)|_{dB}&=20\lg \dfrac{1}{\sqrt{1+(\omega / \omega_p)^2}}=-20\lg\sqrt{1+(\omega / \omega_p)^2}\\
+    \varphi(\omega)&=0^\circ -\arctan (\omega / \omega_p)=-\arctan (\omega / \omega_p)
+\end{align}
+函数图像一般用渐近线来近似，称为渐近波特图。渐近波特图与实际函数之间的误差在书p221，其中误差指的是精确值减去估计值。
+
+零点的渐近波特图类似。简单说来，幅频特性，遇到零点斜率加20dB/十倍频，遇到极点斜率减20dB/十倍频。相频特性，从十分之一零点频率开始，斜率加45°/十倍频，一直到十倍零点频率；遇到极点，从十分之一极点频率开始，斜率减45°/十倍频，一直到十倍极点频率。
+
+\noindbfquad{中频增益} 幅频波特图中最高幅值的平坦部分为中频增益。
+
+\noindbfquad{上下限频率} 指中频增益下降3dB对应的两个频率值。计算方法有主极点法和公式法。
+
+主极点概念专门用于计算上下限频率。主极点法是指，（当系统有多个极点时，且没有重极点时）高频区的极点有一个最小值且这个最小值与大于它的极点距离较远（相差四倍以上），则这个最小值可看作（上限）主极点。同理在低频区得到的最大值可看作（下限）主极点。主极点能计算上下限频率的原理是：查表可得，一阶因子在极点处的幅频误差正好是3dB，且相差4倍以上的其他极点在该点造成的误差在0.26dB以下，可以忽略。因此，一个多极点系统的上下限频率主要由主极点决定，主极点就可以当作上下限频率。
+
+公式法适用于各极点距离不够远，无法找到主极点或极点之间分区明显，有多个主极点的情况。上下限频率可以近似表示为
+\begin{align}
+    \omega_H&=\dfrac{1}{\sqrt{1/\omega_{p1}^2+1/\omega_{p2}^2+...}}\\\
+    \omega_L&=\sqrt{\omega_{p1}^2+\omega_{p2}^2+...}
+\end{align}
+如果是高阶无零点低通系统，且主极点是重极点，则上限频率可以表示为
+\begin{equation}
+    \omega_H=\omega_p\sqrt{2^{\frac{1}{n}}-1}
+\end{equation}
+根号部分称为带宽缩减因子，n是极点的重数。
+
+\section{放大器中的负反馈}
+\subsection{反馈放大器基本概念}
+反馈放大器是由基本放大器和反馈网络组成的闭合环路。对一个反馈放大器,定义一些基本量
+\begin{enumerate}
+    \item $x_i$:输入信号，是反馈放大器最外端的输入
+    \item $x_o$:输出信号
+    \item $x_i'$:误差信号，即基本放大器的净输入信号
+    \item $x_f$:$x_o$通过反馈网络产生的反馈信号
+    \item $A$:开环增益，即基本放大器的增益，定义为$x_o/x_i'$
+    \item $A_f$:闭环增益，即反馈放大器的增益，定义为$x_o/x_i$
+    \item $k_f$:反馈网络的反馈系数，定义为$x_f/x_o$
+    \item $T$:环路增益，又称回归比，即把环路断开后$x_f$对$x_i'$的比值，定义为$x_f/x_i'$
+    \item $F$:反馈深度，表示放大器施加反馈前后增益变化的倍数（注意是反馈前比反馈后），定义为$A/A_f$
+\end{enumerate}
+基本的转换公式为
+\begin{equation}
+    F=1+T=1+k_f A
+\end{equation}
+本章不讨论基本放大器自身的寄生反馈，即反馈都是通过反馈网络实现的；不讨论反馈网络的直通效应，即反馈网络只允许$x_o$到$x_f$这一传输路径。
+当T为正值时反馈放大器为负反馈，F就是增益的下降倍数；反之则反。
+
+负反馈放大器的四种类型
+\begin{enumerate}
+    \item 电压串联负反馈。对应电压放大器
+    \item 电流串联负反馈。对应互导放大器
+    \item 电压并联负反馈。对应互阻放大器
+    \item 电流并联负反馈。对应电流放大器
+\end{enumerate}
+命名规则：电压还是电流，看输出端取的是什么量。若反馈网络的输入端直接取主网络的电压，则为电压反馈，反之都是电流反馈。串联还是并联看反馈网络在主网络的输入端的接法。串联，意味着反馈网络输出电压给主网络。
+
+判断方法：短路判别法。对于电压/电流反馈的判别：短接主网络的输出端，若反馈网络接不到信号（一般是接到地上了）则为电压反馈，反之为电流反馈。对于串联/并联反馈的判别：短接主网络的输入端，如果反馈网络不能给主网络施加反馈信号，则为并联反馈，反之则为串联反馈。
+
+正反馈还是负反馈：选一个包含反馈元件的回路，通过极性转换来判别。其中，经过共射/共源放大器会反相，经过地会反相。
+\subsection{负反馈对放大器性能的影响}
+\subsubsection{输入电阻}
+负反馈对输入的影响仅与反馈网络在放大器输入端的连接方式有关。串联反馈，因为$v_i=v_i'+v_f$，增大了输入电阻而电流不变，所以输入电阻增大
+\begin{equation}
+    R_{if}=\dfrac{v_i}{i_i}=\dfrac{v_i'}{i_i}(1+\dfrac{v_f}{v_i'})=R_i(1+T)=R_i F
+\end{equation}
+要掌握这种转换的方法。
+
+对应的。并联反馈会减小输入电阻。$ R_{if}=\dfrac{R_i}{F}$
+\subsubsection{增益稳定性}
+定义：增益灵敏度记为反馈后增益对基本放大器增益变化的敏感程度。$S^{A_f}_A=\dfrac{\Delta A_f}{\Delta A}$
+有公式
+\begin{equation}
+    S^{A_f}_A=\dfrac{1}{F}
+\end{equation}
+\subsubsection{源增益}
+源反馈增益的计算可以参考反馈增益的计算，不同之处仅在于源电阻$R_S$，既可以先将源电阻并入主网络，也可以将主网络与反馈网络的反馈增益算出来再求源反馈增益。
+
+用后一种方法计算串联反馈的源增益
+\begin{align}
+    A_f&=\dfrac{A}{1+k_f A}=\dfrac{A}{F}\\
+    R_{if}&=R_i F\\
+    A_{fs}&=\dfrac{R_{if}}{R_{if}+R_S}\cdot A_f=\dfrac{R_i A}{(1+T)R_i+R_S}
+\end{align}
+计算并联反馈的源增益(图见p273)
+\begin{align}
+    A_f&=\dfrac{A}{1+k_f A}=\dfrac{A}{F}\\
+    R_{if}&=\dfrac{R_i}{F}\\
+    A_{fs}&=\dfrac{R_{S}}{R_{if}+R_S}\cdot A_f=\dfrac{R_S A}{(1+T)R_S+R_i}
+\end{align}
+{\color{red}{有关反馈的公式，只能在对应类型的增益计算中使用，若要计算其他类型的增益，必须进行增益的转换}}。比如，电压串联负反馈对应电压增益，若要算互导增益，则需转换。
+\subsubsection{输出电阻}
+负反馈对输入的影响仅与反馈网络在放大器输出端的连接方式有关。
+电压串联负反馈：
+\begin{align}
+    R_{of}&=\dfrac{R_o}{F_{st}}\\
+    F_{st}&=1+k_{fv}A_{vst}\\
+    A_{vst}&=\dfrac{R_i}{R_i+R_s}A_{vt}\\
+\end{align}
+$A_{vst}$是负载$R_L\rightarrow\infty $时基本放大器的源电压增益。\\
+电压并联负反馈：
+\begin{align}
+    R_{of}&=\dfrac{R_o}{F_{st}}\\
+    F_{st}&=1+k_{fg}A_{rst}\\
+    A_{rst}&=\dfrac{R_s}{R_i+R_s}A_{rt}\\
+\end{align}
+$A_{rst}$是负载$R_L\rightarrow\infty $时基本放大器的源互阻增益。{\color{blue}{算电压反馈输出电阻时，都要把负载开路}}\\
+电流并联负反馈：
+\begin{align}
+    R_{of}&=R_o F_{sn}\\
+    F_{sn}&=1+k_{fi}A_{isn}\\
+    A_{isn}&=\dfrac{R_s}{R_i+R_s}A_{in}\\
+\end{align}
+$A_{isn}$是负载$R_L=0$时基本放大器的源电流增益。\\
+电流串联负反馈：
+\begin{align}
+    R_{of}&=R_o F_{sn}\\
+    F_{sn}&=1+k_{fr}A_{gsn}\\
+    A_{gsn}&=\dfrac{R_s}{R_i+R_s}A_{gn}\\
+\end{align}
+$A_{gsn}$是负载$R_L=0$时基本放大器的源互导增益。
+\subsection{负反馈放大器的性能分析}
+分析流程：
+\begin{enumerate}
+    \item 确定反馈元件和反馈类型
+    \item 画出计及反馈网络影响的等效电路。画输入回路时，要消除反馈的影响，即对电压反馈要短接反馈网络的输入端，对电流反馈要断开反馈网络的输入端。画输出回路时同理。
+    \item 计算基本放大器指标$A,R_i,R_o$等，单极点系统还可以计算带宽$\omega_H=\dfrac{1}{R_t C_t}$(繁)
+    \item {\color{blue}{借用基本放大器的输出回路}}计算$k_f$
+    \item 计算反馈放大器指标$A_f,R_{if},R_{of}$等，带宽的计算往往要用到“单极点系统增益带宽积为常数”即$\omega_H A=\omega_{Hf}A_{f}$
+\end{enumerate}
+\subsubsection{深度负反馈}
+当环路增益$T\gg 1$时，认为满足深度负反馈条件，此时反馈放大器的增益
+\begin{equation}
+    A_f=\dfrac{A}{1+T}=\dfrac{A}{1+k_f A} \approx \dfrac{1}{k_f}
+\end{equation}
+\begin{equation}
+    A_{fs}=\dfrac{A_s}{1+T}=\dfrac{A_s}{1+k_f A_s} \approx \dfrac{1}{k_f}
+\end{equation}
+即反馈增益和源反馈增益都几乎为常数，稳定性高。另外在深度负反馈条件下，可以用虚短路和虚开路来分析。
+\subsection{负反馈放大器的稳定性}
+在多极点系统中存在相移，即在中频区的负反馈，到高频区可能变成正反馈。当没有外加信号，反馈放大器仍然有正弦信号输出时，这种现象叫做自激或振荡。
+
+\subsubsection{不自激条件}
+电路能够自激必须满足两个条件：1.在该频率上环路产生的附加相移过大，以至于负反馈变成了正反馈；2.该频率上环路增益大于1
+\begin{equation}
+   when \varphi_T(\omega)=\pm \pi ,T(\omega)<1 
+\end{equation}
+或\begin{equation}
+    when T(\omega)=1, |\varphi_T(\omega)|< \pi ,
+ \end{equation}
+定义一些物理量
+\begin{enumerate}
+    \item $T(j\omega)$:环路增益，是频率的函数，表示为$T(j\omega)=T(\omega)e^{j\varphi_T(\omega)}=$
+    \item $\omega_g$:增益交界角频率，即$T(\omega)$降为0dB时的角频率
+    \item $\omega_\varphi$:相角交界角频率，即$\varphi_T(\omega)=-180^\circ$时的角频率
+\end{enumerate}
+为了使反馈放大器稳定工作，仅仅满足不自激条件还不行，要留有一定余地，称为稳定裕量。定义如下
+\begin{enumerate}
+    \item 相位裕量$\gamma_\varphi$:指的是$|\varphi_T(\omega_g)|$偏离180°的数值，即当环路增益绝对值降为1时相角与-180°的距离，即$\varphi_T(\omega)=180^\circ-|\varphi_T(\omega)|$，恒为正值。
+    \item 增益裕量$\gamma_g$：指的是相角到$-180^\circ$时，$T(\omega)$偏离0dB的数值，即$\gamma_g=1/T(\omega_varphi)$
+\end{enumerate}
+工程上一般让$\gamma_\varphi$在45°到60°左右。若中频区满足深度负反馈，则$1/k_f$就是反馈放大器的中频增益，所以$1/k_f$水平线又叫做反馈增益线。一般$1/k_f$交在$\omega_{p1},\omega_{p2}$之间就能使稳定裕量足够。
+
+用波特图判断自激与计算裕量是常考点。
+\subsubsection{相位补偿技术}
+\noindbfquad{简单电容补偿技术}
+将一只补偿电容并接在产生第一个极点的电路节点上，使第一级极点左移。假设满足深度负反馈，且第二个极点的角频率$\omega_{p2}$已经确定，为了使电路增益尽量小（更稳定），则$1/k_f$反馈增益线应该尽量低，最低不超过$\omega_{p2}$对应的点（否则稳定裕量不够）。此时可以计算补偿后的第一级极点角频率
+\begin{equation}
+    20\lg A_{vdI}-20\lg (\omega_{p2}/\omega_{d})=20\lg 1/k_{fv}
+\end{equation}
+即
+\begin{equation}
+    \omega_d=\dfrac{\omega_{p2}}{A_{vdI}k_{fv}}
+\end{equation}
+当$1/k_f$线与横轴重合时，称这种补偿为全补偿或单位增益补偿（因为此时反馈增益为1），对应的第一级极点角频率为$\omega_{do}$.借助$\omega_{p1}=1/(RC)$可以算出补偿电容的值。
+
+\noindbfquad{密勒电容补偿技术}同时左移$\omega_{p1}$，右移$\omega_{p2}$
+
+\noindbfquad{极零点消除补偿技术}在第二个极点处引入一个零点来消除它，并且由此引入的新极点必须高于原极点
+\section{功率电子线路}
+\subsection{概述}
+功率放大器的主要性能要求：安全、高效率和不失真地输出所需信号功率。
+\noindbfquad{功率放大器的性能要求}直流电源提供直流功率$P_D$，一部分被转换为输出信号功率$P_O$，其余部分消耗在功率管中，称为管耗$P_C$。定义放大器的集电极效率为
+\begin{equation}
+    \eta_C=\dfrac{P_O}{P_D}=\dfrac{P_O}{P_O+P_C}
+\end{equation}
+\noindbfquad{功率放大器的运用特性}
+分类
+\begin{enumerate}
+    \item 甲类（class A）：功率管在一个周期内导通
+    \item 乙类（class B）：功率管在半个周期内导通
+    \item 甲乙类（class AB）：介于甲类和乙类之间
+    \item 丙类（class C）：功率管在小于半个周期内导通
+    \item 丁类（class D）：使管子工作在开关状态，要么饱和导通，要么截止。
+\end{enumerate}
+从上到下，目的都是为了高效率地输出所需功率。
+\noindbfquad{功率放大器的散热问题}
+双极性晶体管的安全工作区受到三个极限参数的限定：集电极最大允许管耗$P_{CM}$,集电极击穿电压$V_{(BR)CEO}$和集电极最大允许电流$I_{CM}$.$P_{CM}$与散热条件有关，散热条件越好，$P_{CM}$越大。
+
+热崩是指集电极结温升高导致集电极电流增大，从而$P_{C}$增大，结温随着升高，直至结温超过集电结最高允许结温而导致管子被烧坏。对于硅管一般为150-175摄氏度。工程上用热阻$R_{th}$来表征散热能力，$\Delta T = R_{th}P$。散热器散热面积越大厚度越厚，材料的热导率越高，热阻越小.
+\subsection{功率放大电路的电路组成和工作特性}
+功率放大器为大信号工作，只能用大信号模型和图解法（在特性曲线上作负载线）来分析。下面的分析忽略集电极饱和压降$V_{CE(sat)}$和穿透电流$I_{CEO}$.在最大幅值的情况下，输出的集电极电压和电流可以表示为
+\begin{align}
+    i_{C}&=I_{CQ}+I_{cm}\sin \omega t\\
+    v_{CE}&=V_{CEQ}-V_{cm}\sin \omega t\\
+    V_{cm}&=V_{CEQ}=I_{cm}R_L
+\end{align}
+则直流电源功率、负载功率和集电极耗散功率可以表示为
+\begin{align}
+    P_D=\dfrac{1}{2\pi}\int_0^{2\pi}V_{CC}i_C d\omega t =V_{CC} I_{CQ}\\
+    P_L=\dfrac{1}{2\pi}\int_0^{2\pi}i_C^2 R_L d\omega t =V_{CEQ}I_{CQ}+\dfrac{1}{2}V_{cm}I_{cm}\\
+    P_C=\dfrac{1}{2\pi}\int_0^{2\pi}i_C v_{CE}d\omega t =V_{CEQ}I_{CQ}-\dfrac{1}{2}V_{cm}I_{cm}
+\end{align}
+直流功率只与电源电压和工作点电流有关系。在没加信号的时候，功率一半消耗在管子上，一半消耗在负载上；加上信号后，管子上的功率减小，负载上的功率增加，增加的部分才是我们想要的信号功率。最大的集电极效率为25\%.
+
+在该电路中，要提高输出功率，必须减小负载电阻（电压一定的情况下，提高工作点电流），同时相应提高输入的激励电流，二者缺一不可。
+\subsubsection{甲类功率放大电路}
+\noindbfquad{直流分析}
+图见书P19图1-2-3.发射极电阻一般几十欧，降低无谓功耗并扩大动态范围。集电极采用变压器输出，方便调节阻抗以达到最佳匹配状态。
+\begin{equation}
+    R_L'=(\dfrac{N_1}{N_2})^2R_L=n^2 R_L
+\end{equation}
+若考虑变压器的转换效率$\eta_T=P_L/P_o$,($P_L$是负载得到的实际功率，$P_o$是等效电阻$R_L''$得到的功率，理想情况下是一样的)则等效阻抗修正为
+\begin{equation}
+    R_L''=\dfrac{n^2 R_L}{\eta_T}
+\end{equation}
+对于甲类电路的输出，可以对$v_{CE}$列出直流分析方程（初级线圈和发射极电阻都很小可以忽略不计）
+\begin{align}
+    v_{CE}=V_{CC}\\
+    i_C=f(v_{CE})|_{i_B=const}
+\end{align}
+第一个等式是直流负载线，是一条从$V_{CC}$出发，垂直于横轴的直线。与特性曲线相交得到了直流工作点。
+
+\noindbfquad{交流分析}
+对于交流负载线，设$v_{ce},i_c$分别是在工作点的交流信号幅值（可正可负），有$v_{ce}=-i_c R_L'$.它们与瞬时值的关系为
+\begin{equation}
+    v_{CE}=V_{CEQ}+v_{ce},i_C=I_{CQ}+i_c
+\end{equation}
+用瞬时值表示为
+\begin{equation}
+    v_{CE}-V_{CEQ}=-R_L'(i_C -I_{CQ})
+\end{equation}
+表示一条经过直流工作点的直线，斜率为$-1/R_L'$.由此我们得到了交流负载线。
+
+\noindbfquad{性能分析}
+甲类的特点是使用了变压器，其直流电阻为零，交流电阻不为零且可变，实现了直流线和交流线的分离。当负载最佳且激励充分时，最大集电极效率为
+\begin{equation}
+    \eta_{Cmax}=\dfrac{P_o}{P_D}=\dfrac{1}{2}\dfrac{V_{cm}I_{cm}}{V_{CC}I_{CQ}}=50\%
+\end{equation}
+此时工作点在交流负载线的中点，此时的负载为最佳匹配负载。为了安全起见，必须满足下面三个条件
+\begin{align}
+    i_{Cmax}=2I_{CQ}<I_{CM},I_{CQ}=I_{cm}<I_{CM}/2\\
+    v_{CEmax}=2V_{CC}<V_{(BR)CEO},V_{CC}=V_{cm}<V_{(BR)CEO}/2\\
+    P_{Cmax}=P_D<P_{CM},P_D=2P_{omax}<P_{CM}
+\end{align}
+\subsubsection{乙类功率放大电路}
+乙类工作点在电流为0处，为了获得完整的正弦波信号，必须采用两只管子，且设计两管轮流导通的推挽电路，并且能在负载上合成完整的正弦波。
+
+\noindbfquad{变压器耦合电路} 
+由输入变压器、两个特性匹配且导电类型相同的NPN管和输出变压器组成。输入变压器利用次级绕组的中心抽头将输入信号变换为两个幅值相等、对地极性相反的激励电压，使得两个NPN管轮流导通。输出变压器的作用是隔绝两个相反电流信号的平均分量，并利用初级绕组的中心抽头将两个电流的基波分量在负载上叠加为完整正弦波。属于激励电压极性相反，管子同型；属于共射组态，允许输入小电流和小电压。
+
+\noindbfquad{互补推挽电路} 
+利用两个特性配对的互补功率管，采用等值的正负电压供电。属于激励电压相同，管子异型；属于共集组态电压跟随，允许小电流，但电压要比较大。
+
+\noindbfquad{性能计算}
+在负载上的输出信号功率
+\begin{equation}
+    P_L=P_o=I_{cm}^2 R_L /2=\xi ^2 P_{omax}
+\end{equation}
+对于幅度为$I_cm$的半个正弦波，其平均分量为$I_{cm}/\pi$,所以正负直流电源的总直流功率为
+\begin{equation}
+    P_D=P_{D1}+P{D2}=\dfrac{2V_{CC}I_{cm}}{\pi}=\dfrac{4}{\pi}\xi P_{omax}
+\end{equation}
+集电极管耗为
+\begin{equation}
+    P_{c1}=P_{C2}=(P_D - P_o)/2=(\dfrac{2}{\pi}\eta - \dfrac{1}{2}\xi ^2)P_{omax}
+\end{equation}
+集电极效率为
+\begin{equation}
+    \eta_C=\dfrac{P_o}{P_D}=\dfrac{\pi}{4}\dfrac{V_{cm}}{V_{CC}}=\dfrac{\pi}{4}\xi
+\end{equation}
+定义电源电压利用效率$\xi = V_{cm}/V_{CC}$,以及最大可能输出功率$P_{omax}=\dfrac{V_{CC}^2}{2R_L}$(只有当充分激励且$\xi = 1 ,I_{cm}=V_{CC}/R_L$时才能取到).
+
+在最理想情况下，集电极效率可以达到78.5\%.当$\xi = 2/\pi$时，两管的集电极管耗相等，且为$P_{C1max}=P_{C2max}=\dfrac{2}{\pi ^2}P_{omax}=0.2P_{omax}$.{\color{red}{集电极效率和集电极管耗不同时取到！}}
+\section{振荡器}
+振荡电路不需要外加输入信号，上电瞬间的扰动或者晶体三极管内部的噪声就可以作为输入信号。根据波形不同，可以分为正弦波振荡器和张弛振荡器；根据组成结构不同，又可以分为反馈振荡器和负阻振荡器，其中反馈振荡器可以分为正反馈构成的振荡器和奇数反相器构成的振荡器。振荡电路最重要的特性是振荡频率的稳定性和准确性，以及相位噪声。
+\subsection{反馈振荡器工作原理}
+闭合环路成为反馈振荡器的条件是
+\begin{enumerate}
+    \item 保证接通后从无到有建立振荡的起振条件
+    \item 保证进入平衡状态，输出等幅持续振荡信号的平衡条件
+    \item 保证平衡状态不因外界不稳定因素影响而受到破坏的稳定条件
+\end{enumerate}
+\subsubsection{起振条件}
+反馈信号必须在某一频上可以与初始信号同相，且反馈信号的幅度必须大于初始信号的幅度(环路增益大于1)。
+\begin{align}
+    T(\omega_{osc})>1\\
+    \varphi_T(\omega_{osc})=2n\pi
+\end{align}
+分别称为振幅起振条件和相位起振条件。正反馈只是振荡的必要条件。
+\subsubsection{平衡条件}
+巴克豪森准则
+\begin{align}
+    T(\omega_{osc})=1\\
+    \varphi_T(\omega_{osc})=2n\pi
+\end{align}
+分别称为振幅平衡条件和相位平衡条件。电路接通后，电路环路增益的模值必须具有随振荡电压幅值增大而下降的特性。一般这种特性是由主网络的非线性放大特性实现的，也可以通过在反馈网络中加入负反馈，让反馈两随信号幅度增大而增大。
+\subsubsection{稳定条件}
+振幅稳定条件：环路增益$T(\omega_{osc})$必须在平衡点附近有负斜率变化，即$\dfrac{\partial T(\omega_{osc})}{\partial V_i}|_{V_{iA}}<0$
+
+相位（频率）稳定条件：$\dfrac{\partial \varphi_T(\omega)}{\partial \omega}|_{V_{iA}}<0$
+
+小结：在由主网络和反馈网络组成的闭合回路中，必须包含可变增益放大器和相移网络。前者提供足够的增益，其值随输入电压的增大而减小；后者应该具有负斜率，且在振荡频率上为环路提供合适的相移使环路相移为$2n\pi$
+\subsection{LC正弦振荡器}
+\subsubsection{三点式振荡电路}
+分为电容三点式和电容三点式电路，以发射极接的电抗元件命名。要求发射极接的两个电抗同性质，剩下的那个为异性电抗。估算振荡频率的时候，可以在交流通路中移去管子，求出电路的总电感和总电容，振荡频率约等于$\dfrac{1}{\sqrt{LC}}$
+
+注意以下几点
+\begin{enumerate}
+    \item 当发现缺少电容时，需要将寄生参数纳入考虑：$C_{b'e},C_{b'c}$
+    \item 并联LC支路，主要看电抗小的；串联LC支路，主要看电抗大的
+\end{enumerate}
+\noindbfquad{电容三点式振荡电路的起振条件}
+闭合回路中无法确定放大管的组态，只有在开环情况下，在断开点两边分别加上输入电压$\dot{V_i}$和反馈电压$\dot{V_f}$，电路具有输出和输入时，才可以讨论放大管的组态问题.
+
+相位起振条件：$X_1+X_2+X_3\approx 0$.这里的三个电抗是等效后的，电路中只剩三个电抗的时候对应的值。
+
+振幅起振条件：
+\begin{align}
+    \dfrac{g_m}{g'_L+n^2 g_i}n>1\\
+    n=\dfrac{X_2}{X_1+X_3}=\dfrac{C_1}{C_1+C'_2}
+\end{align}
+其实，第一个等式中$\dfrac{g_m}{g'_L+n^2 g_i}$分母表示放大器输出端呈现的总负载电导值，所以该项其实是$A_v(\omega_{osc})=V_o/V_i$,后一项$n=k_f$
+\subsubsection{差分对管振荡电路}
+其中一个管子的集电极上外接LC并联回路，调谐在振荡频率上，将其上的输出电压加到该侧管子的基极形成正反馈。整个电路的振荡角频率为
+\begin{equation}
+    \omega_{osc}=\dfrac{1}{\sqrt{LC'}}
+\end{equation}
+其中$C'$是回路总电容，是LC回路的电容与从对侧管子基极看进去的电容的并联值。
+
+拆环后的总增益
+\begin{equation}
+    A_v(\omega_{osc})=\dfrac{1}{2}\dfrac{\beta R'_L}{r_{bb'}+r_{b'e}}\approx \dfrac{1}{2}g_m R'_L
+\end{equation}
+振荡起振条件：$g_m>\dfrac{2}{R'_L}$，也可用直流电流偏置表示：$I_0>\dfrac{4V_T}{R'_L}$
+\subsection{石英晶体振荡器}
+利用石英晶体的压电效应，可以用其提高频率稳定度。晶片的振动具有多谐性，具有奇次谐波泛音振动。当外加交变电压与晶片的机械振动发生共振时，晶体具有类似LC串联谐振的特性。因此可以将石英晶体等效为静态电容和一系列RLC串联电路的并联。其串联谐振角频率$\omega_s$其实就是晶体的固有振动频率;并联谐振角频率$\omega_p$就是考虑了静态电容的谐振角频率，一般前者略小于后者。工作区在两频率之间。
+
+\subsubsection{晶体振荡电路}
+并联型晶体振荡电路：工作在$\omega_s$与$\omega_p$之间且偏向于$\omega_s$，晶体等效于高Q值的电感。
+
+串联型晶体振荡电路：工作在$\omega_s$上，发生串联谐振，可等效为短路线。
+\subsection{RC正弦波振荡器}
+分为三类：
+\begin{enumerate}
+    \item 导前移相电路：RC串联，在R上取输出，$A(j\omega)=j\dfrac{\omega/\omega_0}{1+j\omega/\omega_0}$
+    \item 滞后移相电路：RC串联，在C上取输出，$A(j\omega)=\dfrac{1}{1+j\omega/\omega_0}$
+    \item 串并联选频网络：在RC并联回路上取输出，$A=j\dfrac{\omega/\omega_0}{(1-\frac{\omega^2}{\omega_0^2})+j3\frac{\omega}{\omega_0}}$.最大值为$\dfrac{1}{3}$，此时相移为0，所以必须与同相放大器相连
+\end{enumerate}
+上述的增益均小于1，所以主网络要提供足够大的增益。前两种至少要三级相移网络才可以振荡
+
+\noindbfquad{外稳幅文氏桥电路}
+串并联网络输出端接在运放的同相端，从同相端断开拆环并补上输出电阻，在振荡频率上，环路增益为
+\begin{equation}
+    T(\omega_0)=\dfrac{1}{3}\dfrac{R_f + R_1}{R_1}
+\end{equation}
+若要$T(\omega_0)>1$，则$R_f>2R_1$
+\end{document}
+

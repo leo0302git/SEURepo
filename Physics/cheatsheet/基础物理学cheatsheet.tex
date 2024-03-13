@@ -1,0 +1,37 @@
+\documentclass{ctexart}
+\usepackage[margin=2.5cm]{geometry}%要先设置页边距，否则页眉页脚会偏
+\usepackage{fancyhdr} % 加载fancyhdr宏包，用于设置页眉和页脚
+\pagestyle{fancy} % 设置页面样式
+\fancyhf{} % 清除默认的页眉和页脚的内容
+\fancyfoot[C]{\thepage} 
+\fancyhead[L]{All Copyright Reserved by Leo}
+
+\usepackage{draftwatermark}
+\usepackage[dvipsnames]{xcolor}
+\SetWatermarkScale{6} % 水印放大倍数
+\SetWatermarkText{Leo} % 水印内容
+\SetWatermarkColor{gray} % 水印颜色，RGB模式
+\SetWatermarkAngle{45} % 水印旋转角度
+\SetWatermarkFontSize{1cm} % 水印字体大小
+\SetWatermarkLightness{0.9}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{esint}
+\usepackage{hyperref}
+
+
+\title{基础物理学-Cheatsheet}
+\author{Leo}
+
+\begin{document}
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\noindentbf}[1]{\noindent \textbf{#1} \quad}
+\newcommand{\noindentbfline}[1]{\noindent \textbf{#1} \newline}
+
+	\maketitle
+	\tableofcontents
+	\newpage
+\include{part1}
+\include{part2}
+\end{document}

@@ -1,0 +1,476 @@
+
+\section{多元函数积分学及其应用}
+\subsection{多元数量值函数积分的概念与性质}
+\subsubsection{物体质量的计算}
+二元数量值函数积分的几何意义是对平面质量的计算，分为“分、合、匀、精”四个部分。\\
+\textbf{分}\quad	将一个区域分为$n$个子域。\\
+\textbf{匀}\quad 每个子域$\Delta \sigma_k$上的密度函数$f(M)$近似为不变，从而得到$\Delta \sigma_k$的质量
+\begin{equation}
+	\Delta m_k \approx f(M_k) \Delta \sigma_k
+\end{equation}
+\textbf{合} \quad   把所有$\Delta m_k$的质量合起来，得到薄板质量的近似值为
+\begin{equation}
+	m = \sum_{k=1}^{n} \Delta m_k \approx \sum_{k=1}^{n} f(M_k) \Delta \sigma_k
+\end{equation}
+\textbf{精} \quad  令所有分割的子域都无限小（通过控制最大的子域直径趋于零来做到）
+\begin{equation}
+	m =\lim\limits_{d \rightarrow 0}\sum_{k=1}^{n} f(M_k)\Delta \sigma_k
+\end{equation} 
+
+\subsection{多元数量值函数积分的概念}
+设$\Omega$是可度量的几何形体（可求长度或面积或体积），则称
+\begin{equation}
+	\int_{(\Omega)}^{} f(M)d\Omega = \lim_{d \rightarrow 0} \sum_{k=1}^{n} f(M_k) \Delta \Omega_k \label{eqa:int all}
+\end{equation}
+为多元数量值函数$f$在$\Omega$上的积分。\\
+下面根据积分域的不同具体给出\myeqref{eqa:int all}的表达式。
+\begin{enumerate}
+	\item 如果($\Omega$)是闭区间，则$f$是一元函数，则\myeqref{eqa:int all}可具体地写成
+	\begin{equation}
+		\int_{(\Omega)}^{} f(M)d\Omega = \lim_{d \rightarrow 0} \sum_{k=1}^{n} f(\xi_k) \Delta x_k = \int_{a}^{b} f(x)dx.
+	\end{equation}
+	\item
+	如果($\Omega$)是闭区域，则$f$是二元函数，则\myeqref{eqa:int all}可具体地写成
+	\begin{equation}
+		\int_{(\Omega)}^{} f(M)d\Omega = \lim_{d \rightarrow 0} \sum_{k=1}^{n} f(\xi_k,\eta_k) \Delta \sigma_k 
+	\end{equation}
+	\item
+	如果($\Omega$)是三维区域，则$f$是三元函数，则\myeqref{eqa:int all}可具体地写成
+	\begin{equation}
+		\int_{(\Omega)}^{} f(M)d\Omega = \lim_{d \rightarrow 0} \sum_{k=1}^{n} f(\xi_k,\eta_k) \Delta \sigma_k =\iint \limits_{(\sigma)} f(x,y)d\sigma 
+	\end{equation}
+	
+	\item 如果($\Omega$)是一段弧，则$f$就是定义在弧段$C$上的二元或三元函数，于是\myeqref{eqa:int all}可以写成
+	\begin{gather}
+		\int_{(C)}f(x,y)ds = \lim\limits_{d \rightarrow 0}\sum_{k=1}^{n}f(\xi_k,\eta_k)\Delta s_k\\
+		\text{或} \notag\\
+		\int_{(C)}f(x,y,z)ds = \lim\limits_{d \rightarrow 0}\sum_{k=1}^{n}f(\xi_k,\eta_k,\zeta_k)\Delta s_k
+	\end{gather}
+	\item 如果($\Omega$)是一个曲面，那么$f$就是定义在$S$上的三元函数，于是\myeqref{eqa:int all}可以写成
+	\begin{equation}
+		\iint \limits_S f(x,y,z)dS=\lim\limits_{d \rightarrow 0} \sum_{k=1}^{n} f(\xi_k,\eta_k,\zeta_k)\Delta S_k
+	\end{equation}
+\end{enumerate}
+\subsection{积分存在的条件与性质}
+条件：($\Omega$)是有界闭集且可度量，$f \in C((\Omega))$,则$f$在($\Omega$)上一定可积。\\
+性质：
+\begin{enumerate}
+	\item \textbf{线性性质}
+	\item \textbf{对积分域的可加性} \quad 其中积分域的划分不能重叠
+	\item \textbf{积分不等式}
+	\begin{enumerate}
+		\item $\text{若}f(M) \leq g(M),\forall M \in (\Omega),\text{则}$
+		\begin{equation}
+			\int_{(\Omega)}f(M)\dif \Omega \leq \int_{(\Omega)} g(M)\dif\Omega
+		\end{equation}
+		\item 
+		\begin{equation}
+			\left | \int_{(\Omega)}f(M)\dif \Omega \right | \leq \int_{(\Omega)} \left | f(M) \right |\dif \Omega 
+		\end{equation}
+		\item $\text{若}l\leq f(M) \leq L, \forall M \in (\Omega),\text{则}$
+		\begin{equation}
+			l\Omega\leq \int_{(\Omega)}f(M)\dif \Omega \leq L\Omega
+		\end{equation}
+		
+	\end{enumerate}
+	
+	\item \textbf{中值定理} \quad 设$f \in C((\Omega))$,$(\Omega)$为一有界连通闭集，则在$(\Omega)$上至少存在一点$P$,使
+	\begin{equation}
+		\int_{(\Omega)}f(M)\dif \Omega=f(M)\Omega
+	\end{equation}
+\end{enumerate}
+\subsection{二重积分的计算}
+\subsubsection{二重积分的几何意义}
+曲顶柱体的体积。
+\subsubsection{二重积分的计算方法}
+\begin{enumerate}
+	\item 直角坐标系\\
+	\begin{equation}
+		V= \iint\limits_{(\sigma)} f (x,y) \dif \sigma = \int_{a}^{b} \left[\int_{y_1(x)}^{y_2(x)} f (x,y) \dif y\right]  \dif x.
+	\end{equation}
+	将二重积分化为两次定积分，先对$y$积分，再对$x$积分，适用于$x$型区域。\\
+	如果是$y$型区域，则可以先对$x$积分
+	\begin{equation}
+		V= \iint\limits_{(\sigma)} f (x,y) \dif \sigma = \int_{a}^{b} \left[\int_{x_1(y)}^{x_2(y)} f (x,y) \dif x\right]  \dif y.
+	\end{equation}
+	一言以蔽之
+	\begin{equation}
+		V= \iint\limits_{(\sigma)} f (x,y) \dif \sigma 
+		= \int_{c}^{d}\int_{x_1(y)}^{x_2(y)} f (x,y) \dif x  \dif y 
+		= \int_{a}^{b}\int_{y_1(x)}^{y_2(x)} f (x,y) \dif y  \dif x. 
+	\end{equation}
+	常见的套路有
+	\begin{enumerate}
+		\item 换积分次序
+		\item 切割，分部积分 见书上例2.3 \label{qiege}
+		\item 利用对称性与函数奇偶性 \\
+		若积分域关于$x$轴对称而被积函数是关于$y$的奇函数，则积分结果为0.这一技巧经常和 \ref{qiege} 混合使用。
+	\end{enumerate}
+	\item 极坐标系
+	积分微元代换
+	\begin{equation}
+		\dif \sigma = \rho \dif \rho \dif \theta
+	\end{equation}
+	积分式代换
+	\begin{equation}
+		\iint \limits_{(\sigma)} f(x,y) \dsig = \iint\limits_{(\sigma)} f (\rho \cos \theta ,\rho \sin \theta) \rho \drho \dsig.
+	\end{equation}
+	广义极坐标变换，用于处理椭圆域
+	\begin{equation}
+		\dif \sigma = a b \rho \dif \rho \dif \theta
+	\end{equation}
+	\item 一般曲线坐标系\\
+	对$x,y$做正则变换
+	\begin{equation}\label{key}
+		T:
+		\begin{cases}
+			u = u(x,y), (x,y) \in (\sigma),\\
+			v = v(x,y), (x,y) \in (\sigma).
+		\end{cases}
+	\end{equation}
+	面积微元代换
+	\begin{equation}
+		\dsig =\left | \dfrac{\partial(x,y)}{\partial(u,v)}\right |\dif u \dif v = \left | \dfrac{\partial(x,y)}{\partial(u,v)}\right |\dif \theta^{'}
+	\end{equation}
+	积分式代换
+	\begin{equation}
+		\iint \limits_{(\sigma)} f(x,y) \dsig = \iint\limits_{(\sigma^{'})} f[u(x,y),v(x,y)]\left| \dfrac{\partial(x,y)}{\partial(u,v)}\right|\dif u \dif v.
+	\end{equation}
+\end{enumerate}
+\subsection{三重积分的计算}
+\subsubsection{化三重积分为单积分和二重积分的累次积分}
+\begin{enumerate}
+	\item 先单后重，“穿针法”投影至$xOy$平面，先积好一个细柱条再在平面上无限累加。适用于被积函数仅是$z$的函数的情况。
+	\begin{align}
+		\iiint \limits_{(V)} f(x,y,z) \dif V= \iint\limits_{(\sigma)} \left [ \int_{z_1(x,y)}^{z_2(x,y)} f(x,y,z) \dif z \right ] \dsig
+	\end{align}
+	\item 先重后单，切片法。把每一个薄片积好再关于$z$轴积分。
+\end{enumerate}
+\subsubsection{三种坐标系下的积分法}
+\begin{enumerate}
+	\item 直角坐标系。见上
+	\item 一般的曲线坐标系\\
+	做正则变换：
+	\begin{equation}\label{key}
+		\begin{cases}
+			u=u(x,y,z)\\
+			v=v(x,y,z)\\
+			w=w(x,y,z)
+		\end{cases}
+	\end{equation}
+	
+	积分微元代换：
+	\begin{align}
+		\dif V = \left | \dfrac{\partial (x,y,z)}{\partial(u,v,w)}\right | \dif V^{'}= \left | \dfrac{\partial (x,y,z)}{\partial(u,v,w)}\right | \dif u \dif v \dif w
+	\end{align}
+	其中，
+	\begin{equation}\label{key}
+		\left | \dfrac{\partial (x,y,z)}{\partial(u,v,w)}\right | = 
+		\begin{vmatrix}
+			x_u & x_v & x_w \\
+			y_u & y_v & y_w \\
+			z_u & z_v & z_w \\
+		\end{vmatrix}
+	\end{equation}
+	是变换的$Jacobi$行列式，从而
+	\begin{equation}\label{key}
+		\iiint\limits_{(V)} f(x,y,z) \dif V=
+		\iiint\limits_{(V)}f[x{u,v,w},y(u,v,w),z(u,v,w)]\left | \dfrac{\partial (x,y,z)}{\partial(u,v,w)}\right | \dif u \dif v \dif w
+	\end{equation}
+	\item 柱面坐标系\\
+	积分微元代换：
+	\begin{align}
+		\dif V = \rho \drho \dthe \dif z
+	\end{align}
+	积分式变换为：
+	\begin{align}
+		\iiint\limits_{(V)} f(x,y,z) \dif V = \iiint\limits_{(V)} f(\rho \cos \theta,\rho \sin \theta,z) \rho \drho \dthe \dif z
+	\end{align}
+	\item 球面坐标系\\
+	球面变换：
+	\begin{align}
+		\begin{cases}
+			x=r \sin \varphi \cos \theta\\
+			y=r \sin \varphi \sin \theta\\
+			z=r \cos \varphi
+		\end{cases}
+	\end{align}
+	其中，$\varphi$是向径与$z$轴正方向的夹角，$\theta$是向径与$x$轴正方向的夹角。
+	积分微元代换：
+	\begin{align}
+		\dif V = r^2 \sin \varphi \dif r \dif \varphi \dthe
+	\end{align}
+	积分式代换：
+	\begin{align}
+		\iiint\limits_{(V)} f(x,y,z) \dif V = \iiint\limits_{(V)} f(r \sin \varphi \cos \theta,r \sin \varphi \sin \theta,r \cos \varphi) r^2 \sin \varphi \dif r \dif \varphi \dthe
+	\end{align}
+\end{enumerate}
+\subsection{反常重积分（略过）}
+\subsection{第一型线积分与面积分}
+\subsubsection{第一型线积分}
+把对弧长的线积分称为第一型线积分，积分的值与积分路径无关。\\
+计算公式：
+\begin{align}
+	\int_{(C)} f(x,y,z) \dif s = \int_{\alpha}^{\beta} f[(x(t),y(t),z(t)] \sqrt{\dot{x}^{2}(t)+\dot{y}^{2}(t)+\dot{z}^{2}(t)} \dif t
+\end{align}
+使用场景：
+\begin{enumerate}
+	\item 计算柱面的侧面积。
+	\item 计算金属丝的质量，质心，转动惯量。
+\end{enumerate}
+\subsubsection{第一型面积分}
+\begin{enumerate}
+	\item 
+\end{enumerate}
+曲面面积微元的代换：$uOv$坐标网下的矩形面积微元可以变换成在$xyz$坐标网下的曲面微元。$uOv$坐标网下的任意4个点$(M_1,M_2,M_3,M_4)$形成面积微元$\Delta \sigma$，经正则变换，映射到在$xyz$坐标网下的四个点$(P_1,P2,P_3,P_4)$，形成面积微元$\Delta S$。先把$\Delta S$的面积近似为平行四边形的面积，为$||\overrightarrow{P_1P_2} \times \overrightarrow{P_1P_3}||$,而$\overrightarrow{P_1P_2} \approx \boldsymbol{r}_u \Delta u$,$\overrightarrow{P_1P_3} \approx \boldsymbol{r}_v \Delta v$,所以有面积微元的代换：
+\begin{equation}\label{key}
+	\dif S = ||\boldsymbol{r}_u \times \boldsymbol{r}_v|| \dif u \dif v 
+\end{equation}
+用二重积分算曲面面积：
+\begin{enumerate}
+	\item 一般的曲面坐标系\\
+	\begin{equation}\label{key}
+		S = \iint\limits_{(\sigma)} ||\boldsymbol{r}_u \times \boldsymbol{r}_v|| \dif u \dif v 
+	\end{equation}
+	\item 用一般方程给出$z=z(x,y)$,则曲面的向量方程可以写成$\boldsymbol{r}=\boldsymbol{r}(x,y)=(x,y,f(x,y))$
+	\begin{align}
+		\dif S &= ||\boldsymbol{r}_x \times \boldsymbol{r}_y|| \dif x \dif y=  \sqrt{1+f^2_x+f^2_y}\dif x \dif y\\
+		S &= \iint\limits_{(\sigma)} ||\boldsymbol{r}_x \times \boldsymbol{r}_y|| \dif x \dif y=\iint\limits_{(\sigma)} \sqrt{1+f^2_x+f^2_y} \dif x \dif y.
+	\end{align}
+\end{enumerate}
+第一型面积分的计算：
+\begin{enumerate}
+	\item 若$S$的方程为
+	\begin{align}
+		\boldsymbol{r}= \boldsymbol{r}(u,v)=x(u,v)\boldsymbol{i}+y(u,v)\boldsymbol{j}+z(u,v)\boldsymbol{k}
+	\end{align}
+	则$f$在$S$上的第一型面积分为：
+	\begin{equation}\label{key}
+		\iint\limits_{(S)} f(x,y,z) \dif S= \iint\limits_{(\sigma)} f[(x(u,v),y(u,v),z(u,v))] ||\boldsymbol{r}_u \times \boldsymbol{r}_v|| \dif u \dif v 
+	\end{equation}
+	\item 若$S$的方程为$z=z(x,y)$,则$f$在$S$上的第一型面积分为：
+	\begin{equation}\label{key}
+		\iint\limits_{(S)} f(x,y,z) \dif S= \iint\limits_{(\sigma)} f[x,y,z(x,y)] \sqrt{1+z^2_x+z^2_y} \dif x \dif y
+	\end{equation}
+\end{enumerate}
+
+\subsection{第二型线积分与面积分}
+\subsubsection{场的概念}
+\subsubsection{第二型线积分}
+定义：
+\begin{equation}\label{key}
+	\int_{(C)} \mathbf{A}(M)\cdot \mathbf{ds}=\lim_{d\to 0}\sum_{k=1}^{n}\mathbf{A}(\overline{M_k})\cdot \overrightarrow{M_{k-1}M_k}
+\end{equation}
+其中$\mathbf{A}(M)$称为场函数，是向量值函数，$\mathbf{ds}$是微元向量。\\
+性质：\\
+\begin{enumerate}
+	\item 
+	若积分路径反向，则积分值为相反数
+	\item
+	在积分路径上具有可加性
+	\item
+	闭合曲线上的积分可以分成两个同向（同为顺时针或逆时针）的闭合曲线积分，这两个路径有一条公共边界
+\end{enumerate}
+计算：\\
+设曲线的参数方程为$\mathbf{r}=\textbf{r}(t)=(x(t),y(t),z(t)),(\alpha\leq t\leq \beta)$，场函数为$\textbf{A}=\textbf{A}(x,y,z)=(P(x,y,z),Q(x,y,z),R(x,y,z))$且在曲线上连续，则
+\begin{align*}\label{key}
+	\int_{(C)} \mathbf{A}(M)\cdot \mathbf{ds}	&=\int_{(C)}(P(x,y,z),Q(x,y,z),R(x,y,z))\cdot (\dif x,\dif y,\dif z)\\
+	&=\int_{(C)}P(x,y,z)\dif x+Q(x,y,z)\dif y+R(x,y,z)\dif z
+\end{align*}
+其中
+\begin{equation}\label{key}
+	\int P(x,y,z)\dif x= \int_{\alpha}^{\beta}P[x(t),y(t),z(t)]\dot{x}(t)\dif t
+\end{equation}
+\begin{equation}\label{key}
+	\int Q(x,y,z)\dif y= \int_{\alpha}^{\beta}q[x(t),y(t),z(t)]\dot{y}(t)\dif t
+\end{equation}
+\begin{equation}\label{key}
+	\int R(x,y,z)\dif z= \int_{\alpha}^{\beta}R[x(t),y(t),z(t)]\dot{z}(t)\dif t
+\end{equation}
+所以第二型线积分实际上可以转化为三个分量的定积分（第一型线积分）之和来计算。\\
+两类线积分的联系：关键在于积分微元的变化。即$\textbf{ds}=\textbf{e}_\tau \dif s$，$\textbf{e}_\tau$是与有向路径$C$方向一致的单位切向量。
+
+\subsubsection{第二型面积分}
+第二型面积分对应的实际问题是流量问题。
+
+定义第二型面积分为
+\begin{equation}\label{key}
+	\iint\limits_{(S)}\bm{A}(M)\cdot \bm{\dif S}=\lim\limits_{d \to 0}\sum_{k=1}^{n}\bm{A}(M_k)\cdot \bm{e_n}(M_k)\Delta S_k
+\end{equation}
+其中$\bm{\dif S}=\bm{e_n}\dif S$称为曲面的面积微元向量。且有
+\begin{align*}
+	&	\bm{A}(M)=(P(x,y,z),Q(x,y,z),R(x,y,z))\\
+	&	\bm{e_n}(M)=(\cos \alpha,\cos \beta ,\cos \gamma)
+\end{align*}
+$\mathrm{e_n}$
+所以有
+\begin{equation}\label{key}
+	\iint\limits_{(S)}\bm{A}(M)\cdot \bm{\dif S}=\iint\limits_{(S)}P(x,y,z)\cos \alpha \dif S+Q(x,y,z)\cos \beta \dif S+R(x,y,z)\cos \gamma \dif S
+\end{equation}
+其中$\dif S=||\bm{\dif S}||=(\dif y \wedge \dif z,\dif z \wedge \dif x,\dif x \wedge \dif y)$，为面积向量微元在三个坐标面上的投影。或记为
+\begin{align*}
+	\dif S \cos \alpha=\dif y \wedge \dif z\\
+	\dif S \cos \beta=\dif z \wedge \dif x\\
+	\dif S \cos \gamma=\dif x \wedge \dif y\\
+\end{align*}
+所以还有如下等式
+\begin{equation}\label{key}
+	\iint\limits_{(S)}\bm{A}(M)\cdot \bm{\dif S}=\iint\limits_{(S)}P(x,y,z)\dif y \wedge \dif z+Q(x,y,z)\dif z \wedge \dif x+R(x,y,z)\dif x \wedge \dif y
+\end{equation}
+两种面积分的联系：第二型面积分有方向性，转化为无方向性的第一型面积分的时候，用方向向量$\bm{e_n}$来建立联系。
+
+性质：
+\begin{enumerate}
+	\item 改变积分曲面的侧，积分结果变号
+	\item 对区域的可加性
+	\item 若闭合曲面$S$所围成的闭合区域被另一位于该区域内部的曲面分成了两个区域，其边界曲面为$S_1,S_2$，则
+	\begin{equation}\label{key}
+		\oiint \limits_{(S)}\bm{A}\cdot \bm{\dif S}=\oiint\limits_{(S_1)}\bm{A}\cdot \bm{\dif S}+\oiint\limits_{(S_2)}\bm{A}\cdot \bm{\dif S}
+	\end{equation}
+	\item 对称性。比如，若积分曲面是关于$yOz$面对称的，且被积函数是关于$x$的\textbf{偶函数}（包括$x$的零次方项），则该项为零。
+\end{enumerate}
+计算：
+为了简便起见，这里只讨论曲面方程可以用$z=z(x,y)$形式表示出来的情况，并只讨论第三个分量函数$R(x,y,z)$。
+\begin{equation}\label{key}
+	\iint\limits_{(S)}R(x,y,z)\dif x\wedge\dif y=\pm \iint\limits_{(\sigma_{x,y})}R(x,y,z(x,y))\dif x\dif y
+\end{equation}
+关注三个点：
+\begin{enumerate}
+	\item 正负号。当曲面法向量与$z$轴正向夹角为锐角时取正号，反之取负号
+	\item 积分域$\sigma_{x,y}$。$\sigma_{x,y}$是曲面在$xOy$面上的投影，如果投影退化为线或点，则直接为零。
+	\item 积分函数。被积函数中不能再出现$z$。
+\end{enumerate}
+
+\subsection{各种积分的联系及其在场论中的应用}
+\subsubsection{Green公式}
+格林公式反映了第二型平面线积分与二重积分的联系，一般用于化简第二型平面线积分。\\
+若平面有界闭区域$\sigma$由一条分段光滑简单闭曲线$C$围成，$P,Q\in C^{(1)}(\sigma)$，则有
+\begin{equation}\label{key}
+	\iint\limits_{(\sigma)}(\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y})\dif \sigma =\oint \limits_{(+C)} P(x,y)\dif x+Q(x,y)\dif y
+\end{equation}
+式中曲线正向是指逆时针。\\
+\textbf{注意\quad 该公式成立的条件是$\sigma$是单连通域，若不满足，则应该分割该区域分别应用}
+应用：\\
+对于复杂的非闭合曲线的线积分，可以将其补成一个闭合曲面并减去所补线上的线积分。一般补线选择竖直或水平线。\textbf{注意所补的线要保证仍然满足在所给域上一阶可导}\\
+容易混淆的一点是，在线上积分可以代入曲线等式化简积分，但变换到面积上做二重积分的时候，不再满足曲线等式，不能代入。\\
+\textbf{平面线积分与路径无关的条件}
+
+设$P,Q \in C(\sigma)$，下列命题等价：
+\begin{enumerate}
+	\item
+	\begin{equation}\label{key}
+		\text{沿着任意闭曲线积分为零：}
+		\oint_{(C)}P\dif x+Q \dif y=0,\text{C为闭合曲线}
+	\end{equation}
+	\item	\begin{equation}\label{key}
+		\text{从A点到B点的线积分}\int_{A}^{B}P\dif x+Q\dif y\text{的值与路径无关}
+	\end{equation}
+	\item	\begin{equation}\label{key}
+		\text{被积表达式}P\dif x+Q\dif y\text{在域内是某个函数的全微分，即}\dif u=P\dif x+Q\dif y
+	\end{equation}
+	\item 若$P,Q$在域内有连续的一阶偏导数，则上述三个命题还有充要条件：
+	\begin{equation}\label{key}
+		\dfrac{\partial P}{\partial y}\equiv\dfrac{\partial Q}{\partial x} 
+	\end{equation}
+\end{enumerate}
+第三、四条最常用。
+
+\noindent\textbf{势函数的求法} \quad 上述第3条中的$u=u(x,y)$是全微分$P\dif x+Q\dif y$的一个原函数（记得加C！），又被称为势函数。
+\begin{enumerate}
+	\item 用线积分求，选择竖直或水平线积分
+	\item 用偏积分求，对$x$偏积分的时候，常数项表述为$\varphi(y)$，再代入$\dfrac{\partial u}{\partial y}$求解。
+	\item 凑全微分求。
+\end{enumerate}
+\subsubsection{Gauss公式与散度}
+设有界闭区域$V$由分片光滑曲面$S$围成，$\bm{A}(P(x,y,z),Q(x,y,z),R(x,y,z))$在域内有一阶连续偏导数，则
+\begin{equation}\label{key}
+	\iiint\limits_{(V)}(\dfrac{\partial P}{\partial x}+\dfrac{\partial Q}{\partial y}+\dfrac{\partial R}{\partial z})\dif V=\oiint\limits_{(S)}P(x,y,z)\dif y \wedge \dif z+Q(x,y,z)\dif z \wedge \dif x+R(x,y,z)\dif x \wedge \dif y
+\end{equation}
+记为“缺哪项就对哪项求导”。
+还可记为
+\begin{equation}\label{key}
+	\iiint\limits_{(V)}\nabla\cdot \bm{A}\dif V=\oiint \limits_{(S)}\bm{A}\bm{\dif S}
+\end{equation}
+\textbf{通量}
+\begin{equation}\label{key}
+	\Phi=\oint_{(S)}\bm{A}(M)\cdot \bm{\dif S}
+\end{equation}
+\textbf{散度（通量密度）} \quad 点$M$处的散度为
+\begin{equation}\label{key}
+	div \bm{A}(M)=\lim\limits_{\Delta V \to M} \dfrac{1}{\Delta V}\oiint\limits_{(\Delta S)}\bm{A}(M)\cdot \bm{\dif S}
+\end{equation}
+计算公式为
+\begin{equation}\label{key}
+	div \bm{A}=\nabla\cdot \bm{A}=\dfrac{\partial P}{\partial x}+\dfrac{\partial Q}{\partial y}+\dfrac{\partial R}{\partial z}
+\end{equation}
+
+则高斯公式可以写成
+\begin{equation}\label{key}
+	\iiint\limits_{(V)}div \bm{A}\dif V=\oiint\limits_{(S)}\bm{A}\cdot \bm{\dif S}
+\end{equation}
+直观理解就是，一个闭区域中的各点源的散度之和等于该区域表面的通量之和。
+
+\subsubsection{Stokes公式和旋度}
+斯托克斯公式给出了空间上第二型线积分与所张曲面的第二型面积分的关系。格林公式是斯托克斯公式的退化形式。
+\begin{align}
+	\oint_{(C)}P\dif x+Q\dif y+R\dif z\\
+	=\iint\limits_{(S)}(\dfrac{\partial R}{\partial y}-\dfrac{\partial Q}{\partial z})\dif y\wedge\dif z+
+	(\dfrac{\partial P}{\partial z}-\dfrac{\partial R}{\partial x})\dif z\wedge\dif x+(\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y})\dif x\wedge\dif y
+\end{align}
+可以写成向量形式
+\begin{equation}\label{key}
+	\oint_{(C)}\bm{A}\cdot \bm{\dif S}=\iint\limits_{(S)}(\nabla \times \bm{A})\cdot \bm{\dif S}=\iint\limits_{(S)}(\nabla \times \bm{A})\cdot \bm{e_n}\dif S
+\end{equation}
+\textbf{旋度} 旋度是一个向量，该向量的方向可以使该点的环量密度取得最大值。该向量的模即为环量密度的最大值。环量密度，即一条闭曲线的环量在曲线逼近于一点时的极限值。旋度记为$\operatorname{rot} \bm{A}$
+环量密度计算公式：
+\begin{equation}\label{key}
+	\dfrac{\dif \Gamma}{\dif S}=[(\nabla \times \bm{A})\cdot \bm{e_n}]_M
+\end{equation}
+或
+\begin{equation}\label{key}
+	\dfrac{\dif \Gamma}{\dif S}=||\nabla \times\bm{A}||||\bm{e_n}||\cos \varphi
+\end{equation}
+旋度的计算公式（就是对$\bm{A}$作用一个nabla算符）
+\begin{equation}\label{key}
+	\operatorname{rot} \bm{A}=\nabla\times \bm{A}
+\end{equation}
+或记成向量形式
+\begin{flalign}\label{key}
+	\operatorname{rot}\bm{A}&=
+	\begin{vmatrix}
+		\bm{i} &	\bm{j} &	\bm{k} \\
+		\dfrac{\partial}{\partial x}& \dfrac{\partial}{\partial y}& \dfrac{\partial}{\partial z}\\
+		P&Q&R
+	\end{vmatrix} \notag \\
+	&=(\dfrac{\partial R}{\partial y}-\dfrac{\partial Q}{\partial z})\bm{i}+
+	(\dfrac{\partial P}{\partial z}-\dfrac{\partial R}{\partial x})\bm{j}+(\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y})\bm{k} \notag
+\end{flalign}
+利用旋度，环量密度可以改写成
+\begin{equation}\label{key}
+	\dfrac{\dif \Gamma}{\dif S}= \operatorname{rot} \bm{A}\cdot \bm{e_n}=||\operatorname{rot} \bm{A}||\cos (\operatorname{rot} \bm{A},\bm{e_n})
+\end{equation}
+利用旋度，Stokes公式可以改写成
+\begin{equation}\label{key}
+	\oint_{(C)}\bm{A}\cdot \bm{\dif s}=\iint\limits_{(S)}\operatorname{rot}\bm{A}\cdot \bm{\dif S}
+\end{equation}
+\textbf{几种重要的特殊向量场}
+\begin{enumerate}
+	\item 无旋场。对域内任意闭曲线环量为零
+	\begin{equation}\label{key}
+		\oint_{(C)}\bm{A}(M)\bm{\dif s}=0
+	\end{equation}
+	只要是一维单连域中的连续场，则无旋场、有势场（$\bm{A}=\nabla u$）、保守场和任意闭曲线环量为零等价。
+	\item 无源场。散度处处为零$\nabla \cdot \bm{A}=0$。二维单连域下的一阶连续场内，无源场、任意闭曲面通量为零、势函数存在向量势$\bm{A}=\nabla \times \bm{B}$等价。
+	\item 调和场。既无旋又无源的场。即
+	\begin{equation}\label{key}
+		\nabla\times \bm{A}=\nabla\cdot \bm{A}=0
+	\end{equation}
+\end{enumerate}
+\textbf{场的其他计算公式}
+\begin{enumerate}
+	\item $ \nabla \cdot (\bm{A}\times \bm{B})=\bm{B}\cdot (\nabla \times \bm{A})- \bm{A}\cdot (\nabla \times \bm{B})$
+	\item $ \nabla \cdot (\nabla \times \bm{A})=0 $“旋无散”
+	\item $ \nabla \times (\nabla \cdot \bm{A})=\bm{0} $“散无旋”
+	\item $ \nabla \cdot (\nabla u)=\nabla^2u=\Delta u $
+	\item $ \nabla\times (\nabla \times \bm{A})=\nabla(\nabla \cdot \bm{A})-\nabla^2\bm{A} $
+\end{enumerate}

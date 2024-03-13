@@ -1,0 +1,149 @@
+\documentclass{ctexart}
+\usepackage{graphicx}
+\begin{document}
+\begin{center}
+    \LARGE{电路实验第一课 预习报告}
+\end{center}
+\begin{center}
+    Leo
+\end{center}
+\section{实验要求}
+\begin{enumerate}
+    \item 认识基本的电路元件，包括分类、参数、用途等
+    学习常见实验仪器的测量对象、范围、精度、用途等
+    \item 掌握其使用与调节方法与常见故障的排除方法
+\end{enumerate}
+
+\section{实验原理}
+\subsection{示波器的作用}
+可以描绘波形曲线，用来观察电压信号的幅度、频率和相位等信息
+\subsection{怎样调节旋钮，才能看到完整的波形？}
+波形位置偏高或偏低：用垂直旋钮调节。
+
+波长超出屏幕或太短：调节扫描速率旋钮至屏幕上显示1-2个周期的波形。
+
+波形幅度不合适：调节相应通道的灵敏度，尽量使整个波形铺满屏幕。
+\subsection{DC耦合、AC耦合与接地的区别与使用场景}
+DC耦合：即直流耦合，不隔绝输入信号中的直流分量。测量脉冲信号的高低电平、峰峰值、观测直流信号或低频信号时用。
+
+AC耦合：即交流耦合，隔绝直流分量。当信号频率高于几十赫兹或交流分量需要被放大时使用。
+
+接地耦合：测量对地电压。可用于排除探头故障，还可以用于实验开始前的电平校准。
+\subsection{示波器探头的作用，倍率开关的区别}
+作用：将待测信号引入示波器；抑制外界信号的干扰。
+
+$10\times $开关用于观测高频信号或宽带信号，让整个频段有平坦的10倍衰减特性。此时测量的的电压数值要乘10.当屏幕里选择了探头$\times 10 $选项，则测量电压的结果要除以10
+\subsection{示波器触发设置的作用，怎样保持波形稳定}
+当输入的波形中某一个波形满足人为设定的条件时，示波器可以捕获该波形及其邻近部分并显示出来。只有稳定的触发才会有稳定的显示。因为每次扫描或采集都从输入信号上与用户定义的触发条件开始，所以捕获的波形应该是相重叠的，从而显示稳定的波形。
+
+一般把触发方式设置为Auto。还要设置一个触发电平线。
+
+\subsection{测量电压与时间有几种方法？}
+读格数：时间=格数*时基（或电压）档位
+
+自动测量
+
+光标测量
+\subsection{测量信号周期的方法？}
+数格子，再乘以时基得到周期，也可以用自动（或光标）测量得到时间再相减。
+\subsection{测量高低电平的方法？}
+可以使用测量系统，直接读取top和base的值；可以用光标测量，在t-Y显示下读取屏幕右侧的$Y_1$和$Y_2$值.
+
+\subsection{DDS信号源的作用、输出波形？如何调节电压值和频率值？}
+作用：为被测电路提供所需的信号
+
+输出波形：正弦波、方波、三角波、脉冲、高斯噪声、DC和任意波。
+
+调节参数：按Parameter键可以直接进入参数设置界面调节电压与频率，可以用数字键盘也可以用旋钮。
+\section{其他实验基础知识}
+\subsection{常见的脉冲信号}
+
+\begin{enumerate}
+    \item 正弦波
+    \item 方波
+    \item 三角波
+\end{enumerate}
+
+
+\section{实验仪器与器材}
+\subsection{脉冲信号的参数及其表示}
+\begin{enumerate}
+    \item 周期T：相邻的正脉宽和负脉宽时间长度的和
+    \item 幅度Vm：高电平和低电平之差
+    \item 占空比：正脉宽/周期*100%
+    \item 峰峰值$V_{P-P}$：(正弦波中) ，波峰和波谷幅值的差
+    \item 有效值$V_{RMS}$: (正弦波中)，峰峰值除以2$\sqrt{2}$
+    \item 直流分量:设正弦函数：$V=A+V_P \times sin \omega t $，则直流分量为 A
+\end{enumerate}
+
+\section{实验仪器}
+\subsection{示波器}
+\begin{enumerate}
+    \item 水平控制：调节触发点位置和时基
+    \item 垂直控制：调节波形的垂直位移和电压度量单位（可粗调可细调），有两个通道（以颜色区分），可以打开波形运算菜单
+    \item 触发控制：一般用Auto模式
+    \item 运行控制：可打开自动显示功能，可设置运行或关闭状态
+    \item 多功能按钮：用于选择子菜单之类的东西
+    \item 功能菜单：光标模式、测量系统、采样设置菜单和文件存储与导出
+    \item 与探头配合使用
+\end{enumerate}
+
+\subsection{探头}
+分为接地端和BNC端
+
+有99\%的问题出在探头上：可能是没有接地，可能是探头损坏，可能是与示波器接触不良等等
+
+\subsection{DDS信号源}
+基本参数：频率范围、幅度范围
+
+常用功能
+\begin{enumerate}
+    \item Waveforms:选择波形
+    \item Parameter:直接设置基本波形参数
+    \item Ch1/Ch2:切花通道
+    \item 通道输出控制：控制信号输出与否
+\end{enumerate}
+\subsection{直流电源}
+有三组独立输出：两组可调电压和一组固定可选的电压值，还有三种输出模式：独立、并联和串联
+\begin{enumerate}
+    \item NO.1-5:选择存储位置
+    \item SER：设置CH1/Ch2的串联模式
+    \item PARA：设置CH1/Ch2的并联模式
+    \item RECALL：存储系统调出参数设置
+    \item SAVE：保存参数
+    \item LOCK：长按开启或关闭锁键，防止误触
+    \item FINE：细调，参数变为以最小步长变化
+\end{enumerate}
+\subsection{色环电阻}
+分为四环电阻与五环电阻。
+
+都以环较为密集的一边为左边。四环电阻从左到右四个环分别为十位、个位、放大倍数、误差范围；五环电阻从左到右为百位、十位、个位、倍数、误差范围。
+% \section{实验表格}
+% \subsection{电阻、电容参数测量}
+% \begin{table}[!ht]
+%     \centering
+%     \caption{电阻参数测量}
+%     \setlength{\tabcolsep}{20mm}%7可随机设置，调整到适合自己的大小为止
+%     \begin{tabular}{|c|c|c|}
+%     \hline
+%         测量值  & ~ & ~ \\ \hline
+%         色环  & ~ & ~ \\ \hline
+%         标称阻值  & ~ & ~ \\ \hline
+%         标注误差  & ~ & ~ \\ \hline
+%         实测误差 & ~ & ~ \\ \hline
+%     \end{tabular}
+% \end{table}
+
+
+% \begin{table}[!ht]
+%     \centering
+%     \caption{电容的测量}
+%     \setlength{\tabcolsep}{20mm}%7可随机设置，调整到适合自己的大小为止
+%     \begin{tabular}{|c|l|l|}
+%     \hline
+%         标称容量  & ~ & ~ \\ \hline
+%         万用表测量电容量  & ~ & ~ \\ \hline
+%         实测误差 & ~ & ~ \\ \hline
+%     \end{tabular}
+% \end{table}
+\end{document}

@@ -1,0 +1,628 @@
+\section{质点运动学}
+\subsection{基本物理量及其关系}
+\begin{enumerate}
+	\item $\bm{r}=\bm{r}(t)$：位矢或径矢
+	\item $\Delta \bm{r}=\bm{r}(t+\Delta t)-\bm{r}(t)$
+	\item $\bm{v}=\dfrac{\dif \bm{r}}{\dif t}$
+	\item $\bm{v}=\dfrac{\dif s}{\dif t}$
+	\item $\bm{a}=\dfrac{\dif \bm{v}}{\dif t}=\dfrac{\dif^2 \bm{r}}{\dif t^2} $
+\end{enumerate}
+\subsection{坐标系的选取}
+\subsubsection{直角坐标系}
+当矢量为常矢量的时候，常选用直角坐标系。如抛体运动中，重力加速度为常矢量，所以用直角坐标系方便。
+
+每个量都可以写成三个维度的分量，并冠以$\bm{i},\bm{j},\bm{k}$
+\subsubsection{平面极坐标系}
+当一个矢量始终指向一个固定点时，宜选用平面极坐标系。位矢$\bm{r}$的长度为$r$，与极轴的夹角称为辐角$\theta$.\\
+单位矢量$\bm{e}_\theta,\bm{e}_r$与正交单位向量的关系：
+\begin{align}\label{key}
+	\bm{e}_r=\bm{i}\cos \theta+\bm{j}\sin \theta\\
+	\bm{e}_\theta=-\bm{i}\sin \theta+\bm{j}\cos \theta\\
+	\dfrac{\dif \bm{e}_r}{\dif t}=\dot{\theta}\bm{e}_\theta\\
+	\dfrac{\dif \bm{e}_\theta}{\dif t}=-\dot{\theta}\bm{e}_r
+\end{align}
+可以直接由图看出。由此可见，两个单位矢量都只与$\theta$有关，与$r$无关，利用上述关系可得
+\begin{align}
+	\bm{v}&=\dfrac{\dif \bm{r}}{\dif t}=\dfrac{\dif (r\bm{e}_r)}{\dif t}=\dot{r}\bm{e}_r+r\dot{\theta}\bm{e}_\theta\\
+	\bm{a}&=\dfrac{\dif \bm{v}}{\dif t}=\dfrac{\dif (\dot{r}\bm{e}_r)}{\dif t}+\dfrac{\dif (r\dot{\theta}\bm{e}_\theta)}{\dif t}\\
+	&=(\ddot{r}-r\dot{\theta}^2)\bm{e}_r+(r\ddot{\theta}+2\dot{r}\dot{\theta})\bm{e}_\theta
+\end{align}
+最后一行的两项分别是加速度的径向分量和横向分量。
+\subsubsection{自然坐标系}
+适用于坐标随时在变的情况。
+\begin{align}
+	&\bm{v}=v\bm{e}_t=\dfrac{\dif s}{\dif t}\bm{e}_t\\
+	&\dfrac{1}{\rho}=\dfrac{\dif \varphi}{\dif s}\\
+	&\dif \bm{e}_t=\bm{e}_n\dfrac{\dif s}{\rho}\\
+	&\bm{a}=\dfrac{\dif v}{\dif t}\bm{e}_t+\dfrac{v^2}{\rho}\bm{e}_n=a_t\bm{e}_t+a_n\bm{e}_n
+\end{align}
+由上式可得，加速度可以分解为两个分量：切向加速度（反映速度大小的变化）和法向加速度（反映速度方向的变化）。
+
+\section{动量守恒和质点动力学}
+\subsection{动量守恒定理}
+一个系统由两个质点组成，如果这两个质点只受到它们之间的相互作用，则该系统的总动量保持恒定，即
+\begin{equation}\label{key}
+	\bm{p_1}+\bm{p_2}=C
+\end{equation}
+\subsection{力 冲量和动量定理}
+将质点之间的作用力定义为单位时间内质点间传递的动量。\\
+\textbf{冲量定理} \\定义冲量
+\begin{equation}\label{key}
+	\bm{I}=\int_{t_1}^{t_2}\bm{F}\dif t
+\end{equation}
+则有
+\begin{equation}\label{key}
+	\bm{p_1}-\bm{p_2}=\bm{I}
+\end{equation}
+例子：火箭的在外层空间的运动有动量守恒（若在地球上则加上重力的冲量即可）
+\begin{equation}\label{key}
+	(-\dif m)(v+\dif v-u)+(m+\dif m)(v+\dif v)=mv
+\end{equation}
+dm是变化的质量，先视为正的，列在方程里
+\begin{equation}\label{key}
+	v_f-v_i=u\ln\dfrac{m_i}{m_f}
+\end{equation}
+\textbf{注意：在动量守恒分析中常常容易忘记重力（常力）的冲量！}
+\subsection{伽利略变换}
+设有两个参考系$S,S'$，其中$S'$相对$S$的速度为$\bm{v}_r$，相对位移为$\bm{R}$则对于同一观察对象$P$，有变换式
+\begin{equation}\label{key}
+	\bm{r}'=\bm{r}-R,\bm{v}'=\bm{v}-\bm{v}_r,\bm{a}'=\bm{a}
+\end{equation}
+对于加速平动参考系$S''$,$ \vec{a}''=\vec{a}\vec{a}_r $,$ \vec{a}_r $是$S''$相对于$ S $的加速度。惯性力$ \vec{F}_{inertial}=-m\vec{a}_r $.
+失重现象，取坐标系向下，$ \vec{a}'=\vec{g}-\vec{a} $
+\subsection{惯性离心力}
+在匀速转动的圆盘上有一观测者，他看到一个物块由绳子拴住与盘保持相对静止，显然由牛顿定律，物块还受到一个沿着半径向外的力才能保持静止。将这个假想的力叫做惯性离心力。
+\begin{align}\label{key}
+	\bm{F_i}=m\omega^2 \bm{r} ,\bm{r}\text{为径矢}\\
+	\bm{F_i}=m\omega^2 r\vec{e_r}
+\end{align}
+\subsection{科里奥利力}
+如果物体相对于匀速转动的参照系不是相对静止的，则对于在该参考系中的观察者来说，物体还受到科里奥利力的作用。
+\begin{align}\label{key}
+	\bm{F}_C=2m\bm{v}'\times \bm{\omega}\\
+	\bm{F}_C=-2mv'\omega \vec{e_\theta}
+	|F_C|=2mv'\omega \sin \theta
+\end{align}
+其中$\bm{v}'$是物体相对于参考系的速度，$\bm{\omega}$是参照系的角速度.
+
+\noindentbf{经典例题}
+\begin{enumerate}
+	\item 例题2.5 斜劈
+	\item 例题2.6 终极速度。常用代换：$ v=\dfrac{\dif x}{\dif t},\dif s =R\dif \theta $
+\end{enumerate} 
+\section{机械能守恒}
+\subsection{势能}
+\subsubsection{势能的公式}当质点从$P$点移动到$Q$点时，保守力做的功等于势能的减少量。
+\begin{equation}\label{key}
+	E_p(P)-E_p(Q)=\int_{P}^{Q}\bm{F}\dif \bm{s}=-\int_{Q}^{P}\bm{F}\dif \bm{s}
+\end{equation}
+\textbf{注意：“势能的减少量”仅表示“始态减末态”，不指示正负与大小;对应地，“增量”指“末态减始态”}\\
+质点系机械能的增量，等于外力做功与非保守内力做功之和
+\begin{equation}\label{key}
+	E_{\text{机械2}}-E_{\text{机械1}}=A_{\text{外}}+A_{\text{非保守内}}
+\end{equation}
+对于保守系，非保守内力做功为零，则有
+\begin{equation}\label{key}
+	E_{\text{机械2}}-E_{\text{机械1}}=A_{\text{外}}
+\end{equation}
+\subsubsection{势能函数}
+定义保守力
+\begin{equation}\label{key}
+	\bm{F}=-\dfrac{\dif E_p(x)}{\dif x}
+\end{equation}
+保守力指向势能下降的方向，大小正比于势能曲线的斜率。\\
+补充：史瓦西半径.由第二宇宙速度推导过程,
+\begin{align}
+	\dfrac{1}{2}mv_2^2=\dfrac{GMm}{r_e}
+	\intertext{得，当逃逸速度超过光速c,则}
+	R_g=\dfrac{2GM}{c^2}
+\end{align}
+补充：单摆势能与恢复力
+\begin{align}\label{key}
+	E_p(x)=\dfrac{mgx^2}{2l}\\
+	F=-\dfrac{\dif E_p}{\dif x}=-\dfrac{mgx}{l}
+\end{align}
+\subsection{质心参考系}
+\subsubsection{质心}
+定义质心相对于惯性系的位矢
+\begin{equation}\label{key}
+	\bm{r}_c=\dfrac{\sum_{i}m_i\bm{r}_i}{m}
+\end{equation}
+记质心相对于惯性系的速度为$\bm{v}_c$，在惯性系下观测到的系统总动量为$\bm{p}$,在质心系下观测到的系统总动量为$\bm{p}'$
+定义：让质点系的系统总动量为零的参考系称为动量中心系.\\
+可以证明，动量中心系就是不断跟随质心运动的系。且有
+\begin{equation}\label{key}
+	\bm{p}=m\bm{v}_c
+\end{equation}
+宛如质点系的全部质量和动量都集中在了质心上。
+\subsubsection{质心运动定理}
+外力对质点系的平动作用可以看作作用在质心一点上
+\begin{equation}\label{key}
+	\bm{F}^{ex}=m\bm{a}_c
+\end{equation}
+\textbf{柯尼希定理}\quad 质点系的总动能等于相对于质心系的动能$E_k'$加上随质心整体平移的动能$\dfrac{mv_c^2}{2}$\\
+用到了伽利略变换和重要等式：
+\begin{equation}\label{key}
+	\sum m_iv_i'=0
+\end{equation}
+\textbf{推论} \quad 在只有两个质点的质心系中，两个质点的动能只与他们的相对速度有$ \vec{u}=\vec{v}_1-\vec{v}_2=\vec{v}'_1-\vec{v}'_2 $关，称为相对动能$E_{kr}$。
+\begin{equation}\label{key}
+	E_k=E_{kc}+E_{kr}=\dfrac{1}{2}mv_c^2+\dfrac{1}{2}m_ru^2,m_r=\dfrac{m_1m_2}{m_1+m_2}\text{为约化质量}
+\end{equation}
+补充：两球碰撞\\
+定义恢复系数
+\begin{equation}\label{key}
+	e=|\dfrac{\bm{u}}{\bm{u}_0}|=|\dfrac{\bm{v}_1-\bm{v}_2}{\bm{v}_{10}-\bm{v}_{20}}|
+\end{equation}
+则有
+\begin{align}
+	\bm{v}_1=\dfrac{(m_1-em_2)\bm{v}_{10}+(1+e)m_2\bm{v}_{20}}{m_1+m_2}\\
+		\bm{v}_2=\dfrac{(1+e)m_1\bm{v}_{10}+(m_2-em_1)\bm{v}_{20}}{m_1+m_2}
+\end{align}
+
+\section{角动量守恒}
+\subsection{角动量及其守恒定律}
+定义角动量(必须先确定参考点)
+\begin{equation}\label{key}
+	\bm{L}=\bm{r}\times m \bm{v}=\bm{r}\times  \bm{p}
+\end{equation}
+若一个系统由两个质点组成且只有两者相互作用，则系统总角动量守恒。\\
+\textbf{注意 叉乘时始终是距离在前}
+定义力矩
+\begin{equation}\label{key}
+	\bm{M}=\bm{r}\times \bm{F},\dfrac{\dif \bm{L}}{\dif t}
+\end{equation}
+力矩做功
+\begin{equation}\label{key}
+	W=\bm{M}\cdot \theta
+\end{equation}
+如果质点系收到的是有心力，则总有角动量守恒；如果收到的是重力，则
+\begin{equation}\label{key}
+	\bm{M}^{ex}=\sum \bm{r}_i\times m_i\bm{g}=\sum m_i\bm{r}_i\times \bm{g}=m\bm{r}_c\times \bm{g}
+\end{equation}
+上式的最后一步经常用到。\\
+对于质心系，有如下定理：质点系对于固定点$O$的角动量$\bm{L}$等于质点系对其质心的角动量$\bm{L}_c$加上质量集中在质心上随之运动时对$O$点的角动量，即
+\begin{equation}\label{key}
+	\bm{L}=\bm{L}_c+m\bm{r}_c\times \bm{v}_c
+\end{equation}
+对应的，有质心系的角动量定理
+\begin{align}\label{key}
+	\dfrac{\dif \bm{L}}{\dif t}=\dfrac{\dif \bm{L}_c}{\dif t}+m\bm{r}_c\times \bm{a}_c\\
+	\bm{M}_c^{ex}=\dfrac{\dif \bm{L}_c}{\dif t}
+\end{align}
+质点系收到的重力对其质心的合力矩恒为零。
+
+\noindentbf{经典例题}
+\begin{enumerate}
+	\item p97 对于椭圆轨道
+	\begin{align}\label{key}
+		e=\sqrt{1+\dfrac{2EL^2}{G^2m_1^2m_2^3}}\\
+		p=\dfrac{b^2}{a}=\dfrac{L^2}{Gm_1m_2^2}\\
+		r_{max}=\dfrac{p}{1-e}=a+c\\
+		r_{min}=a-c
+	\end{align}
+\item 例3.4 软绳落地
+\item 例3.7 非对心碰撞，在等质量时始终满足矢量圆。
+\end{enumerate}
+\section{连续体力学}
+
+设刚体关于轴转过的角度为$\Delta \varphi$，角速度为$\omega$，角加速度为$\alpha$，有如下关系
+\begin{align}\label{key}
+	a_t=R_I\alpha\\
+	a_n=R_i\omega^2
+\end{align}
+定义转动惯量
+\begin{equation}\label{key}
+	I=\sum_{i}m_iR_i^2
+\end{equation}
+有关系
+\begin{equation}\label{key}
+	L=\sum_{i}m_iR^2_i\omega =I\omega
+\end{equation}
+\textbf{平行轴定理}\quad 当两个轴平行的时候，若称过质心的轴对应的转动惯量为$I_c$，则
+\begin{equation}\label{key}
+	I=I_c+md^2
+\end{equation}
+\textbf{垂直轴定理}\quad 对于薄板刚体，若建立坐标系$Oxyz$，使$z$轴垂直于薄板平面，则
+\begin{equation}\label{key}
+	I_z=I_x+I_y
+\end{equation}
+\subsection{刚体定轴转动}
+\noindent\textbf{刚体定轴转动的角动量定理}\quad $ M_z=I_z\alpha $\\
+\textbf{刚体定轴转动的转动定理}\quad  $ \int M_z\dif t=I_z\omega -I_z\omega_0 $\\
+\textbf{刚体定轴转动的动能定理}\quad $ A=\int M_z\dif \theta $,$ \int M_z\dif \theta=\dfrac{1}{2}I_z\omega^2 -\dfrac{1}{2}I_z\omega_0^2 $
+
+补充：回转半径。将转动惯量普遍的表示为$I=mR^2$，$ R $就被称作回转半径，若一个一端悬在铰链上的细棒在距离铰链$r_0$处受到F作用，为了在铰链处不受力，则应满足$r_0=\dfrac{R^2}{r_c}$\\
+补充：纯滚条件$v_c=R\omega$
+\subsection{刚体的进动}
+\begin{align}
+	&\Delta \varphi=\dfrac{r_cmg}{L}\Delta t\\
+	&\omega_p=\dfrac{mgr_c}{I\omega}
+\end{align}
+\textbf{方向的判定是距离叉乘力！(错过)}\quad $M=\bm{r}_c\times m\bm{g}$
+
+补充：二级结论\\
+
+1. 速度关系式：$$ \vec{v}=\vec{\omega}\times \vec{r} $$ 其中，$\vec{v}$ 为刚体上任一点的速度，$\vec{\omega}$ 为刚体的角速度，$\vec{r}$ 为该点相对于旋转轴的距离。
+
+2. 加速度关系式：$$ \vec{a}=\vec{\alpha} \times \vec{r}+\vec{\omega}\times(\vec{\omega}\times\vec{r}) $$ 其中，$\vec{a}$ 为刚体上任一点的加速度，$\vec{\alpha}$ 为刚体的角加速度，$\vec{r}$ 为该点相对于旋转轴的距离。
+
+3. 旋转惯量的计算公式：$$ I=\sum_i m_i r_i^2 $$ 其中，$m_i$ 为刚体的第 $i$ 个质点的质量，$r_i$ 为该质点相对于旋转轴的距离。
+
+4. 旋转定理：对于刚体上任意一点 $P$，沿任何方向引入一条直线，则该直线的角动量 $L_P$ 等于该直线在重心处的角动量 $L_G$ 加上刚体相对于重心的质量乘以与重心到该点的连接线在该直线上的投影的角动量，即：$$ L_P = L_G + I_{CM}\omega $$ 其中，$I_{CM}$ 为该刚体相对于重心的转动惯量，$\omega$ 为该刚体的角速度。
+
+5. 平动定理和角动定理：$$ \sum \vec{F} = m\vec{a} $$
+
+$$ \sum \vec{\tau} = \frac{\mathrm{d}\vec{L}}{\mathrm{d}t} $$ 其中，$\sum \vec{\tau}$ 表示刚体上所有力矩的矢量和，$\mathrm{d}\vec{L}/\mathrm{d}t$ 表示角动量的变化率。
+
+6. 刚体滚动时的动能：对于在水平面上以速度 $v$ 滚动的实心球，其动能可以表示为：$$ K = \frac{1}{2}mv^2 + \frac{1}{2}I\omega^2 $$ 其中，$m$ 为球的质量，$I$ 为其绕过球心的转动惯量，$\omega$ 为球的角速度。
+
+7. 滚动动能定理：当实心球在平面上以速度 $v$ 滚动时，其滚动动能的变化率为：$$ \frac{\mathrm{d}K_{\text{roll}}}{\mathrm{d}t} = \vec{F}_{\text{friction}}\cdot\vec{v} = f_{\text{friction}}v $$ 其中，$K_{\text{roll}}$ 为滚动动能，$\vec{F}_{\text{friction}}$ 为滚动摩擦力，$f_{\text{friction}}$ 为摩擦系数。
+
+8. 滚动不滑动条件：当实心球在平面上滚动时，它的质心速度等于其某点（一般为接触点）的速度，即：$$ v_{\text{cm}} = \omega R $$ 其中，$v_{\text{cm}}$ 为球的质心速度。
+\subsection{固体的弹性}
+定义应力为单位面元上的内力（不要求面元与力垂直）
+\begin{equation}\label{key}
+	\tau=\dfrac{\dif\bm{F}}{\dif S}
+\end{equation}
+\begin{enumerate}
+	\item 杨氏模量（长度）E:$ \dfrac{F}{\Delta S}=E\dfrac{\Delta l}{l} $
+	\item 体积模量（体积）K:$ \dfrac{F_\perp}{\Delta S}=K\dfrac{\Delta V}{V} $
+	\item 剪切模量 G:$ \dfrac{F_\parallel}{\Delta S}=G\dfrac{\Delta b}{d} $,$ b $为材料的切向位移，$ d $为材料厚度。
+	\item 若设直杆拉伸时横向限度为$b$，则横向相对形变$ \epsilon_t=\dfrac{b-b_0}{b_0},\mu =|\dfrac{\epsilon_t}{\epsilon}| $，$ \mu $称为泊松比
+\end{enumerate}
+\subsection{流体力学}
+伯努利方程(能量守恒定律在流体中的体现)
+\begin{equation}\label{key}
+	p+\dfrac{1}{2}\rho v^2 +\rho gh=C
+\end{equation}
+
+\section{振动与波}
+\subsection{简谐振动}
+简谐振动的运动方程
+\begin{equation}\label{key}
+	\dfrac{\dif^2 x}{\dif t^2}+\omega^2x=0
+\end{equation}
+其解为
+\begin{equation}\label{key}
+	x=A\cos (\omega t + \varphi_0)
+\end{equation}\\
+\textbf{两个同方向同频率的简谐运动的合成}
+\begin{align}
+	&x_1=A_1\cos(\omega t+\varphi_{10})\\
+	&x_2=A_2\cos(\omega t+\varphi_{20})\\
+	\intertext{合成的振动为}
+	&x=A\cos(\omega t+\varphi)\\
+	&A=\sqrt{A_1^2+A_2^2+2A_1A_2\cos(\varphi_{20}-\varphi_{10})}\\
+	&\tan \varphi_0=\dfrac{A_1\sin \varphi_{10}+A_2\sin \varphi_{20}}{A_1\cos \varphi_{10}+A_2\cos \varphi_{20}}
+\end{align}
+可由图现推角度关系。\\
+\textbf{两个同方向不同频率的简谐运动的合成}\\
+\textbf{拍}\quad 两个频率都较大但是频率相差很小的同方向振动合成时会出现振幅时而大时而小的情况，称为拍。
+\begin{align}
+	&x_1=A_1\cos(\omega_1 t)\\
+	&x_2=A_2\cos(\omega_2 t)\\
+	\intertext{合成的振动为}
+	&x=A_1\cos(\omega_1 t)+A_2\cos(\omega_2 t)\\
+	&=2A\cos \dfrac{(\omega_2-\omega_1)t}{2}\cos \dfrac{(\omega_2+\omega_1)t}{2}\\
+	\intertext{拍的周期和拍频为}
+	&T_b=\dfrac{2\pi}{\omega_2-\omega_1}\\
+	&v_b=\dfrac{1}{T_b}=\dfrac{\omega_2-\omega_1}{2\pi}
+\end{align}
+\subsection{机械波的产生与传播}
+\noindentbf{定义}
+\begin{enumerate}
+	\item 波速$ u $就是波的相位传播的速度，因此也是相速。
+
+	\item 角波数$ k=\dfrac{2\pi}{\lambda} $
+	\item 波函数$ \xi(\bm{r},t) =A\cos [\omega(t-\dfrac{x-x_0}{u})+\varphi_0]=A\cos[\omega t\mp k(x-x_0)+\varphi_0]$,减号对应指波的传播方向与轴的正向相同，加号则反之。
+	\item 相位差$ \Delta \varphi = \dfrac{2\pi}{\lambda} \Delta x $，减去一个相位，会使相位变小，表示滞后。
+\end{enumerate}
+\noindentbf{波的能量}
+波的平均能量密度$ \bar{w}=\dfrac{1}{T}\int_{0}^{T}w \dif t=\dfrac{1}{2}\rho \omega^2A^2 $\\
+平均能流$ \bar{p}=\bar{w}uS $\\
+平均能流密度$ I=\bar{w}u=\dfrac{1}{2}\rho \omega^2A^2u $，在声波和光波中分别被称为声强和光强。
+
+\subsection{驻波}
+和差化积：$ \cos \alpha=\cos \beta=2\cos \dfrac{\alpha-\beta}{2}\cos \dfrac{\alpha+\beta}{2} $\\
+相干条件：频率相同，振动方向（不是传播方向）相同，有恒定相位差。
+
+现有两列波，传播方向相反，波函数分别为
+\begin{equation}\label{key}
+	y_1=A\cos (\omega t-kx)\quad	y_2=A\cos (\omega t+kx)
+\end{equation}
+在两波相遇处，合位移应该为
+\begin{equation}\label{key}
+	y=(2A\cos kx)\cos \omega t=(2A\cos \dfrac{2\pi x}{\lambda})\cos \omega t
+\end{equation}
+上式称为驻波方程，括号内看作振幅，只与位置有关，波形不随时间移动，只随位移变化而变化振幅。
+
+\noindentbf{半波损失}如果波是从波密介质反射回来，则在界面处反射波和入射波的振动相位相反，相当于相位突变$ \pi $.特别地，若反射点是一个固定点，则该点是节点，与之相差$ \dfrac{1}{2}\lambda $的地方也是节点。
+
+\subsection{多普勒效应}
+设波源相对于介质的移动速度为$ v_s $,观测者相对于介质的移动速度为$ v_o $。下述分析都是假设波源和观测者相向运动。
+\subsubsection{波源静止，观测者相对于介质运动}
+$ u $变大，观测者观测到的频率增加为
+\begin{equation}\label{key}
+	v'=\dfrac{u+v_o}{\lambda}=\dfrac{u+v_o}{u}v=(1+\dfrac{v_o}{u})v
+\end{equation}
+\subsubsection{观测者静止，波源相对于介质运动}
+$ \lambda $变小，观测者观测到的频率减小为
+\begin{equation}\label{key}
+	v'=\dfrac{u}{\lambda'}=\dfrac{u}{u-v_s}v
+\end{equation}
+波源运动和观测者运动造成的频率变动是不对称的。
+\subsubsection{观测者和波源同时相对于介质运动}
+\begin{equation}\label{key}
+	v'=\dfrac{u+v_o}{u-v_s}v
+\end{equation}
+对于电磁波该规律失效。\textbf{注意 在实际分析中，每发生一次反射就要计算一次多普勒效应。}
+
+\section{静电场}
+
+\subsection{库仑定律}
+
+当电荷$q_1$和$q_2$相距$r$时，它们之间的相互作用力为：
+
+$$ F = \frac{1}{4\pi\epsilon_0}\frac{q_1q_2}{r^2} $$
+
+其中$\epsilon_0$是真空介电常数，值为$8.85\times 10^{-12}$ C$^2$/(N$\cdot m^2$)。
+\subsection{电场}
+
+$$ \vec{F} = q\vec{E} $$
+
+其中$\vec{E}$是电场强度，$\hat{F}$表示电荷所受力的方向。
+
+在真空中，电场强度与库仑定律的关系为：
+
+$$ \vec{E} = \frac{1}{4\pi\epsilon_0}\frac{q}{r^2}\hat{r} $$
+
+其中$\hat{r}$是一个指向电荷$q_2$的单位矢量。
+
+\subsection{电势}
+
+在静电场中，如果电场沿一条曲线回到了起点，那么这条曲线所围成的区域内的电场为旋度为零的电场，因此这样的区域内的电场可以表示为一个势场的梯度，即：
+
+$$ \vec{E} = -\nabla V $$
+
+其中$V$称为电势，即：
+
+$$ V = \frac{1}{4\pi\epsilon_0}\frac{q}{r} $$
+
+其中$r$表示参考电势点到电荷的距离。电势的单位是伏特（V）。\\
+在不同坐标系下有
+\begin{enumerate}
+	\item 直角坐标系 
+	\begin{equation}\label{key}
+		E_x=-\dfrac{\partial V}{\partial x},	E_y=-\dfrac{\partial V}{\partial y},	E_z=-\dfrac{\partial V}{\partial z}
+	\end{equation}
+\item 柱面坐标系
+\begin{equation}\label{key}
+	E_\rho=-\dfrac{\partial V}{\partial \rho},
+	E_\varphi=-\dfrac{1}{\rho}\dfrac{\partial V}{\partial \varphi},
+	E_z=-\dfrac{\partial V}{\partial z}
+\end{equation}
+\item 球面坐标系
+\begin{equation}\label{key}
+	E_r=-\dfrac{\partial V}{\partial r},
+	E_\theta=-\dfrac{1}{r}\dfrac{\partial V}{\partial \theta},
+	E_\varphi=-\dfrac{1}{r\sin \theta}\dfrac{\partial V}{\partial \varphi}
+\end{equation}
+\end{enumerate}
+\subsection{高斯定理}
+
+根据高斯定理，电通量是通过一个任意闭合曲面的电场总量。它的积分形式为：
+
+$$ \Phi_E = \oiint_S \vec{E}\cdot\vec{n}dA = \frac{Q}{\epsilon_0} $$
+
+其中$S$是任意闭合曲面，$\vec{n}$是垂直于闭合曲面的单位向量，$dA$是一个微小的面积元，$Q$是闭合曲面内部的电荷总量。\\
+微分形式：
+
+\begin{equation}\label{key}
+	\nabla\cdot \bm{E}=\dfrac{1}{\epsilon_0}\bm{\rho_e}
+\end{equation}
+即场强的散度正比于该点电荷密度。
+\subsection{高斯定理的应用}
+经典的高斯定理应用是计算均匀带电球面的电场。在这种情况下，球面对称性使得电场具有旋转对称性，因此它可以通过根据球面距离的大小建立一个任意半径球面来进行计算。由于电场在每个半径相同的球面上都是相同的，我们可以利用高斯定理得到：
+
+$$ \Phi_E = \oint_S \vec{E}\cdot\vec{n}dA = \frac{Q}{\epsilon_0} = E4\pi r^2 $$
+
+其中$E$是球面电场，$r$是半径。
+
+从这个公式可以解出球面电场为：
+
+$$ E = \frac{Q}{4\pi\epsilon_0 r^2} $$
+\textbf{注意！一定要有某种对称性才可以方便的使用高斯定理}\\
+对于带电大平板，若考虑厚度，则场强为
+\begin{equation}\label{key}
+	E=\dfrac{\sigma}{2\epsilon_0}
+\end{equation}
+若视为绝对薄板则
+\begin{equation}\label{key}
+	E=\dfrac{\sigma_0}{\epsilon_0}
+\end{equation}
+可见，有厚度的板上的电荷密度其实是将两侧绝对平面的电荷密度相加。
+\subsection{静电势能}
+
+在静电场中，对于一个由电荷$q_1$产生的电场，把一个电荷$q_2$从无穷远处移到与$q_1$之间的一点，需要对它做功。这个所做的功就等于电势能的减少量。电场具有能量，电势能的大小正比于电荷的大小和电势的大小。
+
+一般来说，它的数学表达式为：
+
+$$ U_E = qV $$
+
+其中$q$是电荷，$V$是电势。电势能的单位是焦耳（J）。
+
+\subsection{导体中的静电平衡}
+1. 电场内的导体：在一个外加电场下，导体内部的电荷会发生移动，直到在导体表面上建立起一个恒定的电场，导体内部不再存在电场。
+
+2. 对于静电平衡的导体，有以下规律：
+
+(a) \textbf{导体内部不存在电场}，导体表面上的电场强度处处相等。
+
+(b) 导体表面上的电场线垂直于导体表面，并将导体表面分成等势面。
+
+
+3. 静电平衡的导体带电情况：静电平衡的导体表面带电，导体内部是不带电的。导体表面的电荷分布可以通过以下公式得到：$$ \rho_S = -\frac{\vec{E}\cdot\vec{n}}{4\pi k} $$ 其中，$\rho_S$ 表示导体表面上的电荷密度，$\vec{E}$ 表示导体表面上的电场强度，$\vec{n}$ 表示垂直于导体表面的单位法向量，$k$ 表示库伦常数。
+
+4. 电容器中的导体：在一个带电电容器中，两个导体之间的电势差等于电容器两板之间的电势差，并且两个导体必须处于静电平衡状态。
+
+6. 高斯定理在导体中的应用：在一个导体内部的高斯面上，电场强度和导体表面的法向电场强度成比例关系，即：$$ \vec{E}\cdot\vec{n} = \frac{\sigma_S}{\varepsilon_0} $$ 其中，$\sigma_S$ 表示导体表面上的电荷密度。
+
+对于两块孤立的带电大平板，从左到右四个面，恒有下式成立
+\begin{equation}\label{key}
+	\sigma_1=\sigma_4,\sigma_2+\sigma_3=0
+\end{equation}
+对于从左到右三块板A,B,C且C板右侧接地的情况，当C板右侧无电荷时，则C板右侧场强为0.
+
+
+\subsubsection{静电屏蔽}
+对于空腔导体
+\begin{enumerate}
+	\item 若空腔内没有带电体，则空腔内没有电场，处处等势
+	\item 若有带电体（电量为Q），则空腔内表面带上等量异号电荷，因此内部电荷可以间接的影响外场强。但若外表面接地，则内部不影响外部。无论接地与否，外部不影响内部。
+\end{enumerate}
+
+\subsubsection{电容}
+平板电容器：$ C=\dfrac{\epsilon_0S}{d} $
+
+球形电容$ C=4\pi \epsilon_0 R $，可以由球壳电场公式推出电势表达式，继而得到电容。
+
+补充：电偶极子\\
+两个点电荷 $q$ 和 $-q$ 彼此靠近，距离为 $2a$，它们组成了一个电偶极子。在距离电偶极子中心轴线为 $x$ 的点处，根据电势公式和电场公式，可以计算出电偶极子对该点的场强和电势：
+
+$$ E_x = \frac{1}{4\pi\epsilon_0}\frac{2qa}{(a^2 + x^2)^{\frac{3}{2}}} $$
+
+$$ V = \frac{1}{4\pi\epsilon_0} \left( \frac{q}{\sqrt{a^2+x^2}} - \frac{q}{\sqrt{a^2-x^2}} - \frac{q}{\sqrt{a^2+x^2}} + \frac{q}{\sqrt{a^2-x^2}} \right) = \frac{1}{4\pi\epsilon_0} \frac{2qx^2}{(a^2 - x^2)^{\frac{3}{2}}} $$
+
+其中，$\epsilon_0$ 是真空电介质常数。在距离电偶极子组成线延长线上的点 $A$ 处，场强为：
+
+$$ E = \frac{1}{4\pi\epsilon_0}\frac{q}{(a+x)^2} - \frac{1}{4\pi\epsilon_0}\frac{q}{(a-x)^2} $$
+
+电势为：
+
+$$ V = \frac{1}{4\pi\epsilon_0} \left( \frac{q}{a+x}+ \frac{q}{a-x}\right) $$
+
+其中，$a$ 为电偶极子两点电荷之间的距离，$x$ 为点 $A$ 与电偶极子最近距离，$q$ 为点电荷电量。
+
+补充：均匀带电球面的电势\\
+\begin{equation}\label{key}
+	U_p=
+	\begin{cases}
+		\dfrac{Q}{4\pi \epsilon_0 R},(r<R)\\
+		\dfrac{Q}{4\pi \epsilon_0 r},(r\geq R)
+	\end{cases}
+\end{equation}
+$r$是空间内一点$P$与球心的距离。
+
+均匀带电圆盘轴线（设为x轴）上的场强分布（x>>R）
+\begin{equation}\label{key}
+	E=\dfrac{\sigma_e}{2\epsilon_0}(1-\dfrac{x}{\sqrt{R^2+x^2}})
+\end{equation}
+当x远大于R时，
+\begin{equation}\label{key}
+E=\dfrac{1}{4\pi \epsilon_0}\dfrac{\pi R^2\sigma_e}{x^2}
+\end{equation}
+由此推导出均匀带电球体轴线上的场强分布
+\begin{equation}\label{key}
+	E=\int_{-R}^{R}\dfrac{\rho_e}{2\epsilon_0}(1-\dfrac{x_0}{\sqrt{R^2+x_0^2-x^2}})\dif x
+\end{equation}
+电荷面密度与体密度的转换：
+\begin{equation}\label{key}
+	\sigma_e=\dfrac{\rho_e \pi r^2 \dif x}{\pi r^2}=\rho_e\dif x
+\end{equation}
+
+\section{静电场中的导体与电介质}
+\subsection{静电场中的导体}
+静电平衡条件下的导体具有以下性质
+\begin{enumerate}
+	\item 导体是等势体，表面是等势面
+	\item 导体内部没有电荷；对于空腔导体，空腔内表面也无电荷
+	\item 导体表面的面电荷密度决定了靠近表面处的场强，场强处处与表面垂直。
+	\begin{equation}\label{key}
+		E=\dfrac{\sigma_e}{\epsilon_0}
+	\end{equation}
+\textbf{注意区分绝对大平面附近场强}$ E=\dfrac{\sigma_e}{2\epsilon_0} $
+\end{enumerate}
+\noindentbf{静电屏蔽}
+导体壳（不论是否接地）内部电场不受壳外电荷影响，接地导体壳外部电场不受壳内电荷的影响。
+
+\subsubsection{电容和电容器}
+\begin{enumerate}
+	\item 孤立导体电容：$ \dfrac{q}{V}=C $
+	\item 半径为$ R $的导体球或球壳电容为$ C=4\pi \epsilon_0 R $
+	\item 平行板电容：$ C=\dfrac{\epsilon_0S}{d} $
+	\item 同心球壳电容：
+	\begin{equation}\label{key}
+		C=\dfrac{4\pi \epsilon_0R_AR_B}{R_B-R_A}
+	\end{equation}
+\item 对于同轴圆柱形电容：
+\begin{equation}\label{key}
+	C=\dfrac{2\pi \epsilon_0l}{\ln (\dfrac{R_B}{R_A})}
+\end{equation}
+当半径远大于半径差时，还可以近似看作平板电容（$ \ln \dfrac{R_B}{R_A}=\ln (1+\dfrac{d}{R_A})\approx \dfrac{d}{R_A} $）
+\end{enumerate}
+
+\subsection{静电场中的电介质}
+\noindentbf{定义}
+\begin{enumerate}
+	\item 极化强度 $ \bm{P} $：单位体积内分子电偶极矩的矢量和。若极化强度在电介质中处处的大小和方向都相同，则称为均匀极化。对于均匀的电介质，极化电荷集中在介质表面。
+	\item 电位移或电通密度$ \bm{D}=\epsilon_0\bm{E}+\bm{P} $
+	\item 总场强$ \bm{E} $
+	\item 外场强$ \bm{E}_0 $
+	\item 退极化场强$ \bm{E}' $
+	\item 电容率或介电常量$ \epsilon $
+	\item 相对介电常数$ \epsilon_r $
+	\item 极化率$ \chi_e $，只与材料性质有关。
+	\item 极化电荷密度$ \sigma' $
+\end{enumerate}
+\noindentbf{各物理量之间的关系}
+\begin{enumerate}
+	\item $ \bm{E}=\bm{E}_0+\bm{E}' $，在平行板等一般情况下可以写成标量式$ E=E_0-E' $
+	\item $ \bm{D}=\epsilon_0\bm{E }+\bm{P}$,一般标量式与之相同。
+	\item $ \bm{P}=\chi_e\epsilon_0\bm{E} $
+	\item $ \epsilon_r=1+\chi_e $
+	\item $ \epsilon=\epsilon_0\epsilon_r $
+	\item 对于各向同性的电介质,$ \bm{D}=\epsilon_0\epsilon_r\bm{E} ,\bm{P}=\epsilon_0(\epsilon_r-1)\bm{E}=(1-\dfrac{1}{\epsilon_r}\bm{D})$
+	\item 当空间充满均匀电介质，或均匀介质的表面是等势面时，有
+	\begin{equation}\label{key}
+		\bm{D}=\epsilon_0\bm{E},	\quad \bm{E}=\dfrac{\bm{E}_0}{\epsilon_r}
+	\end{equation}即闭曲面的极化位移通量和等于闭曲面内极化电荷总量的负值
+\begin{equation}\label{key}
+	\oiint_{S}\bm{P}\dif \bm{S}=-\sum_{(S)}q'_{polarization}
+\end{equation}
+对于平板电容，则直接有$ \sigma'=|P| $
+\item  任意闭合曲面的电位移通量等于该闭曲面所包围的自由电荷的代数和
+\begin{equation}\label{key}
+		\oint_{S}\bm{D}\dif \bm{S}=\sum_{(S)}q
+\end{equation}
+\item 有电介质时的高斯定理微分形式
+\begin{equation}\label{key}
+	\nabla\cdot \bm{D}=\rho_0
+\end{equation}
+(没有电介质时为$ 	\nabla\cdot \bm{E}=\dfrac{\rho_0}{\epsilon_0}  $)
+\end{enumerate}
+
+\subsection{静电场的能量}
+\noindentbf{概念}
+带电体系的能量等于把各部分电荷从无限分散状态聚集成现有带电体系的过程中，抵抗静电力做的功，也等于把各电元从现有状态分散至无限远处过程中，静电力做的功。
+
+两个点电荷的相互作用能
+\begin{equation}\label{key}
+	W_{int}=\dfrac{1}{4\pi \epsilon_0}\dfrac{q_1q_2}{r_{12}}
+\end{equation}
+
+电容器储能$ W=\dfrac{1}{2}\dfrac{Q^2}{C} $
+\subsubsection{电场的能量与能量密度}
+一般地，电能密度可以表示为
+\begin{equation}\label{key}
+	w_e=\dfrac{1}{2}\bm{D}\cdot \bm{E},\text{其中,当电容为平板时}D=\sigma_{e0}=\dfrac{Q_0}{S}
+\end{equation}
+故电场能量为密度的体积分
+\begin{equation}\label{key}
+	W=\iiint w_e \dif V=\iiint \dfrac{\bm{D}\cdot \bm{E}}{2}\dif V
+\end{equation}
+特别地，在各向同性的介质，能量密度中可以简化为
+\begin{equation}\label{key}
+	w_e=\dfrac{1}{2}\epsilon_r\epsilon_0 E^2
+\end{equation}
+包含真空的情况（$ \epsilon_r=1 $）,该式包含了自能与互能。
