@@ -1,0 +1,13 @@
+# latex ignore
+*.log
+*.out
+*.aux
+*.synctex*
+*.toc
+
+# Excel ignore
+*.xlsx
+
+# Unknown
+*.nb
+*.webp
