@@ -1,0 +1,226 @@
+\chapter{指令系统}
+\section{寻址方式}
+\subsection{立即寻址}
+操作数包含在指令中，它是一个8或16位常数，称为立即数。
+
+示例
+\begin{lstlisting}
+    MOV AX,1860H
+\end{lstlisting}
+表示将1860H送入AX寄存器中。其中，立即数在代码段中，紧跟在操作码之后。
+\subsection{寄存器寻址}
+操作数包含在寄存器中，由指令指定寄存器名
+\begin{lstlisting}
+    MOV AX,BX
+    MOV CH,AL
+\end{lstlisting}
+表示将寄存器BX中的数送入AX寄存器中。第二条指令说明低位和高位可以互相传数字
+\subsection{存储器寻址}
+操作数在存储器中。这种方式速度慢，表达方式最多，情况最复杂，要求能在1MB存储空间中寻址。段内偏移量也称有效地址EA。
+\subsubsection{物理地址计算方法}
+图示如下！！！（存储器地址计算图示）
+段寄存器可以是CS,SS,DS,ES;有效地址EA可以是
+\begin{enumerate}
+    \item 指令中直接指定的16位直接位移量，要加方括号
+    \item BX/BP/SI/DI，{\color{red}{出现BP（不管是源处还是目的处）时默认使用SS提供段基址，但允许使用段超越前缀将SS修改为CS/DS/E，没有BP的，默认使用DS}}
+    \item 位移量+基址/变址
+    \item [BX/BP]+[SI/DI]+位移量，{\color{red}{画斜线的两者不能同时出现}}
+\end{enumerate}
+EA的24种表示法！！！图
+
+\subsection{其他}
+\subsubsection{隐含寻址}
+指令中不明确指明操作数，但有隐含规定的 寻址方式。如：DAA对AL中的数进行十进制调整；CLI对中断标志清零
+\subsubsection{一条指令包含几种寻址方式}
+例如
+\begin{lstlisting}
+    MUL DL 
+    ## AX<-AL*DL,源操作数为寄存器和隐含的寄存器AL
+\end{lstlisting}
+\subsubsection{IO端口寻址}
+直接端口寻址：端口地址由指令直接给出，范围是00-FFH，若超出要先放到寄存器里。如
+\begin{lstlisting}
+    IN AL,40H
+    OUT 83H,AL
+\end{lstlisting}
+间接端口寻址：端口地址由DX寄存器提供，其范围为0000-FFFFH
+\begin{lstlisting}
+    MOV DX,2F0H
+    IN AL,DX ##2F0H读入到AL
+    MOV DX,300H
+    OUT DX,AL ##AL输出到300H
+\end{lstlisting}
+\subsubsection{转移类指令寻址}
+详见控制转移指令
+\section{数据传送}
+\subsection{通用传送}
+\subsubsection{MOV}
+将操作数（字或字节）传送到目标操作数，源可为8位/16位通用寄存器（包括AX-DX，SI，DI，BP，SP），段寄存器（CS不能作为目的操作数），存储器或立即数。目的操作数不能为立即数，其他同源操作数。
+四种数据来源的传送关系如图！！！
+下面是一些示例
+\begin{lstlisting}
+    # 立即数送存储器
+    MOV [BX],0FFH
+    # 立即数送通用存储器
+    MOV AL,30H
+    MOV BL,'$'
+    MOV AX,1250H
+    MOV BX,OFFSET TABLE
+    # 存储器和通用寄存器相互传送
+    MOV [BP],BX # 带方框表示是段加偏移对应的存储器单元而不是BP本身的值受到改变
+    MOV CL,5[BX]
+    # 存储器与段寄存器之间相互传送
+    MOV [SI],DS
+    # 段寄存器和通用寄存器相互传送
+    MOV ES,AX
+    # 通用寄存器之间相互传送
+    MOV AX,DX
+\end{lstlisting}
+常见错误
+\begin{lstlisting}
+    # 立即数不能作目的地
+    MOV 60H,AL
+    # 存储器之间不能直接传送
+    MOV [BX],[SI]
+    # CS不能作目的操作数
+    MOV CS,AX
+    # 通用寄存器无IP寄存器
+    MOV BX,IP
+    # 段寄存器之间不能直接传送
+    MOV DS,ES 
+    # 数的长度不一致
+    MOV CX,AL
+\end{lstlisting}
+\subsubsection{PUSH}
+将源操作数入栈并使SP减二.{\color{red}低位先入栈}
+\begin{lstlisting}
+    PUSH AX # 把AX入栈
+\end{lstlisting}
+\subsubsection{POP}
+将当前SP指向的栈顶的一个字送到目的操作数中，并使SP+2.操作数可以是16位通用寄存器，DS/SS/ES或存储单元。{\color{red}堆栈操作总是以字为单位}
+\begin{lstlisting}
+    POP AX # 先出栈的一个字节给到低位
+\end{lstlisting}
+\subsubsection{XCHG}
+把字或字节的源操作数和目的操作数交换。可以发生在寄存之间或寄存器与存储器之间，但是段寄存器不能作操作数。
+\begin{lstlisting}
+    # Right
+    XCHG AX,BX
+    XCHG [BI],CL 
+    # Wrong
+    XCHG AX,0AF4H #立即数不能交换
+    XCHG SS,[SI] # 段寄存器不参与交换
+    XCHG [SI],[BX+1] # 存储器之间不能直接交换
+\end{lstlisting}
+\subsubsection{XLAT}
+将一个字节从一种代码转换成另一种代码。注意：
+\begin{enumerate}
+    \item 使用指令前必须先创建一个表格，将转换表的起始地址装入BX中
+    \item AL存表头地址到所查找的某一项之间的位移量，根据位移量从表中查到转换后的代码值送入AL
+    \item 表中最多存256字节
+\end{enumerate}
+典型的例子是用该指令将十进制数转换成七段显示管的代码
+\begin{lstlisting}
+    TABLE: DB 40H,79H,24H,30H,19H
+           DB 12H,02H,78H,00H,18H # 做表
+           ... 
+        LEA BX,TABLE # 把表头地址给BX
+        MOV AL,5 # 把表内的偏移量给AL
+        XLAT # 此时AL中有‘5’的七段代码12H(表内从零开始数)
+\end{lstlisting}
+\subsection{输入输出}
+\subsubsection{IN(OUT同理)}
+把指定端口的内容读到AL(for byte)或AX(for word)中
+\begin{lstlisting}
+    # 格式1：立即数指示端口
+    IN AL,nn #nn指代的8位端口的内容读到AL，nn=00-FFH
+    IN AX,mm #mm指代的16位端口读到AL，mm+1指代的16位端口读到AH.mm=00-FEH
+    # 格式2：用寄存器给端口号
+    IN AL,DX # DX=0000-FFFFH
+    IN AX,DX # DX=0000-FFFEH DX指代的16位端口读到AL，DX+1指代的16位端口读到AH
+\end{lstlisting}
+{\color{red}{当口地址大于FFH时，必须用格式2}}。典型示例：扬声器发声。
+\subsection{地址目标}
+这是一类专门用来传送地址码的指令
+\subsubsection{LEA}
+取源操作数地址的偏移量，传送到目的操作数所在的单元(load effective address)。{\color{red}源操作数必须是存储单元，目的操作数必须是除段寄存器以外的16位寄存器}
+\begin{lstlisting}
+    # 注意区分LEA(取偏移地址)和MOV(取内容)
+    # 设SI=1000，DS=2000，(21000H)=1234,则
+    LEA BX,[SI] # BX=1000
+    MOV BX,[SI] # BX=1234
+    # 下面两段代码等效
+    LEA BX,TABLE
+    MOV BX,OFFSET TABLE
+\end{lstlisting}
+\subsubsection{LDS}
+load DS:从源操作数指定的存储单元中取出4个字节的地址指针送进一对目的寄存器中（常用SI寄存器，但是不能是段寄存器）
+load ES:与LDS基本相同但是后两个字节给到ES而非DS，目的操作数也常为DI而非SI
+\begin{lstlisting}
+    # 设DS=0100，BX=0020，（01020H）=26A0H，（01022H）=B500H
+    LDS SI,[BX] # 低位两个字节给SI，SI=26A0，高位两字节给DS，DS=B500
+    LES DI,[BX] # DI=26A0，ES=B500
+\end{lstlisting}
+\subsection{标志传送}
+\subsubsection{LAHF}
+load AH flags:将SF,ZF,AF,PF,CF送到AH的7，6，4，2，0位，而5，3，1位为任意值。
+\subsubsection{SAHF}
+send AH flags:将AH的7，6，4，2，0位送到SF,ZF,AF,PF,CF，而高位flag（OF,DF,IF,TF）不受影响。
+\subsubsection{PUSHF/POPF}
+将整个标志寄存器的内容压栈/出栈，并使SP-2/+2（仍然是低位先入栈，高位先出栈）
+\section{算数运算}
+总结图！！！
+\subsection{加法}
+\subsubsection{ADD}
+目的数被赋值为“目的数+源”
+\begin{lstlisting}
+    # RIGHT
+    ADD AL,45H
+    ADD BL,DL 
+    ADD [BX],CL
+    # Wrong
+    ADD 85H,AL # 立即数不能被赋值
+    ADD 5[BX],[BP] # 两个存储器内容不能直接相加
+    ADD BX,CL # 字节和字不能相加
+\end{lstlisting}
+加法指令结束后将影响六个标志位，如何解释这些标志位（是无符号数相加还是有符号数相加决定是进位还是溢出）取决于程序员。
+\subsubsection{ADC}
+add carry:带进位的加法指令。目的=目的+源+CF
+\subsubsection{INC}
+increment:增量指令，对目的操作数加1.操作后影响AF,OF,PF,SF,ZF，但不影响CF
+\begin{lstlisting}
+    INC BL 
+    INC BYTE PTR[BX] # 对内存字节单元内容+1
+    INC WORD PTR[BX] # 对内存字单元内容+1
+\end{lstlisting}
+\subsubsection{AAA}
+ascii-adjusted add:加法的ASCII调整指令。用ADD或ADC对两个非压缩十进制数或ASCII表示的十进制数作加法，且运算结果保留在AL中后，用AAA可以将运算结果调整为一位非压缩十进制数，仍然放在AL中。若AF=1，则表示高位有进位，进到AH中。
+
+*非压缩十进数（BCD数）：高四位全为零
+例题图！！！
+\subsubsection{DAA}
+decimal-adjusted add:加法的十进制调整指令。将两个压缩的BCD数相加的结果调整为正确的压缩BCD数，相加结果必须在AL中才能使用DAA。
+例题图！！！
+\subsection{减法}
+\subsection{乘法}
+\subsection{除法}
+\section{逻辑移位}
+\subsection{逻辑运算}
+\subsection{算数移位}
+\subsection{循环移位}
+\section{字符串}
+\subsection{传送}
+\subsection{比较}
+\subsection{扫描}
+\subsection{装入}
+\subsection{存储}
+\section{控制转移}
+\subsection{无条件转移}
+\subsection{过程调用}
+\subsection{条件转移}
+\subsection{条件循环控制}
+\subsection{中断指令}
+\section{控制指令}
+\subsection{标志操作指令}
+\subsection{外部同步指令}
+\subsection{停机和空操作}
