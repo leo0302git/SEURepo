@@ -8,6 +8,15 @@
 # Excel ignore
 *.xlsx
 
-# Unknown
+# Others
 *.nb
 *.webp
+*.pub
+*rsa*
+*.zip
+*.rar
+*.iso
+*.avi
+*.mp4
+*.mp3
+*Security copy*
