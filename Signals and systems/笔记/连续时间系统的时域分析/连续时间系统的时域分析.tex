@@ -1,0 +1,169 @@
+\chapter{连续时间系统的时域分析}
+\section{引言}
+对于一般的n阶线性系统，输入与输出的关系总可以用以下形式的微分方程来描述
+\begin{equation}
+    \dfrac{d^n r}{dt^n}+a_{n-1}\dfrac{d^{n-1}r}{dt^{n-1}}+\cdots+a_{1}\dfrac{dr}{dt}+a_0 r=b_m\dfrac{d^{m}e}{dt^{m}}+\cdots+b_1\dfrac{de}{dt}+b_0 e
+    \label{微分方程}
+\end{equation}
+其解分为两部分：一是该方程对应的齐次方程的通解，对应的是自由/自然响应；二是满足该非齐次方程的特解，对应受迫响应。这种求解方法称为古典法。
+
+近代时域法将响应分为零输入响应和零状态响应。
+
+零输入响应：系统在无输入激励的情况下仅由初始条件引起的响应。这部分响应可以利用古典法求齐次方程的通解并代入初始条件解出待定系数即可完成。
+
+零状态响应：系统在无初始储能或状态为零的情况下，仅由外加激励引起的响应。这部分采用叠加积分法（主要是卷积积分）：将信号分解为多个子信号，分别求解，再使用齐次性和叠加性得到对总信号的响应。子信号的选取应该遵循：
+\begin{enumerate}
+    \item 子信号能够完成任意信号的分解任务，分解应该没有误差
+    \item 系统对子信号的响应要容易求解
+    \item 各个子信号之间应该有关系，最好能找到一个通用的表达式来表示子信号及其响应
+\end{enumerate}
+\section{算子表示法}
+将微分运算用算子p表示，即
+\begin{equation}
+    \dfrac{d}{dt}=p,\dfrac{d^n}{dt^n}=p^n,\int_{-\infty}^{t}( )d \tau 
+\end{equation}
+这样就可以把电容看成是阻值为$\dfrac{1}{Cp}$的电阻，把电感看成是阻值为$Lp$的电阻。则式\ref{微分方程}可以表示为
+\begin{equation}
+    r(t)=H(p)e(t),H(p)=\dfrac{N(p)}{D(p)}=\dfrac{b_m p^m+b_{m-1}p^{m-1}+\cdots + b_1 p+b_0}{p^n+a_{n-1}p^{n-1}+\cdots + a_1 p +a_0}
+    \label{算子化微分方程}
+\end{equation}
+式中$H(p)$被称为转移算子。求解零输入响应时，就求解齐次方程$D(p)r(t)=0$；当求解零状态响应时，就求解式\ref{算子化微分方程}
+\section{系统的零输入响应}
+即解
+\begin{equation}
+    D(p)r(t)=(p^n+a_{n-1}p^{n-1}+\dots+a_1 p+a_0)r(t)=0
+\end{equation}
+\subsection{求解一阶齐次方程}
+\begin{equation}
+    (p-\lambda)r(t)=0
+\end{equation}
+解为$r(t)=ce^{\lambda t}=r(0)e^{\lambda t}$
+\subsection{求解二阶齐次方程}
+\begin{align}
+    (p^2+a_1 p+a_0)r(t)&=0 \\
+    (p-\lambda_1)(p-\lambda_2)r(t)&=0
+\end{align}
+解的一般形式为$r(t)=c_1 e^{\lambda_1 t}+c_2 e^{\lambda_2 t}$。用初始条件确定未知的常数
+\subsection{求解n阶齐次方程}
+{\color{red}{当根全为单根时}},解的一般形式为$r(t)=c_1 e^{\lambda_1 t}+c_2 e^{\lambda_2 t}+\dots+c_n e^{\lambda_n t}$，式中的$\lambda$为自然频率。
+
+对于k阶重根，即微分方程
+\begin{equation}
+    (p-\lambda)^k r(t)=0
+\end{equation}
+的解为$r(t)=(c_0+c_1 t+\dots+c_{k-1}t^{k-1})e^{\lambda t}$
+\section{奇异函数}
+有些函数本身或其各阶导数有一个或多个间断点，称为奇异函数。常用的是阶跃函数和冲激函数
+
+阶跃函数(在0处不定义)
+\begin{equation}
+    \epsilon(t)=\begin{cases}
+        1,t>0\\
+        0,t<0
+    \end{cases}
+\end{equation}
+冲激函数(狄拉克函数)
+\begin{align}
+    \int_{-\infty}^{\infty} \delta(t)dt=1\\
+    \delta(t)=0,t\neq 0
+\end{align}
+
+用奇异函数可以方便地实现：脉冲信号分解为奇异函数之和；任意函数表示为冲激函数的积分
+\section{阶跃响应和冲激响应}
+由于当激励求导时，响应也求导，所以冲激响应可以表示为阶跃响应的导数。反之，用冲激响应积分可以得到阶跃响应。下面先求冲激响应。即求解微分方程
+\begin{equation}
+    (p^n+a_{n-1}p^{n-1}+\cdots + a_1 p +a_0)h(t)=(b_m p^m+b_{m-1}p^{m-1}+\cdots + b_1 p+b_0)\delta(t)
+\end{equation}
+\subsubsection{系统特征根无重根}
+当$n>m$时
+\begin{align}
+    h(t)&=H(p)\delta(t)\\
+    &=\dfrac{b_m p^m+b_{m-1}p^{m-1}+\cdots + b_1 p+b_0}{p^n+a_{n-1}p^{n-1}+\cdots + a_1 p +a_0}\delta(t)\\
+    &=\left[ \dfrac{k_1}{p-\lambda_1} +\dfrac{k_2}{p-\lambda_2}+\dots +\dfrac{k_n}{p-\lambda_n}\right] \delta(t)\\
+    &=\dfrac{k_1}{p-\lambda_1}\delta(t)+\dfrac{k_2}{p-\lambda_2}\delta(t)+\dots+\dfrac{k_n}{p-\lambda_n}\delta(t)
+\end{align}
+这样就分解成部分分式和的形式。对于其中一个分式
+\begin{equation}
+    h_1(t)=\dfrac{k_1}{p-\lambda_1}\delta(t)
+\end{equation}
+还原成微分方程形式，并在两边同乘$e^{-\lambda_1 t}$，得到 
+\begin{align}
+    e^{-\lambda_1 t} \dfrac{dh_1(t)}{dt}-\lambda_1 e^{-\lambda_1 t} h_1(t)&=k_1 e^{-\lambda_1 t} \delta(t)\\
+    \dfrac{d}{dt}[e^{-\lambda_1 t} h_1(t)] &= k_1 e^{-\lambda_1 t} \delta(t)
+\end{align}
+两边积分，且因为$h_1(0^-)=0$，所以
+\begin{equation}
+    h_1(t)=k_1 e^{\lambda_1 t} \epsilon(t)
+\end{equation}
+根据叠加原理，冲激总响应为
+\begin{equation}
+    h(t)=\sum_{i=1}^{n}k_i e^{\lambda_i t}\epsilon(t)
+\end{equation}
+当$n=m$时，对应的部分分式微分算子方程可以写成
+\begin{align}
+    h(t)&=\dfrac{b_1 p}{p-\lambda}\delta(t)\\
+        &=(b_1+\dfrac{b_1 \lambda}{p-\lambda})\delta(t)
+\end{align}
+解出$h(t)=b_1\delta(t)+b_1 \lambda e^{\lambda t}\epsilon(t)$.
+
+当$n<m$时，可以将假分式拆成一个真分式和一个多项式再计算，响应中就会出现指数函数、冲激函数和各阶冲激偶。
+\subsubsection{系统特征根有重根}
+对于n阶重根，冲激响应为
+\begin{equation}
+    h(t)=\dfrac{k}{(p-\lambda)^n}\delta(t)=k\dfrac{t^{n-1}}{(n-1)!}e^{\lambda t}\epsilon(t)
+\end{equation}
+\section{叠加积分}
+激励信号可以写成
+\begin{equation}
+    f(t)=\int_0^t f(\tau) \delta(t-\tau)d\tau
+\end{equation}
+根据时不变性、齐次性和叠加性，可以求到系统响应
+\begin{equation}
+    r(t)=\int_0^t e(\tau)h(t-\tau)d \tau
+\end{equation}
+称为卷积积分
+\section{卷积及其性质}
+卷积运算
+\begin{equation}
+    g(t)=f_1(t)*f_2(t)=\int_{-\infty}^{\infty}f_1(\tau)f_2(t-\tau) d\tau
+\end{equation}
+相当于$f_2$关于y轴对称再平移，之后与$f_1$相乘。
+\begin{enumerate}
+    \item 互换律：$u(t)*v(t)=v(t)*u(t)$
+    \item 分配律：$u(t)*[v(t)+w(t)]=u(t)*v(t)+u(t)*w(t)$
+    \item 结合律：$u(t)*[v(t)*w(t)]=[u(t)*v(t)]*w(t)$
+    \item 微分性质：$\dfrac{d}{dt}[u(t)*v(t)]=u(t)*\dfrac{dv(t)}{dt}=v(t)*\dfrac{du(t)}{dt}$
+    \item 积分性质：$\int_{-\infty}^t[u(x)*v(x)]dx=u(t)*[\int_{-\infty}^t v(x)dx]=v(t)*[\int_{-\infty}^t u(x)dx]$
+    \item 延时线性叠加性质：若$u(t)*v(t)=w(t)$,则$u(t-t_1)*v(t-t_2)=w(t-t_1-t_2)$
+    \item 相关与卷积：相关运算
+\end{enumerate}
+\begin{align}
+    R_{xy}(t)&=\int_{-\infty}^\infty x(\tau)y(\tau-t)d\tau \quad x(t)\text{与}y(t)\text{的互相关函数}\\
+    R_{yx}(t)&=\int_{-\infty}^\infty y(\tau)x(\tau-t)d\tau \quad y(t)\text{与}x(t)\text{的互相关函数}\\
+    R_{xx}(t)&=\int_{-\infty}^\infty x(\tau)x(\tau-t)d\tau =\int_{-\infty}^\infty x(\tau +t)x(\tau)d\tau=R_{xx}(-t) \text{自相关（偶）函数}
+\end{align}
+易得$R_{xy}(t)=R_{yx}(-t)$
+
+\begin{table}[H]
+    \renewcommand\arraystretch{1.8}
+    \centering
+    \begin{tabularx}{\textwidth}{|c|c|X|}
+        \hline 
+        $f_1(t)$ & $f_2(t)$ & $f_1(t)*f_2(t)$ \\ \hline
+        $f(t)$  & $\delta(t)$ &$f(t)$ \\ \hline
+        $f(t) $& $\delta '(t)$& $\dfrac{f(t)}{dt}$ \\ \hline
+       $ f(t)$ &$ \epsilon(t)$& $\int_{\infty}^t f(\tau)d \tau $\\ \hline
+        $\dfrac{f(t)}{dt}$ & $\int_{\infty}^t g(\tau)d \tau $& $f(t)*g(t)$\\ \hline
+        $e^{\lambda t}\epsilon(t) $& $\epsilon(t)$&$ \dfrac{-1}{\lambda}(1-e^{\lambda t})\epsilon(t)$\\ \hline
+        $\epsilon(t) $& $\epsilon(t)$& $t\epsilon(t)$\\ \hline
+       $ \epsilon(t)-\epsilon(t-t_1)$ & $\epsilon(t)-\epsilon(t-t_2)$& $t\epsilon(t)-(t-t_1)\epsilon(t-t_1)-(t-t_2)\epsilon(t-t_2)+(t-t_1-t_2)\epsilon(t-t_1-t_2)$\\ \hline
+       $ e^{\lambda_1 t}\epsilon(t) $& $e^{\lambda_2 t}\epsilon(t) $& $\dfrac{1}{\lambda_2 -\lambda_1}(e^{\lambda_2}t-\lambda_1 t)\epsilon(t),\lambda_1\ne \lambda_2$\\ \hline
+       $ e^{\lambda t}\epsilon(t)$ &  $e^{\lambda t}\epsilon(t)$& $te^{\lambda t}\epsilon(t)$\\ \hline
+       $ \epsilon(t)-\epsilon(t-t_1)$ & $e^{\lambda t}\epsilon(t)$& $-\dfrac{1}{\lambda}(1-e^{\lambda t})[\epsilon(t)-\epsilon(t-t_1)]-\dfrac{1}{\lambda}(e^{-\lambda t_1}-1)e^{\lambda t}\epsilon(t-t_1)$\\ \hline
+        $t^n \epsilon(t)$ &$ e^{\lambda t}\epsilon(t)$& $\dfrac{n!}{\lambda^{n+1}}e^{\lambda t}\epsilon(t)-\sum_{j=0}^{n}\dfrac{n!}{\lambda^{j+1}(n-j)!}\cdot t^{n-j}\epsilon(t)$\\ \hline
+        $t^m \epsilon(t) $& $t^n \epsilon(t)$& $\dfrac{m! n!}{(m+n+1)!}t^{m+n+1}\epsilon(t)$\\ \hline
+       $ t^m e^{\lambda_1 t}\epsilon(t) $& $t^n e^{\lambda_2 t}\epsilon(t)$& $\sum_{j=0}^{m}\dfrac{(-1)^j m! (n+j)!}{j! (m-j)! (\lambda_1 -\lambda_2)^{n+j+1}}\cdot t^{m-j}e^{\lambda_1 t}\epsilon(t)+\sum_{k=0}^{n}\dfrac{(-1)^k n! (m+k)!}{k! (n-k)! (\lambda_2 -\lambda_1)^{m+k+1}}\cdot t^{n-k}e^{\lambda_2 t}\epsilon(t),\lambda_1\ne \lambda_2$\\ \hline
+        $e^{-\alpha t}\cos (\beta t +\theta)\epsilon(t)$ & $e^{\lambda t}\epsilon(t)$& $\left[ \dfrac{\cos (\theta-\varphi)}{\sqrt{(\alpha+\lambda)^2+\beta^2}}e^{\lambda t}- \dfrac{e^{-\alpha t}\cos (\beta t+\theta -\varphi)}{\sqrt{(\alpha+\lambda)^2+\beta^2}}  \right] \epsilon(t),\varphi=\arctan \dfrac{-\beta}{\alpha+\lambda}$\\ \hline
+    \end{tabularx}
+    \caption{卷积表}
+\end{table}

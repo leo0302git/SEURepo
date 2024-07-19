@@ -1,0 +1,187 @@
+\chapter{连续信号的正交分解}
+\section{正交函数集与信号分解}
+信号的分解指的是将任意信号分解为多个标准信号的加权和。若将$f(t)$分解为函数集$g_i(t)$的加权和，对于第一个分量$g_1(t)$，存在一定误差
+\begin{equation}
+    \epsilon(t)=f(t)-c_1 g_1(t)
+\end{equation}
+这里的系数选择要使得误差函数的方均值最小。方均值定义为
+\begin{equation}
+    \overline{\epsilon ^2 (t)}=\dfrac{1}{t_2 -t_1}\int_{t_1}^{t_2}\epsilon^2(t)dt
+\end{equation}
+代入$\epsilon(t)$表达式，对$c_1$求偏导并使偏导数为零，得到方均值最小时的取值
+\begin{equation}
+    c_1=\dfrac{\int_{t_1}^{t_2}f(t)g_1(t)dt}{\int_{t_1}^{t_2}g_1^2(t)dt}
+\end{equation}
+特别地，当$c_1=0$时，称两个函数正交，上式的分子为0
+
+对于复函数，上式修正为
+\begin{equation}
+    c_1=\dfrac{\int_{t_1}^{t_2}f(t)g_1^*(t)dt}{\int_{t_1}^{t_2}g_1(t)g_1^*(t)dt}
+\end{equation}
+归一化正交函数集：满足
+\begin{align}
+    \int_{t_1}^{t_2}g_l(t)g_m(t)dt&=0,l \ne m\\
+    \int_{t_1}^{t_2}g_r^2(t)dt&=1
+\end{align}
+\section{信号表示为傅里叶级数}
+\subsection{三角傅里叶级数}
+三角傅里叶级数采用正交函数集\{$1,\cos \Omega t,\sin \Omega t, \cos 2\Omega t,\sin 2\Omega t,\dots,\cos n\Omega t,\sin n\Omega t,\dots$ \}
+
+有如下关系
+\begin{align}
+    &\int_{t_1}^{t_1+T}\cos ^2 n\Omega t dt =\int_{t_1}^{t_1+T}\sin ^2 n\Omega t dt =\dfrac{T}{2}\\
+    &\int_{t_1}^{t_1+T}\cos m\Omega t \cos n\Omega tdt=\int_{t_1}^{t_1+T}\sin m\Omega t \sin n\Omega tdt =0,m \ne n\\
+    &\int_{t_1}^{t_1+T}\sin m\Omega t \cos n\Omega tdt=0,m,n\text{为任意整数}
+\end{align}
+{\color{red}{基本证明方法为和差化积，可以证明，移相后的三角函数之间往往不正交}}
+
+$f(t)$展开为三角傅里叶级数
+\begin{equation}
+    f(t)=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}(a_n \cos n \Omega t+b_n \sin n \Omega t)
+\end{equation}
+$\dfrac{a_0}{2}$称为直流分量，$a_n \cos n \Omega t+b_n \sin n \Omega t$合称n次谐波分量。
+
+分量系数的求法
+\begin{align}
+    a_n=\dfrac{\int_{t_1}^{t_1+T} f(t)\cos n \Omega t dt}{\int_{t_1}^{t_1+T}\cos^2 n \Omega t dt}=\dfrac{2}{T}\int_{t_1}^{t_1+T} f(t)\cos n \Omega t dt\\
+    b_n=\dfrac{\int_{t_1}^{t_1+T} f(t)\sin n \Omega t dt}{\int_{t_1}^{t_1+T}\sin^2 n \Omega t dt}=\dfrac{2}{T}\int_{t_1}^{t_1+T} f(t)\sin n \Omega t dt
+\end{align}
+$a_0$的计算公式与$a_n$统一（n=0），但是{\color{red}{代入级数表达式的时候记得除以2！}}
+
+若将n次谐波分量合成一项，则
+\begin{equation}
+    f(t)=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}A_n \cos (n \Omega t +\varphi_n)
+\end{equation}
+有如下关系
+\begin{align}
+    A_n=\sqrt{a_n^2+b_n^2},\varphi_n=-\arctan \frac{b_n}{a_n}\\
+    a_n=A_n \cos \varphi_n,\quad b_n=-A_n \sin \varphi_n
+\end{align}
+{\color{blue}{$a_n$和$A_n$都是频率的偶函数，$b_n$和$\varphi_n$都是频率的奇函数}}
+
+需要满足迪利克雷条件才能使傅里叶级数展开完全成立：
+\begin{enumerate}
+    \item 周期内绝对可积
+    \item 周期内极值点数目有限
+    \item 周期内只有有限个跳跃间断点
+\end{enumerate}
+吉布斯现象：即使级数项数趋向无穷大，用三角函数合成的函数在不连续点附加不可能每一点都收敛于原函数，且最大的差异收敛于与间断点处的跳变量相关的常数。
+\subsection{指数傅里叶级数}
+采用复指数函数集$\{ 1,e^{j\Omega t} ,e^{-j\Omega t},e^{j2\Omega t},e^{-j2\Omega t}\,\dots,e^{jn\Omega t},e^{-jn\Omega t},\dots \}$
+有如下关系
+\begin{align}
+    &\int_{t_1}^{t_1+T}(e^{jn\Omega t})(e^{jn\Omega t})^* dt =T\\
+    &\int_{t_1}^{t_1+T}(e^{jm\Omega t})(e^{jn\Omega t})^* dt =0,m \ne n
+\end{align}
+傅里叶展开式为
+\begin{equation}
+    f(t)=\sum_{n=-\infty}^{\infty}c_n e^{jn\Omega t}
+\end{equation}
+分量系数的求法
+\begin{equation}
+    c_n=\dfrac{1}{T}\int_{t_1}^{t_1+T}f(t)e^{-jn\Omega t}dt
+\end{equation}
+{\color{red}{注意系数是$\frac{1}{T}$而非$\frac{2}{T}$}}
+
+另一种表示形式
+\begin{align}
+    &f(t)=\dfrac{1}{2}\sum_{n=-\infty}^{\infty}\dot{A}_n e^{jn\Omega t}\\
+    &\dot{A}_n = \dfrac{2}{T}\int_{t_1}^{t_1 +T}f(t)e^{jn\Omega t}
+\end{align}
+函数的奇偶性质与谐波含量的关系
+\begin{enumerate}
+    \item 奇函数仅含正弦分量，偶函数仅含直流与余弦分量
+    \item 奇谐函数：任意半个周期的波形可由前半周期波形沿横轴反褶得到，只含有奇次谐波；
+    \item 偶谐函数：两个二分之一周期内完全相同的周期性函数，只含有偶次谐波分量
+\end{enumerate}
+\subsection{周期信号的频谱}
+一般说的频谱是幅度频谱。
+\begin{enumerate}
+    \item 周期性函数的频谱是离散谱
+    \item 相邻谱线的间隔是基波频率$\Omega =\frac{2 \pi }{T}$
+    \item 信号在时域上变化越快（脉冲宽度越窄），频谱首先速度越慢，整个频谱的幅度也相应地减小
+\end{enumerate}
+\subsection{非周期信号的频谱}
+当周期信号的周期趋于无穷时，相邻谱线距离趋于0，由离散谱转变为连续谱。周期信号的复数幅度
+\begin{equation}
+    \dot{A}_n = \dfrac{2}{T}\int_{t_1}^{t_1 +T}f(t)e^{jn\Omega t}
+\end{equation}
+趋于零无法区分，为了加以区分，等式两边同乘$\frac{T}{2}$，$\Omega \to \omega$，$n \Omega \to \omega$，则可以定义单位宽度频带的幅度,称为频谱函数
+\begin{equation}
+    F(j\omega)=\lim_{T \to \infty}\dfrac{T A_n}{2}=\int_{-\infty}^{\infty}f(t)e^{-j\omega t}dt
+\end{equation}
+傅里叶变换对
+\begin{align}
+    &F(j\omega)=\int_{-\infty}^{\infty}f(t)e^{-j\omega t}dt\\
+    &f(t)=\dfrac{1}{2\pi}\int_{-\infty}^{\infty}F(j \omega )e^{j\omega t}d\omega
+\end{align}
+非周期函数进行傅里叶变换一般要满足绝对可积条件（迪利克雷条件），即$\int_{-\infty}^{\infty}|f(t)|dt$应当收敛。迪利克雷条件是进行傅里叶变换的充分条件。
+
+常用傅里叶变换举例如表\ref{FT}
+\begin{table}
+    \label{FT}
+    \renewcommand\arraystretch{1.8}
+    \centering
+    \begin{tabularx}{\textwidth}{|c|c|X|}
+        \hline 
+        名称&$f(t)$&$F(j\omega)$\\\hline 
+        单位冲激&$\delta(t)$&$1$\\\hline 
+        单位阶跃&$\epsilon(t)$&$\pi \delta(\omega)+\dfrac{1}{j \omega}$\\\hline 
+        符号函数&$sgn(t)=\epsilon(t)-\epsilon(-t)$&$\dfrac{2}{j\omega}$\\\hline 
+        单位直流&$1$&$2\pi \delta(\omega)$\\\hline 
+        指数函数&$e^{j\omega_c t}$&$2\pi \delta(\omega-\omega_c)$\\\hline 
+        单边指数&$e^{-\alpha t}\epsilon(t)$&$\dfrac{1}{\alpha+j \omega}$\\\hline 
+        双边指数&$e^{-\alpha |t|}$&$\dfrac{2 \alpha}{\alpha^2 +\omega^2}$\\\hline 
+        指数脉冲&$te^{-\alpha t}\epsilon(t)$&$\dfrac{1}{(\alpha+j\omega)^2}$\\\hline 
+        单位余弦&$\cos \omega_c t$&$\pi [\delta(\omega+\omega_c)+\delta(\omega-\omega_c)]$\\\hline 
+        单位正弦&$\sin \omega_c t$&$j\pi [\delta(\omega+\omega_c)-\delta(\omega-\omega_c)]$\\\hline 
+        阶跃正弦&$\sin \omega_c t \epsilon(t)$&$\frac{\pi}{2j}[\delta(\omega-\omega_c)-\delta(\omega+\omega_c)]+\dfrac{\omega_c}{\omega_c ^2-\omega^2}$\\\hline 
+        阶跃余弦&$\cos \omega_c t \epsilon(t)$&$\frac{\pi}{2}[\delta(\omega-\omega_c)+\delta(\omega+\omega_c)]+\dfrac{j\omega}{\omega_c ^2-\omega^2}$\\\hline 
+        门函数&$G_\tau(t)=\epsilon(t+\frac{\tau}{2})-\epsilon(t-\frac{\tau}{2})$&$\tau Sa(\frac{\tau \omega}{2})$\\\hline 
+        抽样函数&$Sa(\frac{\Omega t}{2})=\dfrac{\sin (\Omega t /2)}{\Omega t /2}$&$\frac{2\pi}{\Omega}G_\Omega (\omega)$\\\hline 
+        三角脉冲&$1-\dfrac{|t|}{\tau}$&$\tau \left[ Sa(\frac{\omega \tau}{2})\right]^2$\\\hline 
+        冲激序列&$\delta_T(t)=\sum_{n=-\infty}^{\infty}\delta(t-nT)$&$\Omega \delta_\Omega (\omega)=\Omega \sum_{n=-\infty}^{\infty}\delta(\omega-n\Omega)$\\\hline 
+    \end{tabularx}
+    \caption{常用傅里叶变换}
+\end{table}
+\subsection{周期函数的傅里叶变换}
+本来周期函数只有傅里叶展开，但是引入奇异函数后，周期函数也可以进行傅里叶变换了。根据傅里叶展开式
+\begin{align}
+    &f(t)=\dfrac{1}{2}\sum_{n=-\infty}^{\infty}\dot{A}_n e^{jn\Omega t}\\
+    &\dot{A}_n = \dfrac{2}{T}\int_{t_1}^{t_1 +T}f(t)e^{jn\Omega t}
+\end{align}
+对$f(t)$做傅里叶变换
+\begin{align}
+    F(j\omega)=\mathcal{F}\{ f(t) \}=\mathcal{F}\{ \sum_{n=-\infty}^{\infty}\dfrac{\dot{A}_n}{2} e^{jn\Omega t} \}=\sum_{n=-\infty}^{\infty}\dfrac{\dot{A}_n}{2} \mathcal{F}\{ e^{jn\Omega t}\}
+\end{align}
+根据指数函数的傅里叶变换$e^{j\omega_c t} \leftrightarrow  2\pi \delta(\omega-\omega_c)$得
+\begin{equation}
+    F(j\omega)=\pi \sum_{n=-\infty}^{\infty} \dot{A}_n \delta(\omega - n \Omega)
+\end{equation}
+即周期函数的频谱函数是一个离散冲激谱
+\subsection{傅里叶变换的性质}
+若已知$f(t)\leftrightarrow F(j\omega)$
+\begin{enumerate}
+    \item 线性性质:$a_1 f_1(t)+a_2 f_2(t) \leftrightarrow a_1 F_1(\omega)+a_2 F_2(\omega)$
+    \item 延时性质:$f(t-t_0)\leftrightarrow F(j\omega)e^{-j\omega t_0}$
+    \item 移频性质:$f(t)e^{j\omega_c t}\leftrightarrow F[j(\omega - \omega_c)]$
+    \item 尺度变换性质:$f(at)\leftrightarrow \dfrac{1}{a}F(\dfrac{j\omega}{a})$
+    \item 奇偶特性:设$F(j\omega)=R(\omega)-jX(\omega)=|F(j\omega)|e^{j \varphi(\omega)}$，则$R(\omega),|F(j\omega)|$为偶函数，$X(\omega),\varphi(\omega)$为奇函数.若$f(t)$为关于$t$的偶函数，则$F(j\omega)=R(\omega)=2\int_{0}^{\infty}f(t)\cos \omega t dt$;若$f(t)$为关于$t$的奇函数，则$F(j\omega)=-jX(\omega)=-j2\int_{0}^{\infty}f(t)\sin \omega t dt$
+    \item 对称性质:$F(jt)\leftrightarrow 2 \pi f(-\omega)$.特别地，当$f(t)$为实偶函数，则$R(t)\leftrightarrow 2\pi f(\omega)$;当$f(t)$为虚奇函数，则$-jX(t)\leftrightarrow -2\pi f(\omega)$
+    \item 时域微分特性:$\dfrac{d^n f(t)}{dt^n}\leftrightarrow (j\omega)^n F(j \omega)$
+    \item 时域积分特性:$\int_{-\infty}^{t}f(\tau)d \tau \leftrightarrow \pi F(0)\delta(\omega)+\dfrac{1}{j\omega}F(j\omega)$(该特性仅对于在$t \to -\infty$时$f(t)=0$的函数适用，否则会有直流分量被忽视)
+    \item 频域微分特性:$-jf(t)\leftrightarrow \dfrac{d F(j\omega)}{d\omega}$
+    \item 频域积分特性:$\pi f(0)\delta(t)+j\dfrac{f(t)}{t}\leftrightarrow\int_{-\infty}^{\infty}F(j \Omega)d \Omega$
+    \item 卷积定理:$f_1(t) * f_2(t)\leftrightarrow F_1(j\omega)F_2(j\omega),f_1(t)f_2(t)\leftrightarrow \dfrac{1}{2\pi}[F_1(j\omega)*F_2(j\omega)]$(注意系数$2\pi$)
+    \item 帕塞瓦尔定理周期信号的功率等于该信号在正交完备集中各分量功率之和。$$\int_{-\infty}^{\infty}f^2(t)dt=\dfrac{1}{2\pi}\int_{-\infty}^{\infty}|F(\omega)|^2d\omega=\int_{-\infty}^{\infty}|F(j2\pi f)|^2df$$.
+\end{enumerate}
+补充：正弦函数集下的功率计算公式：
+\begin{equation}
+    \overline{f^2(t)}=(\dfrac{A_0}{2})^2 + \dfrac{1}{2}\sum_{i=1}^{\infty} A_i
+\end{equation}
+其中直流分量为$\dfrac{a_0}{2}$,功率为$(\dfrac{a_0}{2})^2$;$A_i$代表$A_i \cos (i\Omega t+\varphi_i)$的幅度，该分量功率为$\dfrac{A_i^2}{2}$。据此还可以定义能量密度频谱函数，或简称能量频谱$G(\omega)$。
+\begin{align}
+    &G(\omega)=\dfrac{1}{\pi}|F(j\omega)|^2\\
+    &W=\int_{0}^{\infty}G(\omega)d\omega
+\end{align}
+

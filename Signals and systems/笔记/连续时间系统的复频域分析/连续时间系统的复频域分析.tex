@@ -1,0 +1,136 @@
+\chapter{连续时间系统的频域分析}
+傅里叶变换的不足之处：
+\begin{enumerate}
+    \item 一般只能处理符合狄利克雷条件的信号，即满足绝对可积条件的信号。想要处理就要引入奇异函数，分析计算较为麻烦
+    \item 要做从负无穷大到正无穷大的积分，通常这个积分是难以求解的
+    \item 只能处理零状态响应 
+\end{enumerate}
+\section{拉普拉斯变换}
+一个函数不满足绝对可积条件往往是由于当$t$趋向于无穷大时减幅太慢，所以考虑用一个收敛因子去乘以$f(t)$，这就是拉普拉斯变换的最初想法。
+
+双边拉普拉斯变换对
+\begin{align}
+    F(s)&=\int_{-\infty}^{\infty}f(t)e^{-st}dt\\
+    f(t)&=\dfrac{1}{2\pi j}\int_{\sigma -j\infty}^{\sigma +j\infty}F(s)e^{st}ds
+\end{align}
+记为
+\begin{align}
+    F_d(s)=\mathcal{L}_d\{f(t)\}\\
+    f(t)=\mathcal{L}^{-1}_d\{F_d(s)\}
+\end{align}
+工程中一般处理有始信号，即积分下限为$0^-$(一般简记为0)，此时的变换称为单边拉普拉斯变换，记为$f(t)\mathcal{L}^{-1}\{F(s)\}$.称$s,F(s)$为复频率和复频谱。
+
+实际时间信号与复平面$\sigma O j\omega$（或$s$）的关系：
+\begin{enumerate}
+    \item 正半实轴上的点表示单增的指数信号；负半轴上的点表示单减的指数信号；原点表示常数信号
+    \item 虚轴上关于实轴对称的两点合成一个等幅正弦（余弦）信号
+    \item 右半平面上关于实轴对称的两点合成一个幅度单增的指数包络的正弦（余弦）信号；左半平面上关于实轴对称的两点合成一个幅度单减的指数包络的正弦（余弦）信号；
+    \item 共轭点离实轴越远，振荡频率越高；离虚轴越远，增幅越快
+\end{enumerate}
+\section{拉普拉斯变换的收敛区}
+一般来说，想要满足绝对可积条件，要对收敛因子提出一定要求（比如$\sigma>0$）。$\sigma$只在一定范围内满足条件，这就叫做收敛区。
+
+常见函数的收敛区
+\begin{enumerate}
+    \item 单个脉冲信号：全平面收敛（收敛坐标为$-\infty$）,也即单个脉冲的单边拉普拉斯变换一定存在
+    \item 单位阶跃信号：$\sigma>0$
+    \item 指数函数$e^{\alpha t}$：$\sigma>\alpha$
+\end{enumerate}
+常用拉普拉斯变换
+{\renewcommand\arraystretch{1.7}
+\begin{longtable}[H]{|c|c|c|}
+        \hline 
+        编号&$f(t)$&$F(s)$\\  \hline 
+        1&$\delta(t)$&$1$\\  \hline 
+        2&$\epsilon(t)$&$\dfrac{1}{s}$\\  \hline 
+        3&$t\epsilon(t)$&$\dfrac{1}{s^2}$\\  \hline 
+        4&$t^n \epsilon(t)$&$\dfrac{n!}{s^{n+1}}$\\  \hline 
+        5&$e^{\alpha t}\epsilon(t)$&$\dfrac{1}{s-\alpha}$\\  \hline 
+        6&$t e ^{\alpha t}\epsilon(t)$&$\dfrac{1}{(s-\alpha)^2}$\\  \hline 
+        7&$t^n e ^{\alpha t}\epsilon(t)$&$\dfrac{n!}{(s-\alpha)^{n+1}}$\\  \hline 
+        8&$\sin \omega t \epsilon(t)$&$\dfrac{\omega}{s^2 +\omega^2}$\\  \hline 
+        9&$\cos \omega t \epsilon(t)$&$\dfrac{s}{s^2 +\omega^2}$\\  \hline 
+        10&$\sinh \beta t \epsilon(t)$&$\dfrac{\beta}{s^2 -\beta^2}$\\  \hline 
+        11&$\cosh \beta t \epsilon(t)$&$\dfrac{s}{s^2 -\beta^2}$\\  \hline 
+        12&$e^{\alpha t}\sin \omega t \epsilon(t)$&$\dfrac{\omega}{(s-\alpha)^2+\omega^2}$\\  \hline 
+        13&$e^{\alpha t}\cos \omega t \epsilon(t)$&$\dfrac{s-\alpha}{(s-\alpha)^2+\omega^2}$\\  \hline 
+        14&$2re^{\alpha t}\cos (\omega t + \varphi)\epsilon(t)$&$\dfrac{re^{\varphi}}{s-\alpha-\omega}+\dfrac{re^{-\varphi}}{s-\alpha+\omega}$\\  \hline 
+        15&$\dfrac{1}{\omega_n \sqrt{1-\psi^2}}e^{-\psi \omega_n t}\sin (\omega_n \sqrt{1-\psi^2})t\epsilon(t)$&$\dfrac{1}{s^2+2\psi \omega_n s +\omega_n^2}$\\  \hline 
+\end{longtable}
+}
+\section{拉普拉斯反变换}
+\subsection{部分分式展开法}
+适用于$F(s)$为有理函数的情况，且$t\geq 0$。一般先将其化为真分式$\dfrac{N(s)}{D(s)}$。
+\subsubsection{$m<n,D(s)=0$,没有重根}
+分解$D(s)$
+\begin{align}
+    D(s)=\sum_{k=1}^{n}(s-s_k)
+\end{align}
+则$F(s)$可以分解为
+\begin{equation}
+    F(s)=\dfrac{K_1}{s-s_1}+\dfrac{K_2}{s-s_2}+\cdots+\dfrac{K_n}{s-s_n}
+\end{equation}
+其中待定系数为
+\begin{align}
+    K_k&=\left[(s-s_k)\dfrac{N(s)}{D(s)}\right]_{s=s_k}\\
+    &=\left[\dfrac{N(s)}{D'(s)}\right]_{s=s_k}
+\end{align}
+求出待定系数后，对应项的反变换为
+\begin{equation}
+    \mathcal{L}^{-1}\left\{ \dfrac{K_k}{s-s_k} \right\}=K_k e^{s_k t}\epsilon(t)
+\end{equation}
+\subsubsection{$m<n,D(s)=0$，有重根}
+假设$D(s)=(s-s_1)^p(s-s_{p+1}\cdots (s-s_n))$，则应展开为如下形式
+\begin{align}
+    F(s)=\dfrac{K_{1p}}{(s-s_1)^p}+\dfrac{K_{1(p-1)}}{(s-s_1)^{p-1}}+\cdots+\dfrac{K_{12}}{(s-s_1)^2}+\dfrac{K_{11}}{(s-s_1)}+\dfrac{K_{p+1}}{(s-s_{p+1})}+\cdots+\dfrac{K_{n}}{(s-s_{n})} 
+\end{align}
+其中单根项的系数按上文方法求解，重根项的待定系数为
+\begin{align}
+    K_{1k}=\dfrac{1}{(p-k)!}\dfrac{d^{p-k}}{ds^{p-k}}\left[ (s-s_k)^p \dfrac{N(s)}{D(s)} \right]_{s=s_1}
+\end{align}
+重根项对应的反变换为
+\begin{equation}
+    \mathcal{L}^{-1}\left\{ \dfrac{K_{1k}}{(s-s_k)^k}\right\}=\dfrac{K_{1k}}{(k-1)!}t^{k-1}e^{s_1 t}epsilon(t) 
+\end{equation}
+\subsection{围线积分法（留数法）}
+拉普拉斯反变换的定义为
+\begin{equation}
+    f(t)=\dfrac{1}{2\pi j}\int_{\sigma-j\infty}^{\sigma+j\infty}F(s)e^{st}ds 
+\end{equation}
+表示沿一条直线进行积分。理论上也可以用留数定理：
+\begin{equation}
+    \dfrac{1}{2\pi j}\oint_C F(s)e^{st}ds =\sum_{i=1}^{n}Res_i
+\end{equation}
+这样只要找到一条半径无穷大的封闭曲线$C$使得：$C$内留数好算，$C$上除了待求积分直线的其他路径上积分为0，即可算出反变换.由于约当辅助定理，对有始函数（$t>0$）单边拉普拉斯变换时，一般选择的是左半平面的无限大圆弧进行围线积分。此时反变换式为
+\begin{equation}
+    f(t)=\sum_{i=1}^{n}Res_i \epsilon(t)
+\end{equation}
+留数的计算公式：若$s_k$为$p$阶极点，则其留数为
+\begin{equation}
+    Res_i=\dfrac{1}{(p-1)!}\left[ \dfrac{d^{p-1}}{ds^{p-1}}(s-s_k)^p F(s)e^{st} \right]_{s=s_k}
+\end{equation}
+\section{拉普拉斯变换的性质}
+若已知$f(t)\leftrightarrow F(s)$
+\begin{enumerate}
+    \item 线性性质:$a_1 f_1(t)+a_2 f_2(t) \leftrightarrow a_1 F_1(s)+a_2 F_2(s)$
+    \item 延时性质:$f(t-t_0)\leftrightarrow F(s)e^{-s t_0}$
+    \item 移频性质:$f(t)e^{s_c t}\leftrightarrow F(s - s_c)$
+    \item 尺度变换性质:$f(at)\leftrightarrow \dfrac{1}{a}F(\dfrac{s}{a})$
+    \item 时域微分特性:$\dfrac{d^n f(t)}{dt^n}\leftrightarrow s^n F(s)-s^{n-1}f(0^-)-s^{n-2}f'(0^-)-\cdots -f^{(n-1)}(0^-)$
+    \item 时域积分特性:$\int_{-\infty}^{t}f(\tau)d \tau \leftrightarrow \dfrac{\int_{-\infty}^0f(\tau)d\tau}{s}+\dfrac{1}{s}F(s)$
+    \item 复频域微分特性:$tf(t)\leftrightarrow -\dfrac{d F(s)}{ds}$
+    \item 复频域积分特性:$\dfrac{f(t)}{t}\leftrightarrow\int_{-\infty}^{s}F(s)d s$,扩展到双重积分则有
+    \begin{equation}
+        \mathcal{L}\left\{ \int_{0}^t \int_0^\tau f(\lambda)d\lambda d\tau \right\} = \dfrac{F(s)}{s^2}
+    \end{equation}
+    \item 对参变量微分和积分：设$\mathcal{L}\left\{f(t,a)\right\}=F(s,a)$，则
+    \begin{align}
+        \mathcal{L}\left\{\dfrac{\partial f(t,a)}{\partial a} \right\}&=\dfrac{\partial F(s,a)}{\partial a}\\
+        \mathcal{L}\left\{\int_{a_1}^{a_2}f(t,a)da\right\}&=\int_{a_1}^{a_2}F(s,a)da
+    \end{align}
+    \item 卷积定理:$f_1(t) * f_2(t)\leftrightarrow F_1(s)F_2(s),f_1(t)f_2(t)\leftrightarrow \dfrac{1}{2\pi j}F_1(s)*F_2(s)$
+    \item 初值定理：$$f(0^+)=\lim_{s\to \infty}sF(s)$$
+    \item 终值定理：设函数及其导数存在且有拉普拉斯变换，且$F(s)$的所有极点都位于$s$左半平面内（包括原点处的单极点），则$f(t)$的终值为$$f(\infty)=\lim_{s\to 0}sF(s)$$
+\end{enumerate}
+
+

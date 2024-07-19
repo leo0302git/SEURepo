@@ -1,0 +1,217 @@
+\chapter{连续时间系统的频域分析}
+\section{信号通过系统的频域分析方法}
+\subsection{周期信号通过系统的频域分析方法}
+假设信号为
+\begin{equation}
+    e(t)=Ee^{j(\omega t + \varphi)}=Ee^{j\varphi}e^{j\omega t}=\dot{E}e^{j\omega t}
+\end{equation}
+$\dot{E}=Ee^{j\varphi}$定义为信号的复数幅度，包含了激励复正弦信号的幅度和相位信息。系统可以表示为一常系数微分方程
+\begin{equation}
+    \sum_{i=0}^{n}a_i r^{(i)}(t)=\sum_{i=0}^{n}b_i e^{(i)}(t)
+\end{equation}
+因为正弦信号经过该系统后还是同频率的正弦信号，所以若响应为$r(t)=\dot{R}e^{j\omega t}$,则
+\begin{align}
+    \left[ \sum_{i=0}^{n}a_i (j\omega)^i \right]\dot{R}e^{j\omega t}=\left[ \sum_{i=0}^{n}b_i (j\omega)^i \right]\dot{E}e^{j\omega t}\\
+    \dot{R}=\dfrac{\left[ \sum_{i=0}^{n}b_i (j\omega)^i \right]}{\left[ \sum_{i=0}^{n}a_i (j\omega)^i \right]}\dot{E}\\
+    r(t)=\dot{R}e^{j\omega t}=\dfrac{\left[ \sum_{i=0}^{n}b_i (j\omega)^i \right]}{\left[ \sum_{i=0}^{n}a_i (j\omega)^i \right]}\dot{E}e^{j\omega t}
+\end{align}
+定义频域系统函数
+\begin{equation}
+    H(j\omega)=|H(j\omega)|e^{j\varphi(\omega)}=\dfrac{\left[ \sum_{i=0}^{n}b_i (j\omega)^i \right]}{\left[ \sum_{i=0}^{n}a_i (j\omega)^i \right]}
+\end{equation}
+对于实正弦信号，通过系统后，其幅度等于原幅度乘以$|H(j\omega)|$,相位等于原信号相位加上频域系统的相位$\varphi(\omega)$。即对$e(t)=A\cos (\omega t + \phi)$,其响应为$r(t)=A|H(j\omega)|\cos (\omega t + \phi + \varphi(\omega))$
+\subsection{非周期信号通过系统的频域分析方法}
+由于$r(t)=e(t)*h(t)$，加上傅里叶变换的卷积特性，可得一般求解步骤：
+\begin{enumerate}
+    \item 求出激励信号的傅里叶变换$E(j\omega)$
+    \item 求出系统的傅里叶变换$H(j\omega)$
+    \item 得响应的傅里叶变换$R(j\omega)=H(j\omega)E(j\omega)$
+    \item 傅里叶反变换得$R(j\omega)$
+    \item*可用图解法（p165例题）
+\end{enumerate}
+{\color{red}傅里叶变换只能得到系统的零状态响应}
+\section{理想低通滤波器}
+\subsection{理想低通滤波器的冲激响应}
+理想低通滤波器的频域系统函数（也即冲激响应频谱函数）为
+\begin{equation}
+    K(j\omega)=|K(j\omega)|e^{j\varphi(\omega)}=
+    \begin{cases}
+        K e^{-j\omega t_0},|\omega|<\omega_{c0}\\
+        0,others
+    \end{cases}
+\end{equation}
+为简便计算，后面的推导中$K=1$。
+
+用傅里叶反变换，结合门函数的变换式和延时特性，可得冲激响应
+\begin{equation}
+    h(t)=\dfrac{\omega_{c0}}{\pi}Sa[\omega_{c0}(t-t_0)]
+\end{equation}
+\subsection{理想低通滤波器的阶跃响应}
+设理想低通滤波器输入了一个单位阶跃信号，则输出电压的频谱为
+\begin{align}
+    U(j\omega)&=E(j\omega)K(j\omega)=\\
+    &=\begin{cases}
+        \left[ \pi \delta(\omega)+\dfrac{1}{j\omega} \right]e^{-j\omega t_0},|\omega|<\omega_{c0}\\
+        0,others
+    \end{cases}
+\end{align}
+傅里叶反变换得
+\begin{align}
+    u(t)&=\dfrac{1}{2\pi}\left[ \int_{-\omega_{c0}}^{\omega_{c0}} \pi \delta(\omega)e^{j\omega(t-t_0)}d\omega + \int_{-\omega_{c0}}^{\omega_{c0}} \dfrac{e^{j\omega(t-t_0)}}{j\omega}d\omega \right]\\
+&=\dfrac{1}{2}+\dfrac{1}{\pi}\int_0^{\omega_{c0}(t-t_0)}\dfrac{\sin \omega(t-t_0)}{\sin \omega(t-t_0)}d\omega (t-t_0)\\
+&=\dfrac{1}{2}+\dfrac{1}{\pi}Si[\omega_{c0}(t-t_0)]
+\end{align}
+这里定义了正弦积分函数$Si(x)=\int_0^x \dfrac{\sin y}{y}dy$.
+
+该阶跃响应得特点为
+\begin{enumerate}
+    \item 响应滞后：若以$u(t)=\dfrac{1}{2}$作为响应出现的时间，则延迟时间值为$t_0$
+    \item 跳变斜率有限：从$u(t)=0$到$u(t)=1$，通过数值积分得到电压建立时间$t_B-t_A=\dfrac{3.84}{\omega_{c0}}$,即信号边沿跳变越快，对应的$\omega_{c0}$越大，表明通频带越宽，包含的高频分量越多
+    \item 波形失真
+    \item 系统违反因果性，物理上不可实现
+\end{enumerate}
+\section{佩利-维纳准则和物理可实现滤波器}
+系统物理可实现的充分必要条件:该系统的冲激响应满足
+\begin{equation}
+    h(t)\epsilon(t)=h(t)
+\end{equation}
+但是一般情况下只能了解$|H(j\omega)|$，其相频特性不易获得，也就不容易获得$h(t)$，因此希望有一个准则可以仅凭$|H(j\omega)|$判断是否物理可实现。
+\noindentbfline{佩利-维纳准则}
+当$|H(j\omega)|$满足平方可积，也即$\int_{-\infty}^{\infty}|H(j\omega)|^2d\omega <\infty$时，可以证明系统满足因果性的充要条件为
+\begin{equation}
+    \int_{-\infty}^{\infty}\dfrac{|\ln |H(j\omega)| |}{1+\omega^2}d\omega <\infty
+\end{equation}
+由此可知，物理可实现系统仅允许转移函数在有限分离点上幅值为零。另外，系统频响的衰减速率也不能大于等于指数衰减速率
+\subsection{几种工程中用到的滤波器}
+\subsection{巴特沃思滤波器}
+\begin{equation}
+    |H(j\omega)|^2=\dfrac{1}{1+B_n \Omega^{2n}},\Omega=\frac{\omega}{\omega_{c0}}
+\end{equation}
+一般取$B_n=1$，使得通带边界处（$\Omega=1$）的衰减常数为$1/\sqrt{2}$.这种滤波器又叫最平坦型滤波器，因为在$\Omega=0$处误差值和误差函数（1-$ |H(j\omega)|$）的前$2n-1$阶导数均为零。这一点的证明用到了二项式的幂级数展开.
+\subsection{切比雪夫滤波器}
+\begin{align}
+    |H(j\omega)|^2=\dfrac{1}{1+\epsilon^2 T_n^{2}(\Omega)},\Omega=\frac{\omega}{\omega_{c0}}\\
+    T_n(\Omega)=
+    \begin{cases}
+        \cos ( n \arccos \Omega) , |\Omega \leq 1\\
+        \cosh (n arccosh \Omega),|\Omega|>1
+    \end{cases}
+\end{align}
+有递推关系
+\begin{align}
+    T_{n+1}(\Omega)=2\Omega T_{n}(\Omega)-T_{n-1}(\Omega)\\
+    T_2(\Omega)=2\Omega T_1(\Omega)-T_0(\Omega)=2\Omega^2-1
+\end{align}
+$\epsilon$为控制通带波纹大小的一个因子，$\epsilon$越小，起伏幅度越小，通带特性越理想。与Butterworth滤波器相比，同一阶数$n$下，切比雪夫滤波器在通带中有较小的最大衰减，在通带外有较陡的衰减特性。
+
+其他类型的滤波器还有反切比雪夫型（通带单调变化，阻带等波纹起伏）、椭圆函数滤波器（通带和阻带均有等波纹起伏）、贝塞尔滤波器（逼近线性相频特性）
+\section{调制与解调}
+调制：把待传输的信号托附到高频振荡的过程
+\begin{equation}
+    modulation
+    \begin{cases}
+        amplitude-modulation\\
+        angle modulation\begin{cases}
+            frequency modulation\\
+            phase modulation
+        \end{cases}\\
+        pulse modulation
+    \end{cases}
+\end{equation}
+\begin{equation}
+    waves
+    \begin{cases}
+        amplitude-modulated wave\\
+        angle-modulated wave\begin{cases}
+            frequency-modulated wave\\
+            phase-modulated wave
+        \end{cases}\\
+        pulse wave (non-contineous)
+    \end{cases}
+\end{equation}
+在调制时，待传输的低频信号称为调制信号，由其控制另一个高频振荡。高频振荡起着运载工具的作用，称为载波，载波的频率称为载频。载波不一定是正弦波。调幅之后的信号称为调幅信号。{\color{red}不要混淆各个名称！}
+
+解调：从已经调制的信号中恢复或提取调制信号的过程。
+
+对调幅信号的解调称为检波，对调频和调相信号的解调称为鉴频与鉴相。
+\subsection{抑制载频调幅,AM-SC}
+设调制信号为$e(t)$，则抑制载波调幅后的信号为$a(t)=e(t)\cos \omega_c t$,在频谱图上表现为将$E(j\omega)$向两边搬运到$\pm \omega_c$处，即$A(j\omega)=\dfrac{1}{2}[E(j(\omega+\omega_c))+E(j(\omega-\omega_c))]$.其频宽为$B=\omega_m$({\color{red}不是$2\omega_m$!})。
+
+由于频谱搬移的对称性，我们一般只讨论$\omega>0$的部分。大于$\omega_c$的部分，即$\omega_c$到$\omega_c+\omega_m$的频谱称为上边带，小于$\omega_c$的部分，即$\omega_c-\omega_m$到$\omega_c $的频谱称为下边带。调制后的信号频宽为调制信号频宽的两倍。
+
+解调时，需要乘以一个同频同相的正弦信号，再通过一个截止频率大于$\omega_m$小于$2\omega_c - \omega_m$的低通滤波器滤波，得到输出信号$c(t)=\dfrac{1}{2}e(t)$.这种方法也叫同步解调。
+\subsection{幅度调制,AM}
+采用常规调幅，在发射端产生边带信号的同时，加入一个载频分量，使已调信号的幅度按调制信号的规律变化，即已调信号的包络与调制信号呈线性关系。也称为幅度调制。
+\begin{align}
+    &a(t)=[A_0+e(t)\cos \omega_c t]\\
+    &A(j\omega)=\pi A_0[\delta(\omega+\omega_c)+\delta(\omega-\omega_c)]+\dfrac{1}{2}E(j(\omega+\omega_c))+\dfrac{1}{2}E(j(\omega-\omega_c))
+    \label{am}
+\end{align}
+调幅信号的频谱比AM-SC信号的频谱多了位于$\pm \omega_c$处的两个冲激分量。
+
+解调时，通过一个二极管和一个RC并联网络就可以检波，处理出信号的包络，也即调制信号。需要注意的是，$A_0$必须大于$|e(t)|_{max}$，否则称为过调幅（“过”指调制信号的幅度过大）。
+
+特别地，考察周期信号(展成傅里叶级数)
+\begin{equation}
+    e(t)=\sum_{n=1}^{N}E_{n}\cos (\Omega_n t +\varphi_n)
+\end{equation}
+进行幅度调制
+\begin{align}
+    a(t)&=[A_0+e(t)]\cos \omega_c t\\
+    &=\left[ A_0 + \sum_{n=1}^{N}E_{n}\cos (\Omega_n t +\varphi_n)\right] \cos \omega_c t\\
+    &=A_0\left[1+ \sum_{n=1}^{N}m_{n}\cos (\Omega_n t +\varphi_n) \right]\cos \omega_c t
+\end{align}
+式中$m_n=\dfrac{E_n}{A_0}$称为部分调幅系数，表征调制信号中$n$次谐波对载波幅度的相对大小。
+
+因为$e(t)$是周期信号，能展开成三角函数形式，所以其频谱函数可以由常数的傅里叶变换加$\cos$移频得到
+\begin{equation}
+    E(j\omega)=\sum_{n=1}^{N}E_{n}[\delta(\omega+\Omega_n)+\delta(\omega-\Omega_n)]
+\end{equation}
+代入公式\ref{am}可以得到已调信号的频谱函数（{\color{red}{假设$\varphi_n=0$}}）
+\begin{align}
+    A(j\omega)&=\pi A_0[\delta(\omega+\omega_c)+\delta(\omega-\omega_c)] + \\
+    &\sum_{n=1}^{N}\dfrac{\pi E_n}{2}[\delta(\omega-\omega_c+\Omega_n)+\delta(\omega-\omega_c-\Omega_n)+\delta(\omega+\omega_c+\Omega_n)+\delta(\omega+\omega_c-\Omega_n)]\\
+    &=\pi A_0\{ [\delta(\omega+\omega_c)+\delta(\omega-\omega_c)] + \\
+    &\sum_{n=1}^{N}\dfrac{m_n}{2}[\delta(\omega-\omega_c+\Omega_n)+\delta(\omega-\omega_c-\Omega_n)+\delta(\omega+\omega_c+\Omega_n)+\delta(\omega+\omega_c-\Omega_n)]\}
+\end{align}
+图像上看，就是位于$y$轴两侧的一系列冲激函数被搬运到了对称的两侧，同时加上了位于$\pm \omega_c$的两个冲激。频宽加倍。
+
+从上式来看功率：位于$y$轴两侧的每一对冲激函数对应一个余弦信号。根据$\cos \omega_c t = \frac{1}{2}(e^{j\omega_c t}+e^{-j\omega_c t}) \leftrightarrow \pi [\delta(\omega+\omega_c)+\delta(\omega-\omega_c)] \Rightarrow P=(\dfrac{1}{\sqrt{2}})^2=\dfrac{1}{2}$,可得上式各项对应的功率为
+\begin{align}
+    &\pi A_0[\delta(\omega+\omega_c)+\delta(\omega-\omega_c)] \Rightarrow P=(\dfrac{A_0}{\sqrt{2}})^2=\dfrac{A_0^2}{2}\\
+    &\sum_{n=1}^{N}\dfrac{\pi A_0 m_n}{2}[\delta(\omega-\omega_c+\Omega_n)+\delta(\omega+\omega_c-\Omega_n)]\Rightarrow \sum_{n=1}^{N} (\dfrac{m_n A_0}{2 \sqrt{2}})^2=\dfrac{m_n^2 A_0^2}{8}\\
+    &\sum_{n=1}^{N}\dfrac{\pi A_0 m_n}{2}[\delta(\omega-\omega_c-\Omega_n)+\delta(\omega+\omega_c+\Omega_n)]\Rightarrow \sum_{n=1}^{N} (\dfrac{m_n A_0}{2 \sqrt{2}})^2=\dfrac{m_n^2 A_0^2}{8}
+\end{align}
+所以总功率为
+\begin{equation}
+    P=\dfrac{1}{2}A_0^2+\sum_{n=1}^{N} \dfrac{m_n^2 A_0^2}{4}
+\end{equation}
+其中，不含信息的载频功率为
+\begin{equation}
+    P_c=\dfrac{1}{2}A_0^2
+\end{equation}
+含有信息的边频功率为
+\begin{equation}
+    P_s=\sum_{n=1}^{N} \dfrac{m_n^2 A_0^2}{4}=\sum_{n=1}^{N} \dfrac{m_n^2}{2}P_c
+\end{equation}
+为了避免过调幅，$m_n\leq 1$，所以边频功率不超过载频功率的一半，功率浪费较多。改进方法有单边带、残留边带（无线模拟电视信号）
+\subsection{脉冲幅度调制,PAM}
+用离散的脉冲串作为载频信号进行调幅。常用的是矩形波形的脉冲串$s(t)$,幅度为$E$，周期为$T$，脉宽为$\tau$,调幅的过程是将调制信号与载频信号相乘，即$a(t)=e(t)\cdot s(t)$。载波信号的频谱为
+\begin{align}
+    S(j\omega)=\sum_{n=-\infty}^{+\infty}\pi \dot{A}_n \delta (\omega - n \Omega)\\
+    \dot{A}_n=\dfrac{2E\tau}{T}Sa \dfrac{n \Omega \tau}{2}
+\end{align}
+若已知激励的频谱函数，则由频域卷积定理可得
+\begin{align}
+    A(j\omega)&=\dfrac{1}{2\pi}E(j\omega)*S(j\omega)\\
+    &=\dfrac{E\tau}{T}\sum_{n=-\infty}^{+\infty} Sa(\dfrac{n\Omega\tau}{2})E[j(\omega-n\Omega)]
+\end{align}
+从频域图像上来看，就是调制信号$e(t)$的频谱被搬运到了脉冲所在的各次谐波两侧。从时域图像上看，就是$e(t)$对$s(t)$的各次谐波进行抑制载频调幅。
+\section{频分复用与空分复用}
+复用是指将若干个彼此独立的信号合并成可在同一信道上传输的复合信号的办法。
+
+频分复用FDM:将信道的带宽分为不同的频段，每一频段传送一路信号。各路载频之间的间隔应为每路信号的频带与防护频带之和。注意调制后的频带还会加倍。
+
+时分复用TDM:建立在脉冲调制基础之上。由于脉冲已调信号具有不连续的时间波形，因此只占用了信道的一部分时间，这样就有可能在这空余的时间里传输其他信号。实际的TDM系统采用的脉冲信号经过量化编码形成了二进制数码信号，即传输的是脉冲编码调制(PCM)信号。
+
+

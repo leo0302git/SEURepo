@@ -1,0 +1,35 @@
+\documentclass{ctexbook}
+\usepackage[margin=2.5cm]{geometry}%要先设置页边距，否则页眉页脚会偏
+\usepackage{fancyhdr} % 加载fancyhdr宏包，用于设置页眉和页脚
+\pagestyle{fancy} % 设置页面样式
+\fancyhf{} % 清除默认的页眉和页脚的内容
+\fancyfoot[C]{\thepage} 
+\fancyhead[L]{All Copyright Reserved by Leo}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\numberwithin{equation}{chapter}
+\usepackage{bm}
+\usepackage{esint}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{longtable}
+
+
+\title{Signals and Systems}
+\author{Leo}
+
+\begin{document}
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\noindentbf}[1]{\noindent \textbf{#1} \quad}
+\newcommand{\noindentbfline}[1]{\noindent \textbf{#1} \newline}
+\maketitle
+\tableofcontents
+%\include{绪论/绪论}
+%\include{连续时间系统的时域分析/连续时间系统的时域分析}
+\include{连续信号的正交分解/连续信号的正交分解}
+\include{连续时间系统的频域分析/连续时间系统的频域分析}
+\include{连续时间系统的复频域分析/连续时间系统的复频域分析}
+\end{document}
