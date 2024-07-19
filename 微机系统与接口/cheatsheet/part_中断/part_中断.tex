@@ -1,0 +1,118 @@
+\chapter{中断}
+\section{8086中断系统}
+\subsection{中断概述}
+CPU执行正常的程序时，由于某些事件产生，暂时中止当前程序的执行，转去执行为时间服务的“中断服务程序”，然后返回原程序继续执行，这个过程称为“中断”。中断的基本概念包括中断源、中断屏蔽、中断嵌套、中断矢量表和中断优先级。
+\subsection{中断源}
+\begin{equation}
+    \text{中断源}
+    \begin{cases}
+        \text{硬件中断（外部中断）}
+        \begin{cases}
+            NMI\\
+            INTR
+        \end{cases}
+        \\
+        \text{软件中断（内部中断）}
+        \begin{cases}
+            INT \quad n\\
+            INTO \\
+            Division \quad error\\
+            IF=1
+        \end{cases}
+    \end{cases}
+\end{equation}
+\subsection{硬件中断}
+从8086/8088的NMI引脚引入的为不可屏蔽中断，如奇偶校验错或电源掉电。
+
+从INTR引脚引入的为可屏蔽中断，中断源接到8259A的IR0-IR7引脚，经过8259A判优之后，选择优先级最高的中断向CPU提出中断请求。
+\subsection{软件中断}
+INT n(n=00-FFH)以指令形式安排在程序中。
+
+INTO 溢出标志OF为1时，若再执行INTO指令，则自动产生溢出中断。
+
+除法错中断：当除数为0或商超过寄存器的最大容纳值时产生该中断。
+
+单步中断：IF=1时，CPU每执行一条指令后都产生单步中断，将各寄存器和有关寄存器的内容显示在CRT上。
+\subsection{中断矢量表}
+\begin{enumerate}
+    \item 中断矢量表用于存放中断服务程序的入口地址
+    \item 共有256种中断
+    \item 每种中断的入口地址(CS:IP)占4个内存单元
+    \item 共占用1K单元，位于000-3FFH范围内
+\end{enumerate}
+中断矢量表的格式如图！！！
+\subsection{响应过程}
+中断响应流程图如图所示。！！！
+其中，中断处理的程序流程为
+\begin{enumerate}
+    \item 标志寄存器入栈
+    \item IF——>TEMP
+    \item 清除IF和TF：清除IF禁止其他可屏蔽中断进入，清除TF禁止单步运行行模式。
+    \item CS和IP入栈
+    \item 进入中断处理程序
+    \item 检查NMI，若有，重新第一步，若无，STI打开中断，允许其他中断进入
+    \item 检查TEMP=1？若是，重新第1步，若否，执行中断处理程序
+    \item 用IRET弹出IP、CS、标志寄存器
+    \item 返回断点
+\end{enumerate}
+其中进入中断处理程序前都是由硬件自动完成的。中断可以嵌套，优先级从高到低为IR0，... IR7.
+\section{8259A基本原理}
+可编程中断控制器，允许8级硬件中断，级联后可以扩展到64级，每一级都可以允许或屏蔽中断。判别优先级后，选择高级中断类型号送给CPU
+\subsection{引脚功能}
+\begin{enumerate}
+    \item $D_0-D_7$:数据总线，与系统DB或通过总线驱动器与系统DB连接
+    \item $\overline{CS},\overline{WR},\overline{RD}$:片选、写、读信号
+    \item $\overline{INTA}$:中断响应信号。CPU响应INTR中断后，发出两个连续的$\overline{INTA}$信号，第一个表示CPU已经开始处理，第二个发来后，8259从DB上送出中断类型号。
+    \item $A_0$:端口选择线，0表示选中偶地址
+    \item $CAS_0-CAS_2$:级联信号，主片的$CAS_0-CAS_2$做输出信号，从片的$CAS_0-CAS_2$做输入信号
+    \item $\overline{SP}/\overline{EN}$:从设备编程/允许缓冲线
+    \item $IR_7-IR_0$:中断设备的中断请求信号输入端，可以是电平也可以是上边沿触发
+\end{enumerate}
+8259A内部结构框图！！！
+\begin{enumerate}
+    \item 数据总线缓冲器：8位双向三态缓冲器，传送命令字（写入）、状态字（读出）、中断向量字（读出）
+    \item 控制电路：有一组初始化命令字寄存器和一组操作命令字寄存器，按编程方式管理8259A工作
+    \item 读写控制电路：
+    \begin{table}{H}
+        \begin{tabular}{|c|c|c|c|c|}
+            $\overline{CS}$&$\overline{WR}$&$\overline{RD}$&$A_0$&读写功能\\\hline
+            0&1&0&0&CPU往8259写ICW1，OCW2，OCW3\\ \hline
+            0&1&0&1&CPU往8259写ICW2，ICW3，ICW4，OCW1\\\hline
+            0&0&1&0&IRR/ISR向CPU传送数据\\\hline
+            0&0&1&1&IMR向CPU传送数据\\\hline
+            1&x&x&x&高阻态\\\hline
+            x&1&1&x&高阻态\\\hline
+        \end{tabular}
+    \end{table}
+    \item 级联缓冲器/比较器
+    \item 中断服务寄存器ISR：存放正在处理中的中断请求信号。任一级中断被响应时，相应的$IS_n$位置为1，中断处理结束后清零。多重中断时可能会多位置一
+    \item 优先权判别器PR：对IRR寄存器的中断请求进行判定，让优先级最高的中断服务送到ISR中
+    \item 中断请求寄存器IRR：存放$IR_7-IR_0$上的中断请求信号，哪个引脚上有请求，相应位就置一。电平触发还是前边沿触发由编程确定。
+    \item 中断屏蔽寄存器IMR：用软件使某位置一，则禁止对应位的中断请求信号进入PR和ISR
+\end{enumerate}
+\subsection{工作方式}
+\subsubsection{设置优先级的方式}
+\begin{enumerate}
+    \item 完全嵌套方式：优先级固定，禁止同级中断
+    \item 特殊全嵌套方式：优先级固定，$IR_0$最高，允许同级中断
+    \item 优先级自动循环方式：某设备服务后，优先级排到最后，将最高权利赋给比他低一级的中断，初始$IR_0$最高
+    \item 优先级特殊循环方式：同上，最低优先级由编程决定，如可以编程让$IR_4>\dots>IR_7>IR_0>\dots>IR_3$
+\end{enumerate}
+\subsubsection{屏蔽中断源的方式}
+\begin{enumerate}
+    \item 普通屏蔽：用OCW1对IMR置位为1来实现
+    \item 特殊屏蔽方式：先通过OCW3使其工作在特殊屏蔽方式，再用OCW1使本级中断的屏蔽寄存器的相应位置一，仅屏蔽当前正在处理的这级中断本身，允许高级或低级中断进入
+\end{enumerate}
+\subsubsection{结束中断的方式}
+\begin{enumerate}
+    \item 自动结束中断AEOI：收到第二个$\overline{INTA}$信号后沿，发中断结束信号使$IS_n=0$，仅用于单片8259A场合。
+    \item 一般中断结束命令EOI：收到CPU发来的EOI命令后，将ISR中优先级最高的$IS_n$复位，适用于完全嵌套方式
+    \item 特殊中断结束命令SEOI：ISR不知道哪一级中断是最后处理的，需要OCW2的L2-L0字段来指出对哪个$IS_n$复位。适用于非完全嵌套方式（优先级循环方式）
+\end{enumerate}
+\subsubsection{系统总线的连接方式}
+\begin{enumerate}
+    \item 缓冲方式：8259A需要总线驱动器才能与DB连接
+    \item 非缓冲方式：适用于单片或少量级联的系统
+\end{enumerate}
+\subsubsection{中断查询方式}
+中断查询方式通常用在64级中断的场合。用OCW3使P=1，可以发出查询命令，再执行IN指令，读入状态字，了解中断状态。状态字格式为"$IxxxxW_1W_2W_3$",I=0表示无中断命令，3位W给出优先级最高的设备的编码，并使相应的$IS_n=1$

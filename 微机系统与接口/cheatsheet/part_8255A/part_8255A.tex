@@ -1,0 +1,42 @@
+\chapter{并行接口芯片8255A}
+通用可编程并行IO接口芯片，内部有ABC3个数据端口，可工作于三种方式
+\section{引脚简介}
+\begin{enumerate}
+    \item $D_0-D_7,\overline{CS},\overline{WR},\overline{RD}$:数据位和片选、读写控制信号
+    \item $A_1A_0$:端口选择信号，从0到3分别表示选中A、B、C和控制字寄存器
+    \item $PA_0-PA_7$:A口输入输出引线，与外设相连传送数据信息
+    \item $PB_0-PB_7$:B口输入输出引线，与外设相连传送数据信息
+    \item $PC_0-PC_7$:C口输入输出引线，与外设相连传送数据信息,可分为两组使用
+\end{enumerate}
+\section{内部结构}
+如图所示！！！
+\section{控制字}
+控制字分为方式选择字和置位复位字。方式选择字定义各端口的工作方式，置位复位字使C口的任一位置位或复位。
+
+方式选择字的格式
+\begin{enumerate}
+    \item D7=1:标志位，表示本字为方式选择字
+    \item D6D5：指定A口方式，0为方式0，1为方式1，其余为方式2
+    \item D4：决定A口I/O
+    \item D3：C口高4位I/O
+    \item D2：决定B口方式：0为方式0，1为方式1
+    \item D1：B口I/O
+    \item D0:C口低四位I/O
+\end{enumerate}
+置位复位字格式
+\begin{enumerate}
+    \item D7=0:标志位
+    \item D6D5D4：任意，通常置为0
+    \item D3D2D1：用二进制数的数值来选中$PC_0-PC_7$
+    \item D0:指示所选中位想要置为1或0
+\end{enumerate}
+\begin{lstlisting}
+    MOV AL,00000100B
+    OUT 63H,AL ;控制口地址为63H，让PC2输出低电平
+\end{lstlisting}
+\section{工作方式}
+\begin{enumerate}
+    \item 方式0：基本输入输出方式：A、B、C、任意口都可以做输入输出，输出信号能锁存，输入不能锁存
+    \item 方式1：选通输入输出方式：A、B做8位数据口输入输出，但要在联络信号的控制下才能完成IO。C口6根先做联络信号，余下两根传送数据。A、B的IO数据均能锁存
+    \item 方式2：双向传送方式。仅A口可以工作在本方式，IO均能锁存但不能同时进行。C口的$PC_7-PC_3$做A口的联络控制信号，余下3根用来IO
+\end{enumerate}

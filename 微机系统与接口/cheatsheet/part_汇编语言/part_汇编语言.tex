@@ -1,0 +1,148 @@
+\chapter{汇编语言}
+\section{基本概念}
+汇编语言程序：用指令的助记符、符号地址、标号、伪指令等汇编语言编写的程序称为源程序，用.asm文件表示。源程序要经过汇编程序翻译为机器能认识的二进制码.exe文件后才能让机器执行。
+
+基本流程：编辑程序--汇编程序--连接程序--得到可执行文件
+
+汇编语言源程序格式：
+\begin{enumerate}
+    \item 指令性语句：“标号：指令助记符 操作数 ；注释”
+    \item 指示性语句：名字 伪指令助记符 ；注释
+\end{enumerate}
+\section{表达式}
+表达式由运算对象和运算符组成，运算结果做操作数使用，运算对象可以是常数、变量或标号。常用运算符如下表
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|c|X|X|}%l小写X大写
+        \hline
+        类型 & 运算符和运算结果 & 举例 \\ \hline
+        算数运算符 & +-*/MOD,SHL,SHR & MOV AL,32/5，汇编成MOV AL,6\\\hline
+        逻辑运算符&AND,OR,XOR,NOT &MOV AL,30H OR,05H汇编成 MOV AL,35H\\\hline
+        关系运算符& EQ,NE,LT,GT,LE,GE&MOV AX,15 EQ 0FH汇编成MOV AX,0FFFFH(因为15等于0FH)\\\hline
+        数值返回&OFFSET,SEG,TYPE(返回字节数),LENGTH(返回单元数),SIZE(返回总字节数)& \\\hline
+        修改属性&段超越前缀，PTR修改类型属性，HIGH/LOW分离高低字节，SHORT短转移 &HIGH 1234=12H\\\hline
+        其他&圆括号改变优先级，方括号间接寻址或下标 & \\ \hline
+    \end{tabularx}
+\end{table}
+\section{伪指令}
+伪指令为指示性语句，没有对应的机器码，不占用内存单元，仅起说明作用。这里列出了常用的伪指令。
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|c|X|X|}%l小写X大写
+        \hline
+        伪指令语句 & 说明 & 举例\\ \hline
+        等值伪指令EQU & 用于给常数、变量和表达式定义一个符号名 & COUNT EQU 100\\ \hline
+        段定义语句SEGMENT...ENDS& ~ & ~\\ \hline
+        段分配语句ASSUME& 任何时候都只允许四个段同时存在，该语句用来确定哪些段做DS，CS，ES，SS。CS必须要有& ~\\ \hline
+        过程定义语句PROC...ENDP&定义一些子程序供主程序调用& PRO1 PROC FAR ... RET PRO1 ENDP\\ \hline
+        程序结束语句END&放在源程序最后一行，汇编程序遇到END语句就停止进行& \\ \hline
+    \end{tabularx}
+\end{table}
+\section{DOS功能调用}
+DOS相当于一些提前写好的子程序，让用户可以方便地与设备和接口打交道。
+
+调用方法：
+\begin{enumerate}
+    \item 将功能号放入AH中
+    \item 入口参数放入指定寄存器中（可选）
+    \item 执行INT 21H
+    \item 调用结束后得到出口参数，或显示在CRT上
+\end{enumerate}
+\subsection{键盘功能调用}
+\subsubsection{功能号=1、6、7、8}
+等待键盘，有键压下时，将该键的ASCII码存入AL。区别在于
+\begin{enumerate}
+    \item 1,6号功能调用会回显该字符；7,8号不回显
+    \item 1号功能调用还要检查是否按下ctrl+break键，若是，则执行INT 23H中止程序。
+\end{enumerate}
+\subsubsection{功能号=0AH}
+键入字符串，将其存入显示缓冲区。该缓冲区由DS:DX指向。
+\begin{lstlisting}
+    DATA SEGMENT ;定义显示缓冲区
+    BUF DB 50 ;最大字节数为50
+        DB ?;用来存储实际键入的字节数
+        DB 50 DUP(?);存键入字符的ASCII码
+    DATA ENDS
+    ... 
+    CODE SEGMENT 
+    MOV AX,DATA 
+    MOV DS,AX ;DS指向缓冲区段址
+    MOV DX,OFFEST BUF ;DX指向缓冲区偏移地址
+    MOV AH,0AH;调用DOS功能
+    INT 21H
+    ... 
+    CODE ENDS
+    ;缓冲区的信息为32 实际键入数 键入字符的ASCII码 0D（回车符） 0 0 0 0 （后续未用到的地方填0）
+\end{lstlisting}
+\subsection{显示功能调用}
+\subsubsection{功能号=2}
+显示单个字符，入口参数为DL，其中存储要显示的字符的ASCII码
+\begin{lstlisting}
+    MOV DL,0EAH
+    MOV AH,2
+    INT 21H
+\end{lstlisting}
+\subsubsection{功能号=9}
+显示以\$为结尾的字符串（\$符号不显示），字符串起始地址为DS:DX，作为入口参数。
+\begin{lstlisting}
+    DATA SEGMENT 
+    MESS DB 'TRY AGAIN!',0DH,0AH,'$'
+    DATA ENDS 
+    CODE SEGMENT 
+    ... 
+    MOV SEG MESS
+    MOV DS,AX
+    MOV DX,OFFSET MESS 
+    MOV AH,9
+    INT 21H
+    ... 
+    CODE ENDS  
+\end{lstlisting}
+\subsection{打印功能调用}
+功能号=5，入口参数为DL，里面存放要打印的字符
+\begin{lstlisting}
+PRNT DB 'YOU ARE RIGHT!'
+COUNT EQU $-PRNT;表示将当前地址的值减去PRNT的地址，实际上就是PRNT的长度
+        ... 
+        MOV CX,COUNT 
+        MOV BX,0
+ NEXT:  MOV AH,5
+        MOV DL,PRNT[BX]
+        INT 21H
+        INC BX 
+        LOOP NEXT
+\end{lstlisting}
+\subsection{日期时间调用}
+\subsubsection{功能号=2AH}
+取日期，不要入口参数，返回的日期放在下述位置
+\begin{enumerate}
+    \item CX:年号(1980-2099),二进制
+    \item DH:月号
+    \item DL:日
+    \item AL:星期
+\end{enumerate}
+\subsubsection{功能号=2BH}
+设置日期。调用前CX，DX必须存有一个有效日期。调用后，若设置日期有效，则AL=00，若设置日期无效，则AL=0FFH.
+\begin{lstlisting}
+    MOV CX,1999;1999年(存为3CFH)
+    MOV DH,04;4月
+    MOV DL,15;15日
+    MOV AH,2BH 
+    INT 21H
+\end{lstlisting}
+\subsubsection{功能号=2CH}
+取时间，不要入口参数，返回值在CX，DX中
+\begin{enumerate}
+    \item CH:小时
+    \item CL:分钟
+    \item DH:秒
+    \item DL:1/100秒
+\end{enumerate}
+\subsubsection{功能号=2DH}
+设置时间。调用前CX和DX中存放需设置的时间值，格式同2CH号调用。调用后AL的取值也同2CH号调用。
+\begin{lstlisting}
+    MOV CX,0824H;时间8:36
+    MOV DX,1532H;21.5秒(15H=21,32H=50),50/100=0.5秒
+    MOV AH,2DH 
+    INT 21H
+\end{lstlisting}
+\subsection{返回操作系统}
+功能号4CH，调用时可以强行返回DOS。一般用于程序末尾。
