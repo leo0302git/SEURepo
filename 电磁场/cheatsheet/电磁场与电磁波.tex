@@ -1,0 +1,342 @@
+\documentclass{ctexart}
+\usepackage[margin=2.5cm]{geometry}%要先设置页边距，否则页眉页脚会偏
+\usepackage{fancyhdr} % 加载fancyhdr宏包，用于设置页眉和页脚
+\pagestyle{fancy} % 设置页面样式
+\fancyhf{} % 清除默认的页眉和页脚的内容
+\fancyfoot[C]{\thepage} 
+\fancyhead[L]{All Copyright Reserved by Leo}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{esint}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{float}
+
+
+\title{电磁场与电磁波}
+\author{Leo}
+\begin{document}
+\newcommand{\noindentbf}[1]{\noindent \textbf{#1} \quad}
+\newcommand{\noindentbfline}[1]{\noindent \textbf{#1} \newline}
+
+
+\maketitle
+\tableofcontents
+\section{电磁场基本定律}
+\subsection{电场}
+库仑定律
+\begin{equation}
+    \vec{F}_{21}=- \vec{F}_{12}=k\dfrac{q_1 q_2}{r^2}\vec{a}_{21}=\dfrac{1}{4\pi \epsilon}\dfrac{q_1 q_2}{r^2}\vec{a}_{21}
+\end{equation}
+$\vec{F}_{21}$为电荷1对电荷2的作用力。$\vec{a}_{21}$为电荷1指向电荷2的单位矢量
+
+\noindentbfline{典型例题}
+有限长直线上均匀分布电荷Q，直线外任一点处的电场强度为
+\begin{align}
+    E_R=\dfrac{\rho_l}{4\pi \epsilon R}(\cos \theta_1-\cos \theta_2)\\
+    E_z=\dfrac{\rho_l}{4\pi \epsilon R}(\sin \theta_2-\sin \theta_1)
+\end{align}
+当带电直线趋于无限长时，$\theta_1 \to 0,\theta_2 \to \pi$，电场强度只有径向分量，$E_R=\dfrac{\rho_l}{2\pi \epsilon R}$
+\subsection{高斯定律}
+\begin{equation}
+    \oint_s \vec{E}\cdot d\vec{s}=\dfrac{1}{\epsilon}\sum_{k=1}^{n}q_k=\dfrac{Q}{\epsilon}
+\end{equation}
+
+电通密度$\vec{D}=\epsilon \vec{E}$，单位为C/m$^2$
+
+\noindentbfline{典型例题}
+一无限大平面上均匀分布有面密度为$\rho$的正电荷，两侧产生的电场为
+\begin{align}
+    \vec{D}=
+    \begin{cases}
+        \vec{a}_x\dfrac{\rho_s}{2}(x\geq 0)\\
+        -\vec{a}_x\dfrac{\rho_s}{2}(x\leq 0)
+    \end{cases}
+    \\
+    \vec{E}=
+    \begin{cases}
+        \vec{a}_x\dfrac{\rho_s}{2\epsilon}(x\geq 0)\\
+        -\vec{a}_x\dfrac{\rho_s}{2\epsilon}(x\leq 0)
+    \end{cases}
+\end{align}
+带等量异号电荷的一对无限大平行平面之间的电场量为
+\begin{equation}
+    \vec{D}=\vec{a}_n\rho_s,\vec{E}=\vec{a}_n\dfrac{\rho_s}{\epsilon}
+\end{equation}
+$\vec{a}_n$为由正电荷指向负电荷的法向单位矢量。在两平板以外的空间，电场量为0
+\subsection{磁场}
+洛伦兹力
+\begin{equation}
+    d\vec{F}=dq \vec{v}\times \vec{B}=Id\vec{l}\times \vec{B}
+\end{equation}
+毕奥萨法尔定律
+\begin{equation}
+    d\vec{B}=\dfrac{\mu}{4\pi}\dfrac{I d \vec{l}\times\vec{a}_r}{r^2}
+\end{equation}
+$\vec{a}_r$为电流元指向场点方向的单位矢量。
+
+体电流的面密度$\vec{J},J=\dfrac{dI}{ds}$,有关系$Id\vec{l}=\vec{J}dV$
+
+\noindentbfline{典型例题}
+有限长直导线通有电流I，直线外任一点P的磁感应强度为
+\begin{equation}
+    \vec{B}=\vec{a}_\alpha \dfrac{\mu I}{4 \pi R}(\cos \theta_1-\cos \theta_2)
+\end{equation}
+当带电直线趋于无限长时，$\theta_1 \to 0,\theta_2 \to \pi$.
+\subsection{磁通连续性原理}
+\begin{equation}
+    \oint_s\vec{B}\cdot d\vec{s}=0
+\end{equation}
+\subsection{安培环路定律}
+\begin{equation}
+    \oint _C=\vec{B}\cdot d\vec{l}=\mu \sum_{k}I_k=\mu \int_{s}\vec{J}\cdot d\vec{s}
+\end{equation}
+定义磁场强度$\vec{H}=\dfrac{\vec{B}}{\mu}$,单位为A/m。推广安培环路定律
+\begin{equation}
+    \oint _C \vec{H}\cdot d\vec{l}=\int_{s}\vec{J}\cdot d\vec{s}
+\end{equation}
+\subsection{电磁感应定律}
+\begin{equation}
+    \oint _C \vec{E}\cdot d\vec{l}=-\int_s \dfrac{\partial \vec{B}}{\partial t}\cdot d \vec{s}
+\end{equation}
+全电流定律，对安培环路定律做了推广
+\begin{equation}
+    \oint _C \vec{H}\cdot d\vec{l}=\int_{s}(\vec{J}_c+\vec{J}_v+\dfrac{\partial \vec{D}}{\partial t})\cdot d\vec{s}
+\end{equation}
+$\vec{J}_c=\sigma \vec{E}$为传导电流密度，$\vec{J}_v=\rho\vec{v}$为运流电流密度，在空间中某一点处，两者不能同时出现
+\subsection{麦克斯韦方程组}
+积分形式
+\begin{align}
+    &\oint _C \vec{H}\cdot d\vec{l}=\int_{s}(\vec{J}_c+\vec{J}_v+\dfrac{\partial \vec{D}}{\partial t})\cdot d\vec{s}\\
+    &\oint _C \vec{E}\cdot d\vec{l}=-\int_s \dfrac{\partial \vec{B}}{\partial t}\cdot d \vec{s}\\
+    &\oint_s \vec{E}\cdot d\vec{s}=\int_V \rho dV\\
+    &\oint_s\vec{B}\cdot d\vec{s}=0\\
+    &^* \oint_s \vec{J}\cdot d \vec{s}=-\int_V\dfrac{\partial \rho}{\partial t}dV
+\end{align}
+微分形式
+\begin{align}
+    &\nabla \times \vec{H}=\vec{J}+\dfrac{\partial \vec{D}}{\partial t}\\
+    &\nabla \times \vec{E}=-\dfrac{\partial \vec{B}}{\partial t}\\
+    &\nabla \cdot \vec{D}=\rho\\
+    &\nabla \cdot \vec{B}=0\\
+    &\nabla \cdot \vec{J}=-\dfrac{\partial \rho}{\partial t}
+\end{align}
+本构方程
+\begin{align}
+    &\vec{D}=\epsilon \vec{E}\\
+    &\vec{B}=\mu \vec{H}\\
+    &\vec{J}_c=\sigma \vec{E}
+\end{align}
+\subsection{电磁场的边界条件}
+\begin{align}
+    &\nabla \times (\vec{H}_1-\vec{H}_2)=\vec{J}_l\\
+    &\nabla \times (\vec{E}_1-\vec{E}_2)=0\\
+    &\nabla \cdot (\vec{D}_1-\vec{D}_2)=\rho_s\\
+    &\nabla \cdot (\vec{B}_1-\vec{B}_2)=0\\
+\end{align}
+$\vec{J}_l$为面电流的线密度（单位为A/m），只有理想导体表面才有；$\rho_s$为面电荷密度，只有理想介质表面才没有。$\vec{n}$为界面法向，规定为从介质2指向介质1.
+\subsection{电磁场能量关系——坡印廷定理}
+定义表征单位时间内垂直通过单位面积的电磁场能量的矢量为功率流密度矢量，或坡印廷矢量
+\begin{equation}
+    \vec{S}=\vec{E}\times \vec{H}
+\end{equation}
+坡印廷定理
+\begin{equation}
+    \oint_s \vec{S}\cdot d\vec{s}+\int_V\vec{J}\cdot \vec{E}dV=-\dfrac{\partial}{\partial t}\int_V\left( \dfrac{1}{2}\vec{E}\cdot \vec{D}+ \dfrac{1}{2}\vec{H}\cdot \vec{B} \right)dV
+\end{equation}
+其物理解释为：表面流出的功率流与体积中功率的损耗两者之和等于体积中电磁能量的减少量（对静场而言为0）。功率的损耗可以进一步拆开：
+\begin{equation}
+    \int_V\vec{J}\cdot \vec{E}dV=\int_V\sigma E^2dV+\int_V\rho \vec{v}\cdot \vec{E}dV
+\end{equation}
+即损耗可以分为传导电流和运流电流两部分，分别对应转化为热量和动能
+\section{静电场和恒流电流电场}
+\subsection{静电场基本方程}
+场方程
+\begin{align}
+    &\nabla \times \vec{E}=0\\
+    &\nabla \cdot \vec{D}=\rho\\
+    &\vec{D}=\epsilon \vec{E}
+\end{align}
+对于同轴传输线的电场强度，一个常用的表示方式是b
+\begin{equation}
+    \vec{E}=\vec{a}_R \dfrac{\rho_l}{2\pi \epsilon R}
+\end{equation}
+其中$\rho_l$为电流传输方向上的线电荷密度。对于无限长导线，不能选取无限远处为电势零点，只能在非源点处选取零电位点。
+
+电场强度与电位的微分关系:$\vec{E}=-\nabla \varphi$
+
+电场强度与电位的积分关系:
+\begin{equation}
+    \varphi_A-\varphi_B=\int_{A}^{B}\vec{E}\cdot d\vec{l} \qquad \int_{P}^{0}\vec{E}\cdot d\vec{l}=\int_{P}^{0}(-\dfrac{\partial \varphi}{\partial l})dl=\varphi_P
+\end{equation}
+\noindentbfline{电偶极子形成的电场}
+设电偶极子的电矩为$\vec{p}=q\vec{l}$,$\vec{l}$的方向由负电荷指向正电荷。则空间中任一点的电位为
+\begin{equation}
+    \varphi=\dfrac{ql \cos \theta}{4 \pi \epsilon r^2}=\dfrac{p\cos \theta}{4 \pi \epsilon r^2}=\dfrac{\vec{p}\cdot \vec{r}}{4 \pi \epsilon r^2}
+\end{equation}
+$\vec{r}$为电偶极子指向场点的矢径。
+\subsection{电位方程}
+\begin{align}
+    &\text{有源区泊松方程}\qquad \nabla^2 \varphi = -\dfrac{\rho}{\epsilon}\\
+    &\text{无源区拉普拉斯方程}\qquad\nabla^2 \varphi = 0
+\end{align}
+常见电位方程的通解
+
+直角坐标系
+\begin{align}
+    &\nabla^2 \varphi = 0 \text{解为} \varphi = C_1 x+C_2\\
+    &\nabla^2 \varphi = -\dfrac{\rho}{\epsilon} \text{解为}\varphi = -\dfrac{\rho}{2\epsilon}x^2+C_1 x+C_2
+\end{align}
+圆柱坐标系
+\begin{align}
+    &\nabla^2 \varphi = \dfrac{1}{R}\dfrac{d}{dR}(R\dfrac{d\varphi}{dR}) +\dfrac{1}{R^2}\dfrac{\partial^2 \varphi}{\partial \alpha^2}+\dfrac{\partial^2 \varphi}{\partial z^2}\\
+    &\nabla^2 \varphi = \dfrac{1}{R}\dfrac{d}{dR}(R\dfrac{d\varphi}{dR})=0 \text{解为}\varphi(R)=C_1\ln R+C_2\\
+    &\nabla^2 \varphi = \dfrac{1}{R^2}\dfrac{\partial^2 \varphi}{\partial \alpha^2}=0\text{解为}\varphi =C_1 \alpha +C_2
+\end{align}
+\subsection{静电场的边界条件}
+场量边界条件
+\begin{align}
+    \vec{n}\times (\vec{E}_1-\vec{E}_2)=0\\
+    \vec{n}\cdot (\vec{D}_1-\vec{D}_2)=\rho_s
+\end{align}
+是否有自由面电荷密度要具体分析。
+
+电力线的折射定律
+\begin{equation}
+    \dfrac{\tan \theta_1}{\tan \theta_2}=\dfrac{\epsilon_1}{\epsilon_2}
+\end{equation}
+电位边界条件
+\begin{align}
+    \varphi_1&=\varphi_2\\
+    \epsilon_1 \dfrac{\partial \varphi_1}{\partial n}-\epsilon_2 \dfrac{\partial \varphi_2}{\partial n}&=-\rho_s
+\end{align}
+\subsection{电容}
+定义式$C=\dfrac{Q}{U}$,对孤立导体，$C=\dfrac{Q}{\varphi}$
+
+同轴线的分布电容（“线电容密度”）为
+\begin{equation}
+    C=\dfrac{\rho_l}{U}=\dfrac{2 \pi \epsilon}{\ln \dfrac{R_2}{R_1}}
+\end{equation}
+均匀双线传输线的分布电容为
+\begin{equation}
+    C=\dfrac{\pi \epsilon}{\ln \dfrac{D-R}{R}}
+\end{equation}
+$D,R$分别为两导线距离和导线半径。
+\subsection{电场的能量}
+源量形式
+\begin{equation}
+    W_e=\dfrac{1}{2}\int_V \rho \varphi dV
+\end{equation}
+场量形式
+\begin{equation}
+    W_e=\dfrac{1}{2}\int_V \vec{D}\cdot \vec{E}dV
+\end{equation}
+\subsection{恒定电流电场}
+恒流电场基本场方程(在导电媒质中)
+\begin{align}
+    &\nabla \times \vec{E}=0\\
+    &\nabla \cdot \vec{D}=0\\
+    &\vec{D}=\epsilon\vec{E}
+\end{align}
+在导电媒质外$\vec{J}=\rho \vec{v}$,$\rho$为电荷体密度。
+\begin{align}
+    &\nabla \times \vec{E}=0\\
+    &\nabla \cdot \vec{D}=0\\
+    &\vec{J}=\sigma \vec{E}
+\end{align}
+\subsubsection{恒流电场的边界条件}
+\begin{align}
+    &\vec{n}\times (\vec{E}_1-\vec{E}_2)=0\\
+    &\vec{n}\cdot  (\vec{J}_1-\vec{J}_2)=0\\
+    &\varphi_1=\varphi_2\\
+    &\sigma_1 \dfrac{\partial \varphi_1}{\partial n}=\sigma_2 \dfrac{\partial \varphi_2}{\partial n}\\
+\end{align}
+电流线的折射定律
+\begin{equation}
+    \dfrac{\tan \theta_1}{\tan \theta_2}=\dfrac{\sigma_1}{\sigma_2}
+\end{equation}
+在两非理想介质的分界面上，自由面电荷密度为
+\begin{equation}
+    \rho_s=(\dfrac{\epsilon_1}{\sigma_1}-\dfrac{\epsilon_2}{\sigma_2})J_n
+\end{equation}
+\subsection{静电场和恒流电场的比拟}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc}
+        \hline
+        导电媒质以内的恒流电场&静电场\\ \hline
+        电源以外&$\rho=0$区域\\
+        $\vec{E}$&$\vec{E}$\\
+        $\varphi$&$\varphi$\\
+        $\vec{J}$&$\vec{D}$\\
+        $I$&$q$\\
+        $\sigma$&$\epsilon$ \\ \hline
+    \end{tabular}
+\end{table}
+电导与电容的关系
+\begin{equation}
+    \dfrac{G}{C}=\dfrac{\sigma}{\epsilon}
+\end{equation}
+\section{恒定电流的磁场}
+\subsection{恒流磁场基本场方程}
+在有电流分布的空间中
+\begin{align}
+    &\nabla \times \vec{H}=\vec{J}\\
+    &\nabla \cdot \vec{B}=0\\
+    &\vec{B}=\mu \vec{H}
+\end{align}
+在无电流分布的空间中
+\begin{align}
+    &\nabla \times \vec{H}=0\\
+    &\nabla \cdot \vec{B}=0
+\end{align}
+\subsection{恒流磁场的标量位}
+仅仅在无电流分布的空间中，有$\nabla \times \vec{H}=0$，可以引入标量位函数$\vec{H}=-\nabla \varphi_m$.但是，标量磁位在选定零磁位参考点后仍然是多值的。
+\subsection{恒流磁场的矢量位}
+定义矢量磁位$\vec{A}$,使得$\vec{B}=\nabla \times \vec{A}$，这是一个没有物理意义的辅助矢量。
+
+库伦规范:$\nabla \cdot \vec{A}=0$
+
+磁位（矢量方程）相当于三个标量形式的泊松方程
+\begin{align}
+    &\nabla ^2 \vec{A}=-\mu \vec{J}\\
+    &\nabla ^2 \vec{A}_x=-\mu \vec{J}_x,  \nabla ^2 \vec{A}_y=-\mu \vec{J}_y,\nabla ^2 \vec{A}_z=-\mu \vec{J}_z
+\end{align}
+通解为
+\begin{align}
+    A_x=\dfrac{\mu}{4 \pi}\int_{V'} \dfrac{J_x dV'}{|\vec{r}-\vec{r}'|}+C\\
+    A_y=\dfrac{\mu}{4 \pi}\int_{V'} \dfrac{J_y dV'}{|\vec{r}-\vec{r}'|}+C\\
+    A_z=\dfrac{\mu}{4 \pi}\int_{V'} \dfrac{J_z dV'}{|\vec{r}-\vec{r}'|}+C
+\end{align}
+$\vec{r}$为坐标原点到场点的矢径，$\vec{r}‘$为坐标原点到源点的矢径，$|\vec{r}-\vec{r}’|$为电流源到场点的距离。若规定无限远的矢量磁位为0，则$C=0$.由上式可知，矢量磁位与电流密度同向。
+
+当电流在线状导线内流动时，$\vec{J}dV'=Id\vec{l}'$，此时矢量磁位可表示为
+\begin{equation}
+    \vec{A}=\dfrac{\mu I}{4 \pi}\int_{l'} \dfrac{d\vec{l}'}{|\vec{r}-\vec{r}'|}
+\end{equation}
+\subsection{磁场的边界条件}
+场量的边界条件
+\begin{align}
+    &\vec{n}\times (\vec{H}_1-\vec{H}_2)=\vec{J}_l\\
+    &\vec{n}\cdot (\vec{B}_1-\vec{B}_2)=0
+\end{align}
+折射定律
+\begin{equation}
+    \dfrac{\tan \theta_1}{\tan \theta_2}=\dfrac{\mu_1}{\mu_2}
+\end{equation}
+标量磁位的边界条件
+\begin{align}
+    &\varphi_{m1}=\varphi_{m2}\\
+    &\mu_1 \dfrac{\partial \varphi_{m1}}{\partial n}=\mu_2 \dfrac{\partial \varphi_{m2}}{\partial n}
+\end{align}
+矢量磁位的边界条件
+\begin{equation}
+    \vec{n}\times (\vec{A}_1-\vec{A}_2)=0
+\end{equation}
+\subsection{电感}
+定义为$L=\dfrac{\varPsi }{I}=\dfrac{n \Phi}{I}$,n为匝数
+\section{静态电磁场边值问题的解法}
+\end{document}
