@@ -22,7 +22,7 @@ $itemKey: ATT845TL
 
 橙色：问题解答
 
-![\<img alt="" data-attachment-key="ENUXWHAK" width="528" height="1003" src="attachments/ENUXWHAK.png" ztype="zimage">](attachments/ENUXWHAK.png)
+!\[\<img alt="" data-attachment-key="ENUXWHAK" width="528" height="1003" src="attachments/ENUXWHAK.png" ztype="zimage">]\(attachments/ENUXWHAK.png![\<img alt="image-20241230183931425" data-attachment-key="PKMRZL5T" width="1399" height="991" src="attachments/PKMRZL5T.png" ztype="zimage">](attachments/PKMRZL5T.png)
 
 [图解直接映射（Direct mapped）、全相联（Fully-associative）和组相联（Set-associative）cache缓存基本原理\_直接映射全相联映射组相联映射-CSDN博客](https://blog.csdn.net/luolaihua2018/article/details/132647066)
 
@@ -1120,3 +1120,61 @@ Many CISC processors implement a microprogrammed control unit.
 CAR: control address register
 
 CBR: control buffer register
+
+**vertical microinstruction**
+
+<span class="highlight" data-annotation="%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2F5WXAJZDU%22%2C%22annotationKey%22%3A%22ZS9UWKZ9%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%22735%22%2C%22position%22%3A%7B%22pageIndex%22%3A759%2C%22rects%22%3A%5B%5B311.649%2C222.254%2C488.999%2C231.624%5D%2C%5B128.999%2C210.254%2C489.019%2C219.624%5D%2C%5B128.999%2C198.254%2C424.349%2C207.624%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22735%22%7D%7D" ztype="zhighlight"><a href="zotero://open-pdf/library/items/5WXAJZDU?page=760&#x26;annotation=ZS9UWKZ9">“The advantage of vertical microinstructions is that they are more compact (fewer bits) than horizontal microinstructions, at the expense of a small additional amount of logic and time delay.”</a></span>
+
+### Wilkes control
+
+## Microinstruction sequencing
+
+“The two basic tasks performed by a microprogrammed control unit are as follows:
+
+■ Microinstruction sequencing: Get the next microinstruction from the control memory.
+
+■ Microinstruction execution: Generate the control signals needed to execute the microinstruction.”
+
+微指令如何处理分支？
+
+最简单的方法是提供两个地址，再用一个分支选择逻辑来决定用哪个作为下一条指令。这种方法需要用到更多比特
+
+然后就是单地址信号。控制逻辑决定下一条指令是来自地址域还是顺序下条还是IR。很多时候，地址域也没有派上用场
+
+还有一种方法是用可变格式的分支控制逻辑。用一个比特来决定是哪种格式
+
+## Microinstruction execution
+
+微指令的分类
+
+“■ Vertical/horizontal
+
+■ Packed/unpacked
+
+■ Hard/soft microprogramming
+
+■ Direct/indirect encoding”
+
+编码与否是微指令格式的一个大问题
+
+![\<img alt="" data-attachment-key="RARDUBPZ" width="1329" height="752" src="attachments/RARDUBPZ.png" ztype="zimage">](attachments/RARDUBPZ.png)
+
+<span class="highlight" data-annotation="%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2F5WXAJZDU%22%2C%22annotationKey%22%3A%22FEISQADW%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%22748%22%2C%22position%22%3A%7B%22pageIndex%22%3A772%2C%22rects%22%3A%5B%5B153%2C278.38%2C489%2C287.75%5D%2C%5B129%2C266.38%2C489.03%2C275.75%5D%2C%5B129%2C254.38%2C489.01%2C263.75%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22748%22%7D%7D" ztype="zhighlight"><a href="zotero://open-pdf/library/items/5WXAJZDU?page=773&#x26;annotation=FEISQADW">“The degree of packing relates to the degree of identification between a given control task and specific microinstruction bits. As the bits become more packed, a given number of bits contains more information. Thus, packing connotes encoding.”</a></span> <span class="citation" data-citation="%7B%22citationItems%22%3A%5B%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22748%22%7D%5D%2C%22properties%22%3A%7B%7D%7D" ztype="zcitation">(<span class="citation-item"><a href="zotero://select/library/items/VEKBRPPP">“Computer Organization and Architecture Designing for Performance.pdf”, p. 748</a></span>)</span> 🔤打包的程度与给定的控制任务和特定的微指令位之间的识别程度有关。随着比特越来越密集，给定的比特数包含了更多的信息。因此，包装意味着编码。🔤
+
+<span class="highlight" data-annotation="%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2F5WXAJZDU%22%2C%22pageLabel%22%3A%22748%22%2C%22position%22%3A%7B%22pageIndex%22%3A772%2C%22rects%22%3A%5B%5B129%2C242.38000000000002%2C488.9899999999994%2C251.75000000000003%5D%2C%5B129%2C230.38000000000002%2C488.98999999999955%2C239.75000000000003%5D%2C%5B129%2C218.38000000000002%2C488.97999999999973%2C227.75000000000003%5D%2C%5B129%2C206.38000000000002%2C489.0199999999996%2C215.75000000000003%5D%2C%5B129%2C194.38000000000002%2C488.9999999999996%2C203.75000000000003%5D%2C%5B129%2C182.38000000000002%2C489.0099999999996%2C191.75000000000003%5D%2C%5B129%2C170.38000000000002%2C489.0299999999997%2C179.75000000000003%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22748%22%7D%7D" ztype="zhighlight"><a href="zotero://open-pdf/library/items/5WXAJZDU?page=773">“The terms horizontal and vertical relate to the relative width of microinstructions. [SIEW82] suggests as a rule of thumb that vertical microinstructions have lengths in the range of 16 to 40 bits and that horizontal microinstructions have lengths in the range of 40 to 100 bits. The terms hard and soft microprogramming are used to suggest the degree of closeness to the underlying control signals and hardware layout. Hard microprograms are generally fixed and committed to read-only memory. Soft microprograms are more changeable and are suggestive of user microprogramming.”</a></span>
+
+<span class="highlight" data-annotation="%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2F5WXAJZDU%22%2C%22annotationKey%22%3A%22XV2XZWWV%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%22748%22%2C%22position%22%3A%7B%22pageIndex%22%3A772%2C%22rects%22%3A%5B%5B218.82%2C434.38%2C489.17%2C443.75%5D%2C%5B129%2C422.38%2C488.89%2C431.75%5D%2C%5B129%2C410.38%2C488.97%2C419.75%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22748%22%7D%7D" ztype="zhighlight"><a href="zotero://open-pdf/library/items/5WXAJZDU?page=773&#x26;annotation=XV2XZWWV">“In general, a design that falls toward the left end of the spectrum is intended to optimize the performance of the control unit. Designs toward the right end are more concerned with optimizing the process of microprogramming.”</a></span>  🔤一般来说，一个落在频谱左端的设计旨在优化控制单元的性能。面向右端的设计更多的是关注微程序设计过程的优化。🔤
+
+Microinstruction encoding
+
+微指令一般被组织成一系列的域，每个域包含一个编码，负责产生一些控制信号。有两点基本要求：共发性和排他性
+
+“■ Organize the format into independent fields. That is, each field depicts a set of actions (pattern of control signals) such that actions from different fields can occur simultaneously.
+
+■ Define each field such that the alternative actions that can be specified by the field are mutually exclusive. That is, only one of the actions specified for a given field could occur at a time.”
+
+有两种编码方式：功能性编码和资源性编码。前者对一个功能，比如传输数据，进行编码。后者对一个资源进行编码，比如IO口和ALU
+
+编码的另一个方面是直接或间接.间接编码中，一个域可能被用来解释另一个域，这就需要多级译码，造成传输延时
+
+<span class="highlight" data-annotation="%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2F5WXAJZDU%22%2C%22pageLabel%22%3A%22750%22%2C%22position%22%3A%7B%22pageIndex%22%3A774%2C%22rects%22%3A%5B%5B129%2C419.38009999999997%2C489.02999999999963%2C428.7501%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F14646580%2Fitems%2FVEKBRPPP%22%5D%2C%22locator%22%3A%22750%22%7D%7D" ztype="zhighlight"><a href="zotero://open-pdf/library/items/5WXAJZDU?page=775">“With indirect encoding, one field is used to determine the interpretation of another field”</a></span>
