@@ -1026,17 +1026,416 @@ An alternative approach to achieving greater performance is referred to as **sup
 
 "An alternative way of looking at this is that the functions performed in each stage can be split into **two nonoverlapping parts** and each can execute in half a clock cycle. A superpipeline implementation that behaves in this fashion is said to be of degree 2."
 
+#### Constraints
+
+使用超标量的关键是并行化执行多条指令。这要看指令间的并行化水平
+
+The term **instruction-level parallelism** (ILP) refers to the degree to which, on average, the instructions of a program can be executed in parallel. 一系列手段可以用来提升ILP，当然，也有一定的限制：
+
+- True data dependency;  
+- Procedural dependency;  
+- Resource conflicts;  
+- Output dependency; 
+- Antidependency.
+
+**True data dependency**: the second instruction needs data produced by the first instruction. (also called flow dependency or read after write [RAW] dependency). In general, any instruction must be delayed until all of its input values have been produced.
+
+**Procedural dependencies**: The instructions following a branch (taken or not taken) have a procedural dependency on the branch and cannot be executed until the branch is executed.
+
+另一种Procedural dependencies来自于可变长度的指令。Because the length of any particular instruction is not known, it must be at least partially decoded before the following instruction can be fetched（这样才可以知道下一条指令有多长，该取几个字）. This prevents the simultaneous fetching required in a superscalar pipeline.
+
+**Resource conflict**:  A resource conflict is a competition of two or more instructions for the same resource at the same time. Examples of resources include memories, caches, buses, register-file ports, and functional units (e.g., ALU adder).
+
+数据依赖性和资源冲突的区别：<u>For one thing</u>, resource conflicts can be overcome by duplication of resources, whereas a true data dependency cannot be eliminated. <u>Also</u>, when an operation takes a long time to complete, resource conflicts can be minimized by pipelining the appropriate functional unit.
+
 ### 16.2 Design Issues 
 
+ILP is determined by the frequency of true data dependencies and procedural dependencies in the code. Or it is also determined by what [JOUP89a] refers to as **operation latency**: the time until the result of an instruction is available for use as an operand in a subsequent instruction.
 
+**Machine parallelism** is a measure of the ability of the processor to take advantage of instruction-level parallelism. 机器并行度是建立在ILP之上的。Machine parallelism is determined by the number of instructions that can be fetched and executed at the same time (the number of parallel pipelines) and by the speed and sophistication of the mechanisms that the processor uses to find independent instructions.
 
+#### Instruction Issue Policy
 
+the term **instruction issue** refers to the process of initiating instruction execution in the processor’s functional units 
 
+the term **instruction issue policy** refers to the protocol used to issue instructions. In general, we can say that instruction issue occurs when instruction moves from the decode stage of the pipeline to the first execute stage of the pipeline. 一般可以分为3类
 
+- In-order issue with in-order completion.  
+- In-order issue with out-of-order completion.  
+- Out-of-order issue with out-of-order completion.
 
-| **Ch20** Control Unit Operation  20.1 Micro-operation  20.2 control of the Processor  (1) |
-| ------------------------------------------------------------ |
-| 20.2 control of the Processor (2)  20.3 Hardwired Implementation |
-| **Ch21** Micro-programmed Control  21.1 basic Concepts  21.2 Microinstruction Sequencing |
-| 21.3Microinstruction Execution                               |
-| **Ch17** Parallel  Processing  **Ch18**  Multicore Computers  **Ch19**  General-Purpose Graphic Processing Units |
+**in-order issue with in-order completion**：issue instructions in the exact order that would be achieved by sequential execution (in-order issue) and to write results in that same order (in-order completion).
+
+**in-order issue with out-of-order completion**：Instruction issuing is stalled by a resource conflict, a data dependency, or a procedural dependency. In addition to the aforementioned limitations, a new dependency, which we referred to earlier as an **output dependency** (also called write after write [WAW] dependency), arises. The issuing of the third instruction must be stalled if its result might later be overwritten by an older instruction that takes longer to complete.
+
+**out-of-order issue with out-of-order completion**：To allow out-of-order issue, it is necessary to decouple the decode and execute stages of the pipeline. This is done with a buffer referred to as an instruction window. 只要指令窗口不满，就可以取指并解码，只要执行单元有空，就可以从指令窗口发射。窗口本身不是一个流水线阶段（当然要满足“所发射的指令对应所需的资源空闲”这一条件）As before, the only constraint is that the program execution behaves correctly.
+
+In addition, a new dependency, which we referred to earlier as an antidependency (also called write after read [WAR] dependency), arises. "the second instruction destroys a value that the first instruction uses."
+
+一种常用于支持失序完成的技术： The **reorder buffer** is temporary storage for results completed out of order that are then committed to the register file in program order. A related concept is Tomasulo’s algorithm
+
+#### Register Renaming
+
+When a new register value is created (i.e., when an instruction executes that has a register as a destination operand), a new register is allocated for that value.
+
+When a new allocation is made for a particular logical register, subsequent instruction references to that logical register as a source operand are made to refer to the most recently allocated hardware register (recent in terms of the program sequence of instructions).
+
+#### Machine Parallelism
+
+提供了一张图，展示了加速因子与资源量、指令窗口大小以及是否renaming之间的关系
+
+The first is that it is probably not worthwhile to add functional units without register renaming. There is some slight improvement in performance, but at the cost of increased hardware complexity. With register renaming, which eliminates antidependencies and output dependencies, noticeable gains are achieved by adding more functional units. 
+
+There is a significant difference in the amount of gain achievable between using an instruction window of 8 versus a larger instruction window.
+
+#### Superscalar Execution
+
+![image-20250103153516855](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250103153516855.png)
+
+1. The program to be executed consists of a linear sequence of instructions. This is the static program as written by the programmer or generated by the compiler. 
+2. The instruction fetch stage, which includes branch prediction, is used to form a dynamic stream of instructions. This stream is examined for dependencies, and the processor may remove artificial dependencies. 
+3. The processor then dispatches the instructions into a window of execution. In this window, <u>instructions no longer form a sequential stream but are structured</u> according to their true data dependencies. 
+4. The processor executes each instruction in an order determined by the true data dependencies and hardware resource availability. 
+5. Finally, instructions are conceptually put back into sequential order and their results are recorded.
+
+The final step mentioned in the preceding paragraph is referred to as **committing**, or **retiring**, the instruction.这一步是必要的，因为有时候分支预测导致一些结果被提前算出来，不知道对不对（taken or not taken）这时候就需要先存起来，等分支结果出来后再确认提交
+
+#### Superscalar Implementation
+
+hardware required for the superscalar approach：
+
+- 同时多取与分支预测逻辑：Instruction fetch strategies that simultaneously fetch multiple instructions, often by predicting the outcomes of, and fetching beyond, conditional branch instructions. These functions require the use of multiple pipeline fetch and decode stages, and branch prediction logic.  
+- 依赖性检测逻辑：Logic for determining true dependencies involving register values, and mechanisms for communicating these values to where they are needed during execution.  
+- 并行执行机制：Mechanisms for initiating, or issuing, multiple instructions in parallel.  
+- 为并行化提供的资源要足够：Resources for parallel execution of multiple instructions, including multiple pipelined functional units and memory hierarchies capable of simultaneously servicing multiple memory references.  
+- 从无序恢复到有序的提交机制：Mechanisms for committing the process state in correct order.
+
+## Chapter 20 Control Unit Operation  
+
+要想清晰地了解一个处理器的功能，需要明确以下这些内容
+
+functional requirements for a processor:
+
+- Operations (opcodes)  
+- Addressing modes  
+- Registers  
+- I/O module interface  
+- Memory module interface  
+- Interrupts
+
+They determine what a processor must do. 这些内容在前述章节探讨过，这一章主要讨论这些功能如何实现
+
+### 20.1 Micro-operation  
+
+取指，执指等过程可以进一步细分。In fact, we will see that each of the smaller cycles involves a series of steps, each of which involves the processor registers. We will refer to these steps as micro-operations.
+
+To summarize, the execution of a program consists of the sequential execution of **instructions**. Each instruction is executed during an instruction cycle made up of shorter **subcycles** (e.g., fetch, indirect, execute, interrupt). The execution of each subcycle involves one or more shorter operations, that is, **micro-operations**.
+
+#### The Fetch Cycle
+
+Four registers are involved:  
+
+- Memory address register (MAR): Is connected to the address lines of the system bus. It specifies the address in memory for a read or write operation.  
+- Memory buffer register (MBR): Is connected to the data lines of the system bus. It contains the value to be stored in memory or the last value read from memory.
+- Program counter (PC): Holds the address of the next instruction to be fetched.  
+- Instruction register (IR): Holds the last instruction fetched.
+
+取指可以分为下面几个阶段
+
+```bash
+t1: MAR <- (PC)
+t2: MBR <- Memory
+	PC <- (PC) + I
+t3: IR <- (MBR)
+```
+
+I is the instruction length. PC自增这一步也可以放到第三个时隙。
+
+The groupings of micro-operations must follow two simple rules:  
+
+- The proper sequence of events must be followed. 防止data dependency
+- Conflicts must be avoided. 避免在同一时刻访问同一资源
+
+#### The Indirect Cycle
+
+```
+t1: MAR <- (IR(addr.))
+t2: MBR <- Memory
+t3: IR(addr.) <- (MBR(addr.))
+```
+
+注意，间址微操作的开头就是IR中已经有指令，只不过指令的地址域还需要寻址，所以只把IR(addr.)的内容拿给MAR即可；同理，间址拿回来在MBR中的内容也只需要更新IR的地址域中的内容。
+
+#### The Interrupt Cycle
+
+```
+t1: MBR <- (PC) 
+t2: MAR <- Save_Address 
+    PC <- Routine_Address 
+t3: Memory <- (MBR)
+```
+
+#### The Execute Cycle
+
+The fetch, indirect, and interrupt cycles are simple and predictable. 但是对于执指阶段，由于操作码的多样性，并不能简单的总结其微指令过程。需要解码，看操作具体是什么。
+
+The control unit examines the opcode and generates a sequence of micro-operations based on the value of the opcode. This is referred to as **instruction decoding**.
+
+接下来介绍了几个执指的具体例子，分析其微指令流程。分别对应一般指令、条件跳转指令和子程序调用指令
+
+##### ADD R1, X
+
+```
+t1: MAR <- (IR(address)) 
+t2: MBR <- Memory 
+t3: R1 <- (R1) + (MBR)
+```
+
+##### Increment and skip if zero: ISZ X
+
+The content of location X is incremented by 1. If the result is 0, the next instruction is skipped.
+
+```
+t1: MAR <- (IR(address)) 
+t2: MBR <- Memory 
+t3: MBR <- (MBR) + 1 
+t4: Memory <- (MBR) If ((MBR) = 0) then (PC d (PC) + I)
+```
+
+执指阶段默认IR已经有待执行的指令了，不用考虑间址。
+
+##### Branch-and-save-address instruction: BSA X
+
+The address of the instruction that follows the BSA instruction is saved in location X, and execution continues at location X + I. The saved address will later be used for return. This is a straightforward technique for supporting subroutine calls.
+
+```
+t1: MAR <- (IR(address)) ; 下一条本应执行的指令要存到指令中给出的地址，也就是X
+    MBR <- (PC) 
+t2: PC <- (IR(address)) ; 用X更新PC
+    Memory <- (MBR) 
+t3: PC <- (PC) + I ;使得下一条要执行的指令为X+I
+```
+
+#### The Instruction Cycle
+
+对于取指，执指等指令subcycles，都有一套微指令流程，可以将其绑定起来，用一套编码来指示，某一个码对应一套微指令流程。这套编码存放在一个新的reg中，called the instruction cycle code (ICC). The ICC designates the state of the processor in terms of which portion of the cycle it is in：00: Fetch； 01: Indirect；10: Execute ；11: Interrupt
+
+每一个subcycle结束后，ICC都会被设置为一个值。比如The indirect cycle is always followed by the execute cycle. The interrupt cycle is always followed by the fetch cycle
+
+![image-20250104144616818](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104144616818.png)
+
+以上，这一节完成了对subcycle的拆解，拆解为微操作，下面探讨如何实现微操作。
+
+### 20.2 Control of the Processor 
+
+We can define the **functional requirements** for the control unit: those functions that the control unit must perform. 定义控制单元的基本组成元素、定义CU必须完成的微操作、定义CU必须有的功能，来完成微操作。
+
+首先定义基本组成元素 First, the basic functional elements of the processor are the following:  
+
+- ALU  
+- Registers  
+- Internal data paths: used to move data between registers and between register and ALU
+- External data paths: link registers to memory and I/O modules, often by means of a system bus.
+- Control unit
+
+然后定义必须完成的微操作 All microoperations fall into one of the following categories:  
+
+- Transfer data from one register to another.  
+- Transfer data from a register to an external interface (e.g., system bus).  
+- Transfer data from an external interface to a register.  
+- Perform an arithmetic or logic operation, using registers for input and output.
+
+The control unit performs two basic tasks:  
+
+- Sequencing: The control unit causes the processor to step through a series of micro-operations in the proper sequence, based on the program being executed.  
+- Execution: The control unit causes each micro-operation to be performed.
+
+CU的常见控制信号(inputs)：
+
+- Clock: This is how the control unit “keeps time.” The control unit causes one micro-operation (or a set of simultaneous micro-operations) to be performed for each clock pulse. This is sometimes referred to as the processor cycle time, or the clock cycle time.
+- Instruction register: The opcode and addressing mode of the current instruction are used to determine which micro-operations to perform during the execute cycle.
+- Flags
+- Control signals from control bus
+
+outputs:
+
+- Control signals within the processor: These are two types: those that cause data to be moved from one register to another, and those that activate specific ALU functions.  (向内部发出的控制信号)
+- Control signals to control bus: These are also of two types: control signals to memory, and control signals to the I/O modules.（向外部发出的控制信号）
+
+Three types of control signals are used: 1.those that activate an ALU function; 2. those that activate a data path; 3. and those that are signals on the external system bus or other external interface.
+
+给出了一个具体的例子
+
+![image-20250104150517244](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104150517244.png)
+
+![image-20250104150527762](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104150527762.png)
+
+#### Internal Processor Organization
+
+内部一般采用总线结构而不用上面例子所展示的两两连接。优点有两个：The use of common data paths simplifies the interconnection layout and the control of the processor. Another practical reason for the use of an internal bus is to save space.
+
+![image-20250104151009065](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104151009065.png)
+
+注意因为AC是组合逻辑电路，并且得到的计算结果会上总线然后反馈到自身，所以需要先输出一个寄存器，不能直接上总线
+
+### 20.3 Hardwired Implementation
+
+在物理上怎么实现上述的控制功能？有两种实现方法：
+
+- Hardwired implementation: the control unit is essentially a state machine circuit. Its input logic signals are transformed into a set of output logic signals, which are the control signals.
+- Microprogrammed implementation
+
+#### Control Unit Inputs
+
+The key inputs are the IR, the clock, flags, and control bus signals.
+
+IR: To simplify the control unit logic, there should be a unique logic input for each opcode. This function can be performed by a decoder, which takes an encoded input and produces a single output.
+
+Clock: we would like a counter as input to the control unit, with a different control signal being used for T1,T2, and so forth. At the end of an instruction cycle, the control unit must feed back to the counter to reinitialize it at T1. 比如执指永远只发生在取指或间址之后，所以一个控制门的表达式可以写成操作码、状态码和时间的布尔表达式，比如
+
+![image-20250104152043671](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104152043671.png)
+
+这种硬布线的方式非常复杂
+
+## Chapter 21 Micro-programmed Control  
+
+### 21.1 basic Concepts  
+
+#### Microinstructions
+
+In addition to the use of control signals, each microoperation is described in symbolic notation. This notation (is) known as a **microprogramming language**. Each line describes a set of micro-operations occurring at one time and is known as a **microinstruction**. A sequence of instructions is known as a **microprogram**, or **firmware**（固件）.
+
+因为控制信号本质上就是一系列的0和1，所以 we could construct a **control word** in which each bit represents one control line. Then each micro-operation would be represented by a different pattern of 1s and 0s in the control word. ... So let us put our control words in a memory, with each word having a unique address. Now add an address field to each control word, indicating the location of the next control word to be executed if a certain condition is true. 这导致了水平微指令的产生
+
+horizontal microinstruction: There is one bit for each internal processor control line and one bit for each system bus control line. There is a <u>condition field</u> indicating the condition under which there should be a branch, and there is a <u>field with the address</u> of the microinstruction to be executed next when a branch is taken.（注意，是当condition bit为1（真）时，地址域所指示的指令才会被执行，否则下一条顺序执行）
+
+#### Microprogrammed Control Unit
+
+The set of microinstructions is stored in the **control memory**. The **control address register** (CAR) contains the address of the next microinstruction to be read （有点像PC）. When a microinstruction is read from the control memory, it is transferred to a **control buffer register** (CBR) （有点像IR）.
+
+在一个时钟周期里，CU做了四件事
+
+1. sequencing logic unit issues a READ command to the control memory.
+2. The word whose address is specified in the control address register is read into the control buffer register  微指令进CBR 
+3. 微指令发力：输出控制信号与下一指令的信息，后者给到排序单元（由于微指令的最左边就是它要发出的控制信号，所以读微指令相当于执行微指令）
+4. 排序单元根据下条指令的信息和ALU flag加载下一条指令的地址到CAR。具体判决情况分为3种：
+   1. Get the next microinstruction 比如正常情况下间址之后是执指
+   2. Jump to a new routine based on a jump microinstruction 比如取指，中断等等
+   3. Jump to a machine instruction routine：Load the control address register based on the opcode in the IR. 比如在执指阶段，根据opcode来决定具体要执行ADD还是AND等（这用到了图中上面的decoder）
+
+![image-20250105110253388](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250105110253388.png)
+
+The upper decoder translates the opcode of the IR into a control memory address. The lower decoder is not used for horizontal microinstructions but is used for **vertical microinstructions**：In a vertical microinstruction, a code is used for each action to be performed [e.g., MAR <- (PC)], and the decoder translates this code into individual control signals.
+
+垂直微指令的优缺点：The advantage of vertical microinstructions is that they are more compact (fewer bits) than horizontal microinstructions, at the expense of a small additional amount of logic and time delay.
+
+#### Wilkes Control
+
+![image-20250105110828413](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250105110828413.png)
+
+The first part of the row generates the control signals that control the operation of the processor. The second part generates the address of the row to be pulsed in the next machine cycle. Thus, each row of the matrix is one microinstruction, and the layout of the matrix is the control memory.
+
+为什么需要两个寄存器：Because the decoder is simply a combinatorial circuit; with only one register, the output would become the input during a cycle, causing an unstable condition.
+
+需要注意，这种实现下，下一条指令的来源只能是second part，不会是CAR自增＋1
+
+#### Advantages and Disadvantages
+
+微编程式的控制单元实现，与硬布线的实现相比，优点：简单，所以便宜且不易出错；缺点：慢一些。
+
+一般纯CISC架构用微编程，因为简单；RISC因为指令集本来就比较简单，所以用硬布线
+
+### 21.2 Microinstruction Sequencing
+
+The two basic tasks performed by a microprogrammed control unit are as follows:  
+
+- Microinstruction sequencing: Get the next microinstruction from the control memory.  
+- Microinstruction execution: Generate the control signals needed to execute the microinstruction.
+
+Two concerns are involved in the design of a microinstruction sequencing technique: the size of the microinstruction and the address-generation time.
+
+#### Sequencing Techniques
+
+Sequencing其实就是决定下一条指令的地址的来源。注意到执行一个微程序时，下一条指令的来源只有三种
+
+- Determined by instruction register (only once per instr. cycle, after fetch)
+- Next sequential address (most common)
+- Branch
+
+有不同的方法来决定指令来源，这些方法可以由微指令中地址域的格式来划分：双地址域，单地址域和变长地址域
+
+双地址域方式：微指令的两个地址域和IR都被送到一个复用器，复用器通过地址选择信号决定将哪一个送到CAR，CAR中的内容再送去解码得到下一条指令的地址。地址选择信号的来源于分支逻辑，其输入是CU flags以及微指令中的一些控制比特。双地址域的方式简单但是需要更长的指令。
+
+更常用的是单地址域：复用器的三个输入是（CAR）+1（即下一顺序地址）、微指令的地址域以及IR。注意到很多时候连单地址域中的信息也很难用到，所以有变长地址域方式。
+
+变长地址域方式用到了一个模式选择位。在一个模式下，微指令除了模式选择bit，其他全是控制信号；下一条指令来自于下一顺序地址或者由IR推导得到；在另一种模式下，除了模式选择比特，还用一些比特驱动分支选择模块，剩下的位用来提供一个地址。在第二种模式下，整个周期都用来决定下一条指令的地址了，没有提供控制信号的输出。所以有点浪费时间
+
+#### Address Generation
+
+上面一小节从格式角度探讨了逻辑需求，现在从“地址如何产生或被计算/推导出来”这一角度来看排序问题
+
+地址产生技术可以分为两部分：显式的和隐式的。显式的包括上面提到的双地址域，以及条件和无条件跳转。隐式的有下面三种
+
+One of these, mapping, is required with virtually all designs. The opcode portion of a machine instruction must be mapped into a microinstruction address. This occurs only once per instruction cycle.
+
+A common implicit technique is one that involves combining or adding two portions of an address to form the complete address.
+
+**residual control**: This approach involves the use of a microinstruction address that has previously been saved in temporary storage within the control unit.
+
+![image-20250105142410880](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250105142410880.png)
+
+### 21.3Microinstruction Execution
+
+The effect of the execution of a microinstruction is to generate control signals. 产生的控制信号分为两种 Some of these signals control points internal to the processor. The remaining signals go to the external control bus or other external interface. 还有附加作用 As an incidental function, the address of the next microinstruction is determined.
+
+#### A Taxonomy of Microinstructions
+
+- ertical/horizontal  
+- Packed/unpacked  
+- Hard/soft microprogramming  
+- Direct/indirect encoding
+
+最简单的一种微指令是，每一个控制信号对应一个比特，如果有K个控制信号需要被产生，那么就有2^K种可能的组合，对应2^K个微指令。但是实际上有一些控制信号的组合是永远不会发生的。比如
+
+- 两个数据源不可能同时被门控到同一个目的地
+- 一个寄存器不能既做源又做目的地
+- ALU和外部控制总线每次都只能接收一个模式的控制信号
+
+所以实际上可能的微指令数应该小于2^K，也就是说，可以用小于K位的微指令来产生K位的控制信号，这就引出了编码问题。按理说，可以列出所有可能的控制信号组合，然后只对这些组合编码，这是最紧凑的模式，但是不太可能实现，因为
+
+- it is as difficult to program as a pure decoded (Wilkes) scheme. This point is discussed further presently.  
+- It requires a complex and therefore slow control logic module.
+
+为此我们做出一些妥协
+
+- More bits than are strictly necessary are used to encode the possible combinations.  这需要更多位的微指令
+- Some combinations that are physically allowable are not possible to encode. 这会省一些比特
+
+总的效果是，比纯encoded用的比特多，但是比不编码用的比特少
+
+![image-20250105144141193](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250105144141193.png)
+
+In general, a design that falls toward the left end of the spectrum is intended to optimize the performance of the control unit. Designs toward the right end are more concerned with optimizing the process of microprogramming.
+
+关于上图的Terminology有如下解释
+
+The degree of packing relates to the degree of identification between a given control task and specific microinstruction bits. As the bits become more packed, a given number of bits contains more information. Thus, packing connotes encoding.
+
+The terms horizontal and vertical relate to the relative width of microinstructions. [SIEW82] suggests as a rule of thumb that vertical microinstructions have lengths in the range of 16 to 40 bits and that horizontal microinstructions have lengths in the range of 40 to 100 bits. 即垂直微指令一般比特数更少。
+
+> [!NOTE]
+>
+> 水平微指令不代表没有编码，只是编码度低一些
+
+The terms hard and soft microprogramming are used to suggest the degree of closeness to the underlying control signals and hardware layout. Hard microprograms are generally fixed and committed to read-only memory. Soft microprograms are more changeable and are suggestive of user microprogramming.
+
+#### Microinstruction Encoding
+
+那么如何进行编码呢？一般微指令的控制信号部分会分为几个域，每一个域产生一些控制信号。域和域之间的控制信号是互斥的，互不影响。有两种方式来将编码后的微指令安排进不同的域中
+
+- functional encoding: The functional encoding method identifies functions within the machine and designates fields by function type. 比如一个域专门用来指示数据转移指令，它指出数据转移指令的源或目的地
+- Resource encoding views the machine as consisting of a set of independent resources and devotes one field to each (e.g., I/O, memory, ALU).比如，一个域专门用来管I/O口是输入还是输出
+
+另一个编码要考虑的问题是direct or indirect
+
+With indirect encoding, one field is used to determine the interpretation of another field. 比如一个用来指示ALU操作的域，其码字不能完全决定ALU的行为，比如一个码字只能让ALU做移位，需要另一个域的比特来指示是逻辑移位还是算术移位。This technique generally implies two levels of decoding, increasing propagation delays.
