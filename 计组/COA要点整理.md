@@ -1199,7 +1199,8 @@ The content of location X is incremented by 1. If the result is 0, the next inst
 t1: MAR <- (IR(address)) 
 t2: MBR <- Memory 
 t3: MBR <- (MBR) + 1 
-t4: Memory <- (MBR) If ((MBR) = 0) then (PC d (PC) + I)
+t4: Memory <- (MBR) 
+    If ((MBR) = 0) then (PC <- (PC) + I)
 ```
 
 执指阶段默认IR已经有待执行的指令了，不用考虑间址。
@@ -1276,7 +1277,7 @@ Three types of control signals are used: 1.those that activate an ALU function; 
 
 ![image-20250104151009065](C:\Users\Leo\AppData\Roaming\Typora\typora-user-images\image-20250104151009065.png)
 
-注意因为AC是组合逻辑电路，并且得到的计算结果会上总线然后反馈到自身，所以需要先输出一个寄存器，不能直接上总线
+注意因为AC是组合逻辑电路，并且得到的计算结果会上总线然后反馈到自身，所以需要先输出到一个寄存器Z，不能直接上总线
 
 ### 20.3 Hardwired Implementation
 
@@ -1317,7 +1318,7 @@ The set of microinstructions is stored in the **control memory**. The **control 
 
 1. sequencing logic unit issues a READ command to the control memory.
 2. The word whose address is specified in the control address register is read into the control buffer register  微指令进CBR 
-3. 微指令发力：输出控制信号与下一指令的信息，后者给到排序单元（由于微指令的最左边就是它要发出的控制信号，所以读微指令相当于执行微指令）
+3. 微指令发力：输出控制信号与下一指令的信息，后者给到排序单元（由于微指令的最左边就是它要发出的控制信号，所以读微指令相当于执行微指令）The content of the control buffer register generates control signals and next-address information for the sequencing logic unit.
 4. 排序单元根据下条指令的信息和ALU flag加载下一条指令的地址到CAR。具体判决情况分为3种：
    1. Get the next microinstruction 比如正常情况下间址之后是执指
    2. Jump to a new routine based on a jump microinstruction 比如取指，中断等等
@@ -1390,7 +1391,7 @@ The effect of the execution of a microinstruction is to generate control signals
 
 #### A Taxonomy of Microinstructions
 
-- ertical/horizontal  
+- Vertical/horizontal  
 - Packed/unpacked  
 - Hard/soft microprogramming  
 - Direct/indirect encoding
@@ -1439,3 +1440,9 @@ The terms hard and soft microprogramming are used to suggest the degree of close
 另一个编码要考虑的问题是direct or indirect
 
 With indirect encoding, one field is used to determine the interpretation of another field. 比如一个用来指示ALU操作的域，其码字不能完全决定ALU的行为，比如一个码字只能让ALU做移位，需要另一个域的比特来指示是逻辑移位还是算术移位。This technique generally implies two levels of decoding, increasing propagation delays.
+
+
+
+MESI: Modified, Exclusive, Shared, and Invalid (缓存一致性协议)
+
+MMU: memory management unit
