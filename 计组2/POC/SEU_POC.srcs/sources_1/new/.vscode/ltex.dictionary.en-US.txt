@@ -1,0 +1,6 @@
+RDY
+Xilinx
+Vivado
+ADDR
+RW
+Dout
